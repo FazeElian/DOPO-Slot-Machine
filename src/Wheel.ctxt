@@ -1,6 +1,18 @@
 #BlueJ class context
-#Fri Aug 21 22:31:46 COT 2026
+#Sat Aug 22 17:01:17 COT 2026
 comment0.target=Wheel
 comment1.params=posX posY
 comment1.target=Wheel(int, int)
-numComments=2
+comment10.target=void refreshShape()
+comment2.params=pos color
+comment2.target=void addSymbol(int, java.lang.String)
+comment3.params=color
+comment3.target=void delSymbol(java.lang.String)
+comment4.params=color
+comment4.target=void placeSymbol(java.lang.String)
+comment5.target=void spin()
+comment6.target=java.lang.String[] symbols()
+comment7.target=java.lang.String visibleSymbol()
+comment8.target=void makeVisible()
+comment9.target=void makeInvisible()
+numComments=11
