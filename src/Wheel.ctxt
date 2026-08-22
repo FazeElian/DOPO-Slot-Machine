@@ -1,9 +1,15 @@
 #BlueJ class context
-#Sat Aug 22 17:01:17 COT 2026
+#Sat Aug 22 18:09:06 COT 2026
 comment0.target=Wheel
+comment0.text=\r\n Represents a single wheel of the slot machine.\r\n Each wheel owns its own list of symbols and its visual \r\n representation\: a background Rectangle (slot) and a Traingle\r\n that shows the currently visible symbol (visibleShape). Both\r\n shapes are created once, with a fixed size; only their color changes when the wheel spins\r\n \r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.params=posX posY
 comment1.target=Wheel(int, int)
 comment10.target=void refreshShape()
+comment11.params=newPosX newPosY
+comment11.target=void accommodate(int, int)
+comment12.params=move
+comment12.target=void accommodate(int)
+comment12.text=\r\n Moves this wheel back one grid position (used when a wheel\r\n before it is deleted and this one needs to close the gap).\r\n Computes the new grid position and delegates to\r\n accommodate(int, int).\r\n
 comment2.params=pos color
 comment2.target=void addSymbol(int, java.lang.String)
 comment3.params=color
@@ -15,4 +21,4 @@ comment6.target=java.lang.String[] symbols()
 comment7.target=java.lang.String visibleSymbol()
 comment8.target=void makeVisible()
 comment9.target=void makeInvisible()
-numComments=11
+numComments=13
