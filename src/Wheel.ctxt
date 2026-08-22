@@ -1,0 +1,6 @@
+#BlueJ class context
+#Fri Aug 21 22:31:46 COT 2026
+comment0.target=Wheel
+comment1.params=posX posY
+comment1.target=Wheel(int, int)
+numComments=2
