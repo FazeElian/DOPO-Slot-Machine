@@ -122,7 +122,7 @@ private void accommodate(int newPosX, int newPosY) {
             oldTargetX = posX * (CELL_SIZE + GAP) + GAP;
             oldTargetY = posY * (CELL_SIZE + GAP) + GAP;
         }
-
+ 
         int newTargetX = newPosX * (CELL_SIZE + GAP) + GAP;
         int newTargetY = newPosY * (CELL_SIZE + GAP) + GAP;
  
@@ -132,8 +132,8 @@ private void accommodate(int newPosX, int newPosY) {
         slot.moveHorizontal(deltaX);
         slot.moveVertical(deltaY);
         if (posX==0 && posY==0){
-         deltaX +=SYMBOL_OFFSET_X;
-         deltaY +=SYMBOL_OFFSET_Y;   
+            deltaX +=SYMBOL_OFFSET_X;
+            deltaY +=SYMBOL_OFFSET_Y;
         }
         visibleShape.moveHorizontal(deltaX);
         visibleShape.moveVertical(deltaY);
@@ -142,23 +142,29 @@ private void accommodate(int newPosX, int newPosY) {
     }
  
     /**
-     * Moves this wheel back one grid position (used when a wheel
-     * before it is deleted and this one needs to close the gap).
-     * Computes the new grid position and delegates to
-     * accommodate(int, int).
+     * Moves this wheel one grid position forward (move == 1) or
+     * backward (move == -1), wrapping to the next/previous row
+     * when it falls off the edge of the grid. Delegates to
+     * accommodate(int, int) with the newly computed position.
      */
-    public void accommodate() {
-        int newPosX;
-        int newPosY;
-        if (posX == 1 && posY != 1) {
-            newPosX = 14;
-            newPosY = posY - 1;
-        } else if (posX != 1) {
-            newPosX = posX - 1;
-            newPosY = posY;
-        } else {
-            newPosX = posX;
-            newPosY = posY;
+    public void accommodate(int move) {
+        int newPosX = posX;
+        int newPosY = posY;
+        if (move==-1){
+            if (posX == 1 && posY != 1) {
+                newPosX = 14;
+                newPosY = posY - 1;
+            } else if (posX != 1) {
+                newPosX = posX - 1;
+            }
+        }else{
+            if (posX ==14 && posY!=9){
+                newPosX = 1;
+                newPosY = posY + 1;
+            }
+            else if(posX!=14){
+                newPosX = posX + 1;
+            }
         }
         accommodate(newPosX, newPosY);
     }
