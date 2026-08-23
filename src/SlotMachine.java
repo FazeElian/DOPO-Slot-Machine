@@ -230,7 +230,7 @@ public class SlotMachine {
     public void spin(int wheelPos) {
         animateLever();
         int index = adjustPosition(wheelPos);
-        if (index >= 1 && index <= wheels.size()) {
+        if (index >= 0 && index < wheels.size()) {
             wheels.get(index-1).spin();
             if (isJackpot()){
                 board.changeColor("gold");
@@ -431,7 +431,7 @@ public class SlotMachine {
         int newLeverX = boardX + totalWidth + 10;
         lever.makeInvisible();
         lever.moveHorizontal(newLeverX - leverX);
-        if (rows >1) lever.changeSize(totalHeight, 25); 
+        lever.changeSize(totalHeight, 25); 
         lever.makeVisible();
         leverX = newLeverX;
         // Bring wheels back to the front after the board was redrawn
