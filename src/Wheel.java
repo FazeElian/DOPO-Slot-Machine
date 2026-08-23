@@ -47,8 +47,6 @@ public class Wheel {
         this.posX = posX;
         this.posY = posY;
 
-        slot.makeVisible();
-        visibleShape.makeVisible();
     }
 
     /**
