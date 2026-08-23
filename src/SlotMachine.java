@@ -134,6 +134,7 @@ public class SlotMachine {
     public void delWheel(int pos) {
         if (wheels.isEmpty()) {
             ok = false;
+            MessageUtil.showError("No hay ruedas para eliminar");
             return;
         }
 
@@ -278,6 +279,7 @@ public class SlotMachine {
             wheels.get(index).placeSymbol(symbol);
             ok = true;
         } else {
+            MessageUtil.showError("No existe esa rueda");
             ok = false;
         }
     }
