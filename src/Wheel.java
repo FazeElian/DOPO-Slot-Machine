@@ -16,7 +16,7 @@ public class Wheel {
     public final static int SYMBOL_OFFSET_X = 7 * 10 / 2; 
     public final static int SYMBOL_OFFSET_Y = 10;
     public final static int GAP = 10;
-    public static ArrayList<String> symbols  = new ArrayList<String>();;
+    public static ArrayList<String> symbols  = new ArrayList<String>();
     private int currentIndex;
     private boolean visible;
     private int posX;
@@ -49,8 +49,6 @@ public class Wheel {
         accommodate(posX,posY);
         this.posX = posX;
         this.posY = posY;
-
-
     }
 
     /**
@@ -93,7 +91,10 @@ public class Wheel {
      */
     public void placeSymbol(String color){
         int index = symbols.indexOf(color);
-        currentIndex = index;
+        if (index != -1) currentIndex = index;
+        else {
+            MessageUtil.showError("Ese símbolo no existe, añádelo e intenta de nuevo.");
+        }
         refreshShape();
     }
 
