@@ -1,20 +1,18 @@
 #BlueJ class context
-#Sat Aug 22 22:38:21 COT 2026
+#Sun Aug 23 02:16:02 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Represents a single wheel of the slot machine.\r\n Each wheel owns its own list of symbols and its visual \r\n representation\: a background Rectangle (slot) and a Traingle\r\n that shows the currently visible symbol (visibleShape). Both\r\n shapes are created once, with a fixed size; only their color changes when the wheel spins\r\n \r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.params=posX posY
 comment1.target=Wheel(int, int)
 comment1.text=\r\n Constructs the object for every wheel of the board\r\n @param posX the position in X axis of the board\r\n @param posY the position in Y axis of the board\r\n
-comment10.target=void refreshShape()
-comment10.text=\r\n Updates the color of the visible shape on the screen\r\n according to the symbol that is located on the \r\n current index\r\n
-comment11.params=newPosX newPosY
-comment11.target=void accommodate(int, int)
-comment11.text=\r\n Repositions the slot and its associated visual shape on the canvas based on grid coordinates.\r\n Translates the grid matrix positions into screen pixel coordinates using the cell size, \r\n gap spacing, and offset adjustments, then updates the internal position state.\r\n @param newPosX the target column (X index) in the grid matrix\r\n @param newPosY the target row (Y index) in the grid matrix\r\n
-comment12.params=move
-comment12.target=void accommodate(int)
-comment12.text=\r\n Moves this wheel one grid position forward (move \=\= 1) or\r\n backward (move \=\= -1), wrapping to the next/previous row\r\n when it falls off the edge of the grid. Delegates to\r\n accommodate(int, int) with the newly computed position.\r\n
-comment2.params=pos color
-comment2.target=void addSymbol(int, java.lang.String)
+comment10.params=newPosX newPosY
+comment10.target=void accommodate(int, int)
+comment10.text=\r\n Repositions the slot and its associated visual shape on the canvas based on grid coordinates.\r\n Translates the grid matrix positions into screen pixel coordinates using the cell size, \r\n gap spacing, and offset adjustments, then updates the internal position state.\r\n @param newPosX the target column (X index) in the grid matrix\r\n @param newPosY the target row (Y index) in the grid matrix\r\n
+comment11.params=move
+comment11.target=void accommodate(int)
+comment11.text=\r\n Moves this wheel one grid position forward (move \=\= 1) or\r\n backward (move \=\= -1), wrapping to the next/previous row\r\n when it falls off the edge of the grid. Delegates to\r\n accommodate(int, int) with the newly computed position.\r\n
+comment2.params=index
+comment2.target=void addSymbol(int)
 comment2.text=\r\n Adds a symbol to the symbols array for all\r\n the wheels of the board\r\n @param pos\r\n @param color\r\n
 comment3.params=color
 comment3.target=void delSymbol(java.lang.String)
@@ -24,12 +22,12 @@ comment4.target=void placeSymbol(java.lang.String)
 comment4.text=\r\n Updates the value of the index of the current wheel\r\n @param color string value of the symbol's color\r\n
 comment5.target=void spin()
 comment5.text=\r\n Change the wheel ("spin" the board) going to\r\n the next one on the slot\r\n
-comment6.target=java.lang.String[] symbols()
-comment6.text=\r\n Return the list of symbols on the board\r\n
-comment7.target=java.lang.String visibleSymbol()
-comment7.text=\r\n Return the symbol located on the current index\r\n
-comment8.target=void makeVisible()
-comment8.text=\r\n Show the wheel\: the symbol and the slot which it\r\n is located\r\n
-comment9.target=void makeInvisible()
-comment9.text=\r\n Hide the wheel\: the symbol and the slot which it\r\n is located\r\n
-numComments=13
+comment6.target=java.lang.String visibleSymbol()
+comment6.text=\r\n Return the symbol located on the current index\r\n
+comment7.target=void makeVisible()
+comment7.text=\r\n Show the wheel\: the symbol and the slot which it\r\n is located\r\n
+comment8.target=void makeInvisible()
+comment8.text=\r\n Hide the wheel\: the symbol and the slot which it\r\n is located\r\n
+comment9.target=void refreshShape()
+comment9.text=\r\n Updates the color of the visible shape on the screen\r\n according to the symbol that is located on the \r\n current index\r\n
+numComments=12

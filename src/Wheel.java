@@ -16,7 +16,7 @@ public class Wheel {
     public final static int SYMBOL_OFFSET_X = 7 * 10 / 2; 
     public final static int SYMBOL_OFFSET_Y = 10;
     public final static int GAP = 10;
-    private ArrayList<String> symbols;
+    public static ArrayList<String> symbols  = new ArrayList<String>();;
     private int currentIndex;
     private boolean visible;
     private int posX;
@@ -30,7 +30,6 @@ public class Wheel {
      * @param posY the position in Y axis of the board
      */
     public Wheel(int posX, int posY) {
-        symbols = new ArrayList<String>();
         currentIndex = -1;
         visible = false;
 
@@ -38,17 +37,20 @@ public class Wheel {
         slot.changeColor("black");
         slot.changeSize(CELL_SIZE, CELL_SIZE);
         
-
         visibleShape = new Triangle();
-        visibleShape.changeColor("yellow");
         visibleShape.changeSize(SYMBOL_SIZE, SYMBOL_SIZE);
-        
+        if (symbols.isEmpty()){
+        visibleShape.changeColor("black");
+        }
+        else{
+            String color =symbols.get(0);
+            visibleShape.changeColor(color);
+        }
         accommodate(posX,posY);
         this.posX = posX;
         this.posY = posY;
 
-        slot.makeVisible();
-        visibleShape.makeVisible();
+
     }
 
     /**
@@ -57,20 +59,11 @@ public class Wheel {
      * @param pos
      * @param color
      */
-    public void addSymbol(int pos, String color){
-        if (pos<1){
-            MessageUtil.showWarning("La posición del nuevo símbolo no puede ser inferior a 1.");
-            symbols.add(0,color);
-        }
-        else if(pos > symbols.size()){
-            symbols.add(color);
-        }
-        else {
-            symbols.add(pos-1, color);
-        }
-
+    public void addSymbol(int index){
         if (currentIndex == -1){
             currentIndex = 0;
+        }else if (index > 0 && index <= symbols.size() && currentIndex > index){
+            currentIndex+=1;
         }
         refreshShape();
     }
@@ -90,7 +83,6 @@ public class Wheel {
             }
             refreshShape();
         }
-        symbols.remove(index);
     }
 
     /**
@@ -114,13 +106,6 @@ public class Wheel {
             currentIndex += 1;
         }
         refreshShape();
-    }
-
-    /**
-     * Return the list of symbols on the board
-     */
-    public String[] symbols(){
-        return symbols.toArray(String[]::new);
     }
 
     /**
