@@ -43,7 +43,7 @@ public class SlotMachine {
     
     /**
      * Constructs an empty SlotMachine with a gray board positioned
-     * to wrap exactly one wheel cell (with a 10 px margin).
+     * to wrap exactly one wheel cell (with a 10px margin).
      * The board grows automatically when wheels are added via {@link #addWheel(int)}.
      */
     
@@ -84,11 +84,10 @@ public class SlotMachine {
 
     /**
      * Adds a new wheel at the given position.
-     * Positions below 1 are corrected to 1; positions beyond the end are corrected
-     * to the last valid index to avoid gaps.
+     * Positions below 1 are corrected to 1; positions beyond the end are corrected to the last valid index to avoid gaps.
      * Grid position is derived from pos using: posX = ((pos-1) % MAX_COLUMNS) + 1
      * and posY = ((pos-1) / MAX_COLUMNS) + 1, so there is only one calculation
-     * system and no external counters that could fall out of sync.
+     * system and no external counters that could fall out of sync or return old data.
      * When inserting in the middle, all wheels after pos are shifted right with accommodate(1).
      *
      * @param pos 1-based position where the new wheel is inserted
@@ -100,6 +99,7 @@ public class SlotMachine {
         // Grid limit: 14 x 9 = 126 wheels
         if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
             MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
+            ok = false;
             return;
         }
 
@@ -125,7 +125,7 @@ public class SlotMachine {
         updateBoardSize();
     }
 
-/**
+    /**
      * Removes the wheel at the given position and shifts all subsequent wheels
      * one position to the left with accommodate(-1).
      *
@@ -153,7 +153,7 @@ public class SlotMachine {
     // MINI-CYCLE 2 – Symbols
 
     /**
-     * Adds a new color to the global symbol list at the given position and
+     * Adds a new symbol (color) to the global symbol list at the given position and
      * inserts it into every existing wheel.
      * Colors are lowercased to avoid case-sensitive duplicates.
      * If the color already exists, shows an error and sets ok = false.
@@ -182,7 +182,7 @@ public class SlotMachine {
             }
         }else{
             ok = false;
-            MessageUtil.showError(color.toLowerCase() + " ya es un simbolo, elige uno nuevo");
+            MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
         }
     }
 
@@ -194,7 +194,7 @@ public class SlotMachine {
      */
     public void delSymbol(String color) {
         if (!Wheel.symbols.contains(color)) {
-            MessageUtil.showError(color + " no existe como símbolo.");
+            MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
             ok = false;
             return;
         }
@@ -206,23 +206,23 @@ public class SlotMachine {
             ok = true;
         }
         else{ 
-            MessageUtil.showWarning("Solo queda un simbolo, no se puede eliminar");
+            MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
             ok = false;
         }
     }
     /**
-     * Returns the global list of registered symbols.
+     * Returns the global list of registered symbols on the board.
      *
-     * @return array of color names
+     * @return array of color names or its hexagesimal code if the user entered it on its creation
     */
-   public String[] symbols() {
-       return Wheel.symbols.toArray(String[]::new);
-   }
+    public String[] symbols() {
+        return Wheel.symbols.toArray(String[]::new);
+    }
 
    // MINI-CYCLE 3 – Spin and query result
 
-   /**
-     * Spins the wheel at the given position.
+    /**
+     * Spins a specific wheel at the given position.
      * Triggers the lever animation before spinning.
      *
      * @param wheelPos 1-based position of the wheel to spin
@@ -231,7 +231,7 @@ public class SlotMachine {
         animateLever();
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
-            wheels.get(index-1).spin();
+            wheels.get(index).spin();
             if (isJackpot()){
                 board.changeColor("gold");
                 makeVisible();
@@ -245,7 +245,7 @@ public class SlotMachine {
     }
 
      /**
-     * Spins all wheels simultaneously.
+     * Spins all wheels simultaneously and check if is jackpot.
      * Triggers the lever animation before spinning.
      * Sets ok = false if there are no wheels.
      */
@@ -260,34 +260,41 @@ public class SlotMachine {
             wheel.spin();
         }
         if (isJackpot()){
-                board.changeColor("gold");
-                makeVisible();
-                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+            board.changeColor("gold");
+            makeVisible();
+            MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
         }
         ok = true;
     }
 
     /**
-     * Sets the visible symbol of a wheel to the given color.
-     *
+     * Changes the color of visible symbol of a wheel to the given one.
+     * Then, checks if its jackpot
+     * 
      * @param wheelPos 1-based position of the wheel
      * @param symbol   color to display
      */
-   public void placeSymbol(int wheelPos, String symbol) {
+    public void placeSymbol(int wheelPos, String symbol) {
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
             wheels.get(index).placeSymbol(symbol);
+
+            if (isJackpot()){
+                board.changeColor("gold");
+                makeVisible();
+                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+            }
             ok = true;
         } else {
-            MessageUtil.showError("No existe esa rueda");
+            MessageUtil.showError("No existe esa rueda, intenta de nuevo");
             ok = false;
         }
     }
 
     
     /**
-     * Returns the currently visible symbol of each wheel, in order.
-     * Returns an empty array and shows an error if no symbols are registered.
+     * Returns the current visible symbol of each wheel, in order.
+     * Returns an empty array and shows an error if no symbols have been registered.
      *
      * @return array of visible color names, one per wheel
      */
@@ -300,14 +307,14 @@ public class SlotMachine {
         ok = true;
         return config;
         }else{
-            MessageUtil.showError("No existen simbolos aun");
+            MessageUtil.showError("No existen símbolos aún");
             return new String[0];
         }
     }
 
     /**
      * Returns the number of unique symbols currently visible across all wheels.
-     * Returns 0 and shows an error if no symbols are registered.
+     * Returns 0 and shows an error if no symbols have been registered.
      *
      * @return count of distinct visible symbols
      */
@@ -322,14 +329,14 @@ public class SlotMachine {
             return uniqueSymbols.size();
         }
         else{
-            MessageUtil.showError("No existen simbolos aun");
+            MessageUtil.showError("No existen símbolos aún");
             return 0;
         }
     }
 
     /**
      * Returns true if all wheels are showing the same symbol.
-     * Returns false if the wheels list is empty or no symbols are registered.
+     * Returns false if the wheels list is empty or no symbols have been registered.
      *
      * @return true on jackpot, false otherwise
      */
@@ -349,7 +356,7 @@ public class SlotMachine {
             ok = true;
             return true;
         }else{
-            MessageUtil.showError("No existen simbolos aun");
+            MessageUtil.showError("No existen símbolos aún");
             return false;
         }
     }
@@ -382,7 +389,7 @@ public class SlotMachine {
         ok = true;
     }
 
-    /** Terminates the application. */
+    /** Finish - abort the application exeucution. */
     public void exit() {
         System.exit(0);
     }
@@ -397,8 +404,8 @@ public class SlotMachine {
     // Returns 0 if pos < 1, or wheels.size() (out of range) if pos > size.
     // Callers must validate the result before using it as an index.
     private int adjustPosition(int pos) {
-        if (pos < 1) return 0;
-        if (pos > wheels.size()) return wheels.size();
+        if (pos <= 0) return 0;
+        if (pos > wheels.size()) return wheels.size() -1;
         return pos - 1;
     }
 
