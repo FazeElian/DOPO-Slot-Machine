@@ -1,4 +1,3 @@
-import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +22,9 @@ public class SlotMachine {
 
     /** Gray rectangle that serves as the visual background for all wheels. */
     private Rectangle board;
+    
+    /** Red rectangle that acts as the lever of the slot machine. */
+    private Rectangle lever;
     /** List of active wheels in the machine, in logical position order. */
     private ArrayList<Wheel> wheels;
     /**
@@ -30,6 +32,11 @@ public class SlotMachine {
      * Queried via {@link #ok()}.
      */
     private boolean ok;
+
+    // Stored so updateBoardSize can reposition the lever relative to the board
+    private int boardX;
+    // Stored to reposition the lever correctly on each updateBoardSize call
+    private int leverX = 0;
 
 
     // MINI-CYCLE 1 – Visual structure of the machine
@@ -49,7 +56,7 @@ public class SlotMachine {
         int firstWheelX = (Wheel.CELL_SIZE + Wheel.GAP) + Wheel.GAP; // 90 px
         int firstWheelY = (Wheel.CELL_SIZE + Wheel.GAP) + Wheel.GAP; // 90 px
 
-        int boardX = firstWheelX - 10; // 80 px
+        boardX = firstWheelX - 10; // 80 px - stored as field for lever repositioning
         int boardY = firstWheelY - 10; // 80 px
 
         this.board.moveHorizontal(boardX);
@@ -61,6 +68,17 @@ public class SlotMachine {
 
         this.board.changeSize(defaultHeight, defaultWidth);
         this.board.makeVisible();
+
+         // Lever: red box to the right of the board
+        leverX = boardX + defaultWidth + 10;
+        this.lever = new Rectangle();
+        this.lever.changeColor("red");
+        this.lever.changeSize(40, 25);
+        this.lever.moveHorizontal(leverX);
+        this.lever.moveVertical(boardY);
+        this.lever.makeVisible();
+
+
         this.ok = true;
     }
 
@@ -179,13 +197,17 @@ public class SlotMachine {
             ok = false;
             return;
         }
-
-        for (Wheel wheel : wheels) {
-            wheel.delSymbol(color);
+        if (Wheel.symbols.size()>1){
+            for (Wheel wheel : wheels) {
+                wheel.delSymbol(color);
+            }
+            Wheel.symbols.remove(color);
+            ok = true;
         }
-
-        Wheel.symbols.remove(color);
-        ok = true;
+        else{ 
+            MessageUtil.showWarning("Solo queda un simbolo, no se puede eliminar");
+            ok = false;
+        }
     }
     /**
      * Returns the global list of registered symbols.
@@ -200,30 +222,46 @@ public class SlotMachine {
 
    /**
      * Spins the wheel at the given position.
+     * Triggers the lever animation before spinning.
      *
      * @param wheelPos 1-based position of the wheel to spin
      */
     public void spin(int wheelPos) {
+        animateLever();
         int index = adjustPosition(wheelPos);
-        if (index >= 0 && index < wheels.size()) {
-            wheels.get(index).spin();
+        if (index >= 1 && index <= wheels.size()) {
+            wheels.get(index-1).spin();
+            if (isJackpot()){
+                board.changeColor("gold");
+                makeVisible();
+                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+            }
             ok = true;
         } else {
+            MessageUtil.showError("No existe esa rueda en la maquina");
             ok = false;
         }
     }
 
      /**
      * Spins all wheels simultaneously.
+     * Triggers the lever animation before spinning.
      * Sets ok = false if there are no wheels.
      */
     public void spin() {
+        animateLever();
         if (wheels.isEmpty()) {
+            MessageUtil.showError("No hay ruedas por girar");
             ok = false;
             return;
         }
         for (Wheel wheel : wheels) {
             wheel.spin();
+        }
+        if (isJackpot()){
+                board.changeColor("gold");
+                makeVisible();
+                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
         }
         ok = true;
     }
@@ -322,6 +360,7 @@ public class SlotMachine {
      */
     public void makeVisible() {
         board.makeVisible();
+        lever.makeVisible();
         for (Wheel wheel : wheels) {
             wheel.makeVisible();
         }
@@ -337,6 +376,7 @@ public class SlotMachine {
             wheel.makeInvisible();
         }
         board.makeInvisible();
+        lever.makeVisible();
         ok = true;
     }
 
@@ -360,6 +400,12 @@ public class SlotMachine {
         return pos - 1;
     }
 
+    // Pulls the lever down and back up to animate a spin.
+    private void animateLever() {
+        lever.slowMoveVertical(30);  // pull down
+        lever.slowMoveVertical(-30); // return to original position
+    }
+
     // Resizes the board to fit the current number of wheels.
     // Rows are calculated with integer division + remainder to handle the
     // wrap from column 14 to the next row.
@@ -379,6 +425,13 @@ public class SlotMachine {
         int totalHeight = rows * Wheel.CELL_SIZE + (rows - 1) * Wheel.GAP + 20;
 
         board.changeSize(totalHeight, totalWidth);
+
+        int newLeverX = boardX + totalWidth + 10;
+        lever.makeInvisible();
+        lever.moveHorizontal(newLeverX - leverX);
+        if (rows >1) lever.changeSize(totalHeight, 25); 
+        lever.makeVisible();
+        leverX = newLeverX;
         // Bring wheels back to the front after the board was redrawn
         for (Wheel w : wheels) {
             w.makeVisible();
