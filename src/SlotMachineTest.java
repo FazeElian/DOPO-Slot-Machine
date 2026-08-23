@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 /**
  * The test class SlotMachineTest.
  *
- * @author  (your name)
- * @version (a version number or a date)
+ * @author  Oscar Poveda, Elian Ibarra
+ * @version 1.1
  */
 public class SlotMachineTest
 {
@@ -69,14 +69,16 @@ public class SlotMachineTest
     }
     
     @Test
-    public void shouldNotDeleteIfNoWheels () {
-        // Check that the status changed after checking that symbols is a []
-        slotMachine.delSymbol("red"); // This wheel doesn't exists
+    public void shouldNotDelWheel() {
+        slotMachine.delWheel(1);
         assertFalse(slotMachine.ok());
     }
     
     @Test
     public void shouldDelWheel() {
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.delWheel(1);
         assertTrue(slotMachine.ok());
     }
     
@@ -99,6 +101,13 @@ public class SlotMachineTest
         
         // Check is ok
         assertTrue(slotMachine.ok());
+    }
+    
+    @Test
+    public void shouldNotDeleteIfNoSymbols () {
+        // Check that the status changed after checking that symbols is a []
+        slotMachine.delSymbol("red"); // This wheel doesn't exists
+        assertFalse(slotMachine.ok());
     }
     
     @Test

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Aug 23 14:48:07 COT 2026
+#Sun Aug 23 17:22:34 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Represents a slot machine composed of a visual board (gray background)\r\n and a list of wheels ({@link Wheel}) organized in a grid of up to\r\n 14 columns and 9 rows. Symbols are shared globally across all wheels\r\n through {@link Wheel\#symbols}.\r\n\r\n <p>Position convention\: all positions exposed in public methods are\r\n <b>1-based</b> (the first wheel is position 1).</p>\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.target=SlotMachine()
