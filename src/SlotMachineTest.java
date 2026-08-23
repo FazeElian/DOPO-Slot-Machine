@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 /**
  * The test class SlotMachineTest.
  *
- * @author  (your name)
- * @version (a version number or a date)
+ * @author  Oscar Poveda, Elian Ibarra
+ * @version 1.1
  */
 public class SlotMachineTest
 {
@@ -23,7 +23,7 @@ public class SlotMachineTest
     }
 
     /**
-     * Sets up the test fixture.
+     * Sets up the test case.
      *
      * Called before every test case method.
      */
@@ -39,18 +39,31 @@ public class SlotMachineTest
     
     
     // Tests for MINI-CYCLE 1: slotMachine(), addWheel(), delWheel()
+    /**
+     * Verifies that a wheel can be added at a valid position and that
+     * the machine status remains ok.
+     */
     @Test
     public void shouldAddWheelInAValidPos() {
         slotMachine.addWheel(2);
         assertTrue(slotMachine.ok());
     }
     
+    /**
+     * Verifies that attempting to add a wheel at an invalid position
+     * still leaves the machine status as ok.
+     */
     @Test
     public void shouldAddWheelInAInvalidPos() {
         slotMachine.addWheel(-1);
         assertTrue(slotMachine.ok());
     }
     
+    /**
+     * Verifies that once the maximum number of wheels (MAX_COLUMNS * MAX_ROWS)
+     * has been reached, adding an additional wheel fails and sets the
+     * machine status to not ok.
+     */
     @Test
     public void shouldNotAddWheelWhenLimitExcedeed() {
         // Check slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS (126) wheels -> add the limit of wheels into the board
@@ -68,19 +81,33 @@ public class SlotMachineTest
         assertFalse(slotMachine.ok());
     }
     
+    /**
+     * Verifies that trying to delete a wheel that doesn't exist
+     * sets the machine status to not ok.
+     */
     @Test
-    public void shouldNotDeleteIfNoWheels () {
-        // Check that the status changed after checking that symbols is a []
-        slotMachine.delSymbol("red"); // This wheel doesn't exists
+    public void shouldNotDelWheel() {
+        slotMachine.delWheel(1);
         assertFalse(slotMachine.ok());
     }
     
+    /**
+     * Verifies that an existing wheel can be successfully deleted,
+     * leaving the machine status as ok.
+     */
     @Test
     public void shouldDelWheel() {
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.delWheel(1);
         assertTrue(slotMachine.ok());
     }
     
     // Tests for MINI-CYCLE 2: addSymbol(), delSymbol(), symbols()
+    /**
+     * Verifies that a symbol can be added both when the wheels list is
+     * empty and after wheels have been added, keeping the machine status ok.
+     */
     @Test
     public void shouldAddSymbol() {
         // Add symbol if wheels[] is empty
@@ -101,6 +128,22 @@ public class SlotMachineTest
         assertTrue(slotMachine.ok());
     }
     
+    /**
+     * Verifies that deleting a nonexistent symbol sets the machine
+     * status to not ok.
+     */
+    @Test
+    public void shouldNotDeleteIfNoSymbols () {
+        // Check that the status changed after checking that symbols is a []
+        slotMachine.delSymbol("red"); // This wheel doesn't exists
+        assertFalse(slotMachine.ok());
+    }
+    
+    /**
+     * Verifies that adding the same symbol twice for the same wheel
+     * sets the machine status to not ok, since duplicated symbols
+     * are not allowed.
+     */
     @Test
     public void checkSymbolIsNotDuplicated () {
         // Add symbol
@@ -111,6 +154,10 @@ public class SlotMachineTest
         assertFalse(slotMachine.ok());
     }
     
+    /**
+     * Verifies that existing symbols can be deleted correctly, leaving
+     * the machine status ok and the symbols array with the expected size.
+     */
     @Test
     public void shouldDeleteSymbol() {
         // Add some symbols
@@ -129,6 +176,10 @@ public class SlotMachineTest
         assertEquals(1, (slotMachine.symbols()).length);
     }
     
+    /**
+     * Verifies that deleting a symbol when it is the only one present
+     * fails, setting the machine status to not ok.
+     */
     @Test
     public void shouldNotDeleteASingleSymbol() {
         // Add a single symbol that SHOULD'NT be deleted
@@ -141,6 +192,10 @@ public class SlotMachineTest
         assertFalse(slotMachine.ok());
     }
     
+    /**
+     * Verifies that deleting a symbol that was never added fails,
+     * setting the machine status to not ok.
+     */
     @Test
     public void shouldFailWhenDeletingNonexistentSymbol () {
         // This should return false because no symbols where added before delete this one
@@ -150,6 +205,10 @@ public class SlotMachineTest
         assertFalse(slotMachine.ok());
     }
     
+    /**
+     * Verifies that the symbols list starts as an empty array
+     * when no symbols have been added.
+     */
     @Test
     public void checkReturnsASymbolsList () {
         // Check returns a [] because symbols has a [] inital value
@@ -158,6 +217,10 @@ public class SlotMachineTest
     }
     
     // Tests for MINI-CYCLE 3
+    /**
+     * Verifies that spinning a wheel at a valid position changes its
+     * visible symbol and keeps the machine status ok.
+     */
     @Test
     public void shouldSpinAWheel() {
         // Add some Wheels
@@ -181,6 +244,11 @@ public class SlotMachineTest
         assertEquals("blue", slotMachine.symbols()[1]); // On the second one (watching it from left to right)
     }
     
+    /**
+     * Verifies that spinning a wheel at an invalid position adjusts
+     * the position to the first wheel and still updates its symbol,
+     * keeping the machine status ok.
+     */
     @Test
     public void shouldSpinAInvalidPosWheel() {
         // Add some Wheels
@@ -206,6 +274,10 @@ public class SlotMachineTest
         assertTrue(visibleSymbol.equals("red") | visibleSymbol.equals("blue"));
     }
     
+    /**
+     * Verifies that spinning fails when there are no wheels or symbols,
+     * setting the machine status to not ok.
+     */
     @Test
     public void shouldNotSpinAnyWheel() {
         // Spin when there's no wheels or symbols neither
@@ -215,6 +287,10 @@ public class SlotMachineTest
         assertFalse(slotMachine.ok());
     }
     
+    /**
+     * Verifies that the machine configuration starts as an empty array
+     * when there are no symbols.
+     */
     @Test
     public void checkConfigurationArray () {
         // Get the machine config when there's no symbols
@@ -222,6 +298,10 @@ public class SlotMachineTest
         assertArrayEquals(expected, slotMachine.configuration());
     }
     
+    /**
+     * Verifies that placing a specific symbol on each wheel results
+     * in the configuration array matching the expected order.
+     */
     @Test
     public void shouldReturnOrderedConfigurationOfWheels() {
         // Add some Wheels
@@ -247,6 +327,10 @@ public class SlotMachineTest
         assertTrue(slotMachine.ok());
     }
     
+    /**
+     * Verifies that the count of distinct symbols correctly ignores
+     * repeated symbols placed on different wheels.
+     */
     @Test
     public void checkDistinctSymbols () {
         // Add some Wheels
@@ -267,6 +351,9 @@ public class SlotMachineTest
         assertEquals(2, slotMachine.distinctSymbols());
     }
     
+    /**
+     * Verifies that an empty machine is never considered a jackpot.
+     */
     @Test
     public void shouldNotBeJackpot () {
         // This should return false because the machine is empty        
@@ -274,6 +361,10 @@ public class SlotMachineTest
         assertFalse(slotMachine.isJackpot());
     }
     
+    /**
+     * Verifies that spinning all wheels when they share the same
+     * symbol results in a jackpot, keeping the machine status ok.
+     */
     @Test
     public void shouldBeJackpot () {
         // Add some Wheels
@@ -294,6 +385,10 @@ public class SlotMachineTest
     }
     
     // Tests for MINI-CYCLE 4
+    /**
+     * Verifies that toggling the machine's visibility (visible/invisible)
+     * always leaves the machine status as ok.
+     */
     @Test
     public void shouldSetOkToTrueWhenChangingVisibility() {
         // Check if is true when is visible
@@ -305,6 +400,12 @@ public class SlotMachineTest
         assertTrue(slotMachine.ok());
     }
     
+    /**
+     * Verifies that out-of-range positions passed to placeSymbol are
+     * adjusted to the nearest valid index (zero for positions below
+     * range, the last index for positions above range), keeping the
+     * machine status ok.
+     */
     @Test
     public void shouldHandlePositionAdjustmentsInOperations() {
         // Add some wheels and 1 symbol
@@ -322,7 +423,7 @@ public class SlotMachineTest
     }
     
     /**
-     * Tears down the test fixture.
+     * Tears down the test case.
      *
      * Called after every test case method.
      */
