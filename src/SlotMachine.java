@@ -1,250 +1,424 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.awt.*;
-
+/**
+ * Represents a slot machine composed of a visual board (gray background)
+ * and a list of wheels ({@link Wheel}) organized in a grid of up to
+ * 14 columns and 9 rows. Symbols are shared globally across all wheels
+ * through {@link Wheel#symbols}.
+ *
+ * <p>Position convention: all positions exposed in public methods are
+ * <b>1-based</b> (the first wheel is position 1).</p>
+ *
+ * @author Oscar Poveda, Elian Ibarra
+ * @version 1.0
+ */
 public class SlotMachine {
+
+    /** Maximum number of columns in the wheel grid. */
     public final static int MAX_COLUMNS = 14;
+    /** Maximum number of rows in the wheel grid. */
     public final static int MAX_ROWS = 9;
 
+    /** Gray rectangle that serves as the visual background for all wheels. */
     private Rectangle board;
+    
+    /** Red rectangle that acts as the lever of the slot machine. */
+    private Rectangle lever;
+    /** List of active wheels in the machine, in logical position order. */
     private ArrayList<Wheel> wheels;
+    /**
+     * Indicates whether the last executed operation was successful.
+     * Queried via {@link #ok()}.
+     */
     private boolean ok;
 
-    private int lastWheelPosX = 1;
-    private int lastWheelPosY = 1;
+    // Stored so updateBoardSize can reposition the lever relative to the board
+    private int boardX;
+    // Stored to reposition the lever correctly on each updateBoardSize call
+    private int leverX = 0;
 
+
+    // MINI-CYCLE 1 – Visual structure of the machine
+    
+    /**
+     * Constructs an empty SlotMachine with a gray board positioned
+     * to wrap exactly one wheel cell (with a 10 px margin).
+     * The board grows automatically when wheels are added via {@link #addWheel(int)}.
+     */
+    
     public SlotMachine() {
         this.wheels = new ArrayList<>();
         this.board = new Rectangle();
         this.board.changeColor("gray");
 
+        // First cell position: pos * (CELL_SIZE + GAP) + GAP = 1 * 80 + 10 = 90px
         int firstWheelX = (Wheel.CELL_SIZE + Wheel.GAP) + Wheel.GAP; // 90 px
         int firstWheelY = (Wheel.CELL_SIZE + Wheel.GAP) + Wheel.GAP; // 90 px
 
-        int boardX = firstWheelX - 10; // 80 px
+        boardX = firstWheelX - 10; // 80 px - stored as field for lever repositioning
         int boardY = firstWheelY - 10; // 80 px
 
         this.board.moveHorizontal(boardX);
         this.board.moveVertical(boardY);
 
+        // Initial size: one cell + 10px margin on each side
         int defaultWidth = Wheel.CELL_SIZE + 20;
         int defaultHeight = Wheel.CELL_SIZE + 20;
 
         this.board.changeSize(defaultHeight, defaultWidth);
         this.board.makeVisible();
+
+         // Lever: red box to the right of the board
+        leverX = boardX + defaultWidth + 10;
+        this.lever = new Rectangle();
+        this.lever.changeColor("red");
+        this.lever.changeSize(40, 25);
+        this.lever.moveHorizontal(leverX);
+        this.lever.moveVertical(boardY);
+        this.lever.makeVisible();
+
+
         this.ok = true;
     }
 
-  public void addWheel(int pos) {
-    if (pos < 1) {
-        pos = 1;
-    }
-    if (pos > wheels.size() + 1) {
-        pos = wheels.size() + 1;
-    }
-    if (pos > wheels.size()) {
-        if (!wheels.isEmpty()) {
-            if (lastWheelPosX != MAX_COLUMNS) {
-                lastWheelPosX += 1;
-            } else {
-                lastWheelPosX = 1;
-                lastWheelPosY += 1;
-            }
-        }
+    /**
+     * Adds a new wheel at the given position.
+     * Positions below 1 are corrected to 1; positions beyond the end are corrected
+     * to the last valid index to avoid gaps.
+     * Grid position is derived from pos using: posX = ((pos-1) % MAX_COLUMNS) + 1
+     * and posY = ((pos-1) / MAX_COLUMNS) + 1, so there is only one calculation
+     * system and no external counters that could fall out of sync.
+     * When inserting in the middle, all wheels after pos are shifted right with accommodate(1).
+     *
+     * @param pos 1-based position where the new wheel is inserted
+     */
+    public void addWheel(int pos) {
+        if (pos < 1) pos = 1;
+        if (pos > wheels.size() + 1) pos = wheels.size() + 1;
 
-        if (lastWheelPosY > MAX_ROWS) {
+        // Grid limit: 14 x 9 = 126 wheels
+        if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
             MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
-            if (lastWheelPosX == 1) {
-                lastWheelPosX = MAX_COLUMNS;
-                lastWheelPosY -= 1;
-            } else {
-                lastWheelPosX -= 1;
-            }
             return;
         }
 
-        Wheel newWheel = new Wheel(lastWheelPosX, lastWheelPosY);
-        if (!wheels.isEmpty()){
-            copySymbols(wheels.get(0), newWheel);
-        }
-        wheels.add(newWheel);
-        updateBoardSize();
+        if (pos > wheels.size()) {// Adding at the end
+            int nextPos = wheels.size() + 1;
+            int posX = ((nextPos - 1) % MAX_COLUMNS) + 1;
+            int posY = ((nextPos - 1) / MAX_COLUMNS) + 1;
 
-        } else {
-
+            Wheel newWheel = new Wheel(posX, posY);
+            wheels.add(newWheel);
+        } else { // Inserting in the middle
             int posX = ((pos - 1) % MAX_COLUMNS) + 1;
             int posY = ((pos - 1) / MAX_COLUMNS) + 1;
 
             Wheel newWheel = new Wheel(posX, posY);
             wheels.add(pos - 1, newWheel);
-            
-
+            // Move every wheel after the new one one position to the right
             for (int i = pos; i < wheels.size(); i++) {
                 wheels.get(i).accommodate(1);
             }
-
-            updateBoardSize();
         }
+
+        updateBoardSize();
     }
 
-    /**
- * Copia todos los símbolos de una wheel "molde" a una wheel nueva,
- * respetando el orden original.
- */
-    private void copySymbols(Wheel source, Wheel target) {
-        for (String symbol : source.symbols()) {
-            target.addSymbol(Integer.MAX_VALUE, symbol);
-        }
-    
-    }
+/**
+     * Removes the wheel at the given position and shifts all subsequent wheels
+     * one position to the left with accommodate(-1).
+     *
+     * @param pos 1-based position of the wheel to remove
+     */
     public void delWheel(int pos) {
         if (wheels.isEmpty()) {
             ok = false;
+            MessageUtil.showError("No hay ruedas para eliminar");
             return;
         }
 
         int index = adjustPosition(pos);
         Wheel removedWheel = wheels.remove(index);
-        removedWheel.makeInvisible();
-
+        removedWheel.makeInvisible(); // remove from screen before shifting
+        // Move every wheel after the removed one one position to the left
         for (int i = index; i < wheels.size(); i++) {
-            wheels.get(i).accommodate(-1);
+            wheels.get(i).accommodate(-1); 
         }
 
         updateBoardSize();
         ok = true;
     }
 
+    // MINI-CYCLE 2 – Symbols
+
+    /**
+     * Adds a new color to the global symbol list at the given position and
+     * inserts it into every existing wheel.
+     * Colors are lowercased to avoid case-sensitive duplicates.
+     * If the color already exists, shows an error and sets ok = false.
+     *
+     * @param pos   1-based position in the global symbol list
+     * @param color color name to add
+     */
     public void addSymbol(int pos, String color) {
-        for (int i = 0; i < wheels.size(); i++) {
-            wheels.get(i).addSymbol(pos, color);
-            ok = true;
+        int index = Wheel.symbols.indexOf(color.toLowerCase());
+         // indexOf returns -1 if the symbol is not yet registered
+        if (index==-1){
+            if (pos<1){
+                Wheel.symbols.add(0,color.toLowerCase());
+            }
+            else if(pos > Wheel.symbols.size()){
+                Wheel.symbols.add(color.toLowerCase());
+            }
+            else {
+                Wheel.symbols.add(pos-1, color.toLowerCase());
+            }
+            // Adjust currentIndex if the new symbol was inserted 
+            // before or at the current position
+            for (int i = 0; i < wheels.size(); i++) {
+                wheels.get(i).addSymbol(pos);
+                ok = true;
+            }
+        }else{
+            ok = false;
+            MessageUtil.showError(color.toLowerCase() + " ya es un simbolo, elige uno nuevo");
         }
     }
 
+    /**
+     * Removes a color from the global symbol list and from every wheel.
+     * If the color does not exist, shows an error and sets ok = false.
+     *
+     * @param color color name to remove
+     */
     public void delSymbol(String color) {
-        boolean removed = false;
-        for (Wheel wheel : wheels) {
-            wheel.delSymbol(color);
-            removed = true;
+        if (!Wheel.symbols.contains(color)) {
+            MessageUtil.showError(color + " no existe como símbolo.");
+            ok = false;
+            return;
         }
-        ok = removed;
-    }
-
-    public void placeSymbol(int wheelPos, String symbol) {
-        int index = adjustPosition(wheelPos);
-        if (index >= 0 && index < wheels.size()) {
-            wheels.get(index).placeSymbol(symbol);
+        if (Wheel.symbols.size()>1){
+            for (Wheel wheel : wheels) {
+                wheel.delSymbol(color);
+            }
+            Wheel.symbols.remove(color);
             ok = true;
-        } else {
+        }
+        else{ 
+            MessageUtil.showWarning("Solo queda un simbolo, no se puede eliminar");
             ok = false;
         }
     }
+    /**
+     * Returns the global list of registered symbols.
+     *
+     * @return array of color names
+    */
+   public String[] symbols() {
+       return Wheel.symbols.toArray(String[]::new);
+   }
 
+   // MINI-CYCLE 3 – Spin and query result
+
+   /**
+     * Spins the wheel at the given position.
+     * Triggers the lever animation before spinning.
+     *
+     * @param wheelPos 1-based position of the wheel to spin
+     */
     public void spin(int wheelPos) {
+        animateLever();
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
-            wheels.get(index).spin();
+            wheels.get(index-1).spin();
+            if (isJackpot()){
+                board.changeColor("gold");
+                makeVisible();
+                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+            }
             ok = true;
         } else {
+            MessageUtil.showError("No existe esa rueda en la maquina");
             ok = false;
         }
     }
 
+     /**
+     * Spins all wheels simultaneously.
+     * Triggers the lever animation before spinning.
+     * Sets ok = false if there are no wheels.
+     */
     public void spin() {
+        animateLever();
         if (wheels.isEmpty()) {
+            MessageUtil.showError("No hay ruedas por girar");
             ok = false;
             return;
         }
         for (Wheel wheel : wheels) {
             wheel.spin();
         }
+        if (isJackpot()){
+                board.changeColor("gold");
+                makeVisible();
+                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+        }
         ok = true;
     }
 
-    public String[] symbols() {
-        String[] allSymbols;
-        allSymbols = wheels.get(0).symbols();
-        ok = true;
-        return allSymbols;
+    /**
+     * Sets the visible symbol of a wheel to the given color.
+     *
+     * @param wheelPos 1-based position of the wheel
+     * @param symbol   color to display
+     */
+   public void placeSymbol(int wheelPos, String symbol) {
+        int index = adjustPosition(wheelPos);
+        if (index >= 0 && index < wheels.size()) {
+            wheels.get(index).placeSymbol(symbol);
+            ok = true;
+        } else {
+            MessageUtil.showError("No existe esa rueda");
+            ok = false;
+        }
     }
 
-    public int distinctSymbols() {
-        Set<String> uniqueSymbols = new HashSet<>();
-        for (Wheel wheel : wheels) {
-                uniqueSymbols.add(wheel.visibleSymbol());
-            }
-        ok = true;
-        return uniqueSymbols.size();
-    }
-
+    
+    /**
+     * Returns the currently visible symbol of each wheel, in order.
+     * Returns an empty array and shows an error if no symbols are registered.
+     *
+     * @return array of visible color names, one per wheel
+     */
     public String[] configuration() {
+        if (!Wheel.symbols.isEmpty()){
         String[] config = new String[wheels.size()];
         for (int i = 0; i < wheels.size(); i++) {
             config[i] = wheels.get(i).visibleSymbol();
         }
         ok = true;
         return config;
+        }else{
+            MessageUtil.showError("No existen simbolos aun");
+            return new String[0];
+        }
     }
 
-    public boolean isJackpot() {
-        if (wheels.isEmpty()) {
+    /**
+     * Returns the number of unique symbols currently visible across all wheels.
+     * Returns 0 and shows an error if no symbols are registered.
+     *
+     * @return count of distinct visible symbols
+     */
+    public int distinctSymbols() {
+        Set<String> uniqueSymbols = new HashSet<>();
+        if (!Wheel.symbols.isEmpty()){
+
+            for (Wheel wheel : wheels) {
+                uniqueSymbols.add(wheel.visibleSymbol());
+            }
             ok = true;
-            return false;
+            return uniqueSymbols.size();
         }
-        String first = wheels.get(0).visibleSymbol();
-        for (Wheel wheel : wheels) {
-            if (!wheel.visibleSymbol().equals(first)) {
+        else{
+            MessageUtil.showError("No existen simbolos aun");
+            return 0;
+        }
+    }
+
+    /**
+     * Returns true if all wheels are showing the same symbol.
+     * Returns false if the wheels list is empty or no symbols are registered.
+     *
+     * @return true on jackpot, false otherwise
+     */
+    public boolean isJackpot() {
+        if (!Wheel.symbols.isEmpty()){
+            if (wheels.isEmpty()) {
                 ok = true;
                 return false;
             }
+            String first = wheels.get(0).visibleSymbol();
+            for (Wheel wheel : wheels) {
+                if (!wheel.visibleSymbol().equals(first)) {
+                    ok = true;
+                    return false;
+                }
+            }
+            ok = true;
+            return true;
+        }else{
+            MessageUtil.showError("No existen simbolos aun");
+            return false;
         }
-        ok = true;
-        return true;
     }
 
+
+    // MINI-CYCLE 4 – Usability and visibility
+
+    /**
+     * Makes the board and all wheels visible.
+     */
     public void makeVisible() {
         board.makeVisible();
+        lever.makeVisible();
         for (Wheel wheel : wheels) {
             wheel.makeVisible();
         }
         ok = true;
     }
-
+    
+    /**
+     * Hides all wheels first, then the board, to avoid the board
+     * covering shapes still on the canvas.
+     */
     public void makeInvisible() {
         for (Wheel wheel : wheels) {
             wheel.makeInvisible();
         }
         board.makeInvisible();
+        lever.makeVisible();
         ok = true;
     }
 
+    /** Terminates the application. */
     public void exit() {
         System.exit(0);
     }
 
+    // Auxiliar Methods
+    /** Returns true if the last operation was successful. */
     public boolean ok() {
         return ok;
     }
 
-    // Regla de ajuste de posición en base 1
+    // Converts a 1-based position to a 0-based index for the wheels list.
+    // Returns 0 if pos < 1, or wheels.size() (out of range) if pos > size.
+    // Callers must validate the result before using it as an index.
     private int adjustPosition(int pos) {
         if (pos < 1) return 0;
         if (pos > wheels.size()) return wheels.size();
         return pos - 1;
     }
 
-    /**
-     * Actualiza el ancho del tablero según la cantidad de ruedas actuales.
-     * Si la lista está vacía, mantiene el ancho por defecto para 1 rueda.
-     */
+    // Pulls the lever down and back up to animate a spin.
+    private void animateLever() {
+        lever.slowMoveVertical(30);  // pull down
+        lever.slowMoveVertical(-30); // return to original position
+    }
+
+    // Resizes the board to fit the current number of wheels.
+    // Rows are calculated with integer division + remainder to handle the
+    // wrap from column 14 to the next row.
+    // After resizing, all wheels are redrawn on top because changeSize()
+    // moves the board to the front of the canvas z-order.
     private void updateBoardSize() {
         int count = wheels.isEmpty() ? 1 : wheels.size();
 
         int rows = count / MAX_COLUMNS;
         if (count % MAX_COLUMNS != 0) {
-            rows += 1;
+            rows += 1;// incomplete last row
         }
 
         int columns = (count < MAX_COLUMNS) ? count : MAX_COLUMNS;
@@ -254,6 +428,13 @@ public class SlotMachine {
 
         board.changeSize(totalHeight, totalWidth);
 
+        int newLeverX = boardX + totalWidth + 10;
+        lever.makeInvisible();
+        lever.moveHorizontal(newLeverX - leverX);
+        lever.changeSize(totalHeight, 25); 
+        lever.makeVisible();
+        leverX = newLeverX;
+        // Bring wheels back to the front after the board was redrawn
         for (Wheel w : wheels) {
             w.makeVisible();
         }
