@@ -99,6 +99,7 @@ public class SlotMachine {
         // Grid limit: 14 x 9 = 126 wheels
         if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
             MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
+            ok = false;
             return;
         }
 
