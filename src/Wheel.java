@@ -43,8 +43,8 @@ public class Wheel {
         visibleShape.changeColor("black");
         }
         else{
-            String color =symbols.get(0);
-            visibleShape.changeColor(color);
+            currentIndex = 0;
+            refreshShape();
         }
         accommodate(posX,posY);
         this.posX = posX;
@@ -62,7 +62,7 @@ public class Wheel {
     public void addSymbol(int index){
         if (currentIndex == -1){
             currentIndex = 0;
-        }else if (index > 0 && index <= symbols.size() && currentIndex > index){
+        }else if (index > 0 && index <= symbols.size() && currentIndex > index-1){
             currentIndex+=1;
         }
         refreshShape();
@@ -75,13 +75,15 @@ public class Wheel {
      */
     public void delSymbol(String color){
         int index = symbols.indexOf(color);
-        if (currentIndex == index){
-            if (currentIndex == 0){
-                currentIndex = 1;
-            }else{
-                currentIndex -=1;
+        if (symbols.size()>1){
+            if (currentIndex == index){
+                if (currentIndex == 0){
+                    currentIndex = 1;
+                }else{
+                    currentIndex -=1;
+                }
+                refreshShape();
             }
-            refreshShape();
         }
     }
 
