@@ -1,11 +1,32 @@
 #BlueJ class context
+<<<<<<< Updated upstream
 #Sat Aug 22 21:10:33 COT 2026
+=======
+#Sat Aug 22 21:37:07 COT 2026
+>>>>>>> Stashed changes
 comment0.target=SlotMachine
 comment1.target=SlotMachine()
+comment10.target=java.lang.String[] configuration()
+comment11.target=boolean isJackpot()
+comment12.target=void makeVisible()
+comment13.target=void makeInvisible()
+comment14.target=void exit()
+comment15.target=boolean ok()
+comment16.params=pos
+comment16.target=int adjustPosition(int)
+comment17.target=void updateBoardSize()
+comment17.text=\r\n Actualiza el ancho del tablero seg\u00FAn la cantidad de ruedas actuales.\r\n Si la lista est\u00E1 vac\u00EDa, mantiene el ancho por defecto para 1 rueda.\r\n
 comment2.params=pos
 comment2.target=void addWheel(int)
-comment2.text=\r\n \r\n @param pos position of the wheel on the array that goes\r\n from 0 - 145 (145 \= 9*14), being 9 the max amount of rows\r\n and 14 the max amount of columns\r\n
-comment3.params=pos
-comment3.target=void delWheel(int)
-comment3.text=\r\n \r\n @param pos\r\n
-numComments=4
+comment3.params=pos color
+comment3.target=void addSymbol(int, java.lang.String)
+comment4.params=color
+comment4.target=void delSymbol(java.lang.String)
+comment5.params=wheelPos symbol
+comment5.target=void placeSymbol(int, java.lang.String)
+comment6.params=wheelPos
+comment6.target=void spin(int)
+comment7.target=void spin()
+comment8.target=java.lang.String[] symbols()
+comment9.target=int distinctSymbols()
+numComments=18
