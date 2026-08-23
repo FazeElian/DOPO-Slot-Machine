@@ -20,6 +20,36 @@ public class Canvas{
     // shape objects in this project clean and simple for educational purposes.
  
     private static Canvas canvasSingleton;
+
+    // list of initial colors with a name
+    private static final Map<String, Color> COLORS = Map.ofEntries(
+        Map.entry("black", Color.decode("#000000")),
+        Map.entry("red", Color.decode("#FF0000")),
+        Map.entry("blue", Color.decode("#0000FF")),
+        Map.entry("yellow", Color.decode("#FFFF00")),
+        Map.entry("green", Color.decode("#008000")),
+        Map.entry("white", Color.decode("#FFFFFF")),
+        Map.entry("magenta", Color.decode("#FF00FF")),
+        Map.entry("aqua", Color.decode("#00FFFF")),
+        Map.entry("beige", Color.decode("#F5F5DC")),
+        Map.entry("chocolate", Color.decode("#D2691E")),
+        Map.entry("orange", Color.decode("#FFA500")),
+        Map.entry("purple", Color.decode("#800080")),
+        Map.entry("gray", Color.decode("#808080")),
+        Map.entry("silver", Color.decode("#C0C0C0")),
+        Map.entry("pink", Color.decode("#FFC0CB")),
+        Map.entry("coral", Color.decode("#FF7F50")),
+        Map.entry("crimson", Color.decode("#DC143C")),
+        Map.entry("gold", Color.decode("#FFD700")),
+        Map.entry("teal", Color.decode("#008080")),
+        Map.entry("turquoise", Color.decode("#40E0D0")),
+        Map.entry("navy", Color.decode("#000080")),
+        Map.entry("lime", Color.decode("#00FF00")),
+        Map.entry("olive", Color.decode("#808000")),
+        Map.entry("indigo", Color.decode("#4B0082")),
+        Map.entry("violet", Color.decode("#EE82EE")),
+        Map.entry("brown", Color.decode("#A52A2A"))
+    );
  
     /**
      * Factory method to get the canvas singleton object.
@@ -114,94 +144,24 @@ public class Canvas{
      * @param  newColour   the new colour for the foreground of the Canvas
      */
     public void setForegroundColor(String colorString) {
+        Color color;
+
+        // If its null, by default puts the color black
         if (colorString == null) {
-            graphic.setColor(Color.black);
-            return;
+            color = Color.decode("#000000");
+        } else if (colorString.startsWith("#")) {
+            // if the user puts a hexagesimal code, it will be decoded and painted
+            try {
+                color = Color.decode(colorString);
+            } catch (NumberFormatException e) {
+                color = Color.decode("#000000");
+            }
+        } else {
+            // If its a name of a color, example: "red", search it on the dictionary
+            color = COLORS.getOrDefault(colorString.toLowerCase(), Color.decode("#000000"));
         }
- 
-        switch (colorString.toLowerCase()) {
-            case "red":
-                graphic.setColor(Color.red);
-                break;
-            case "black":
-                graphic.setColor(Color.black);
-                break;
-            case "blue":
-                graphic.setColor(Color.blue);
-                break;
-            case "yellow":
-                graphic.setColor(Color.yellow);
-                break;
-            case "green":
-                graphic.setColor(Color.green);
-                break;
-            case "magenta":
-                graphic.setColor(Color.magenta);
-                break;
-            case "white":
-                graphic.setColor(Color.white);
-                break;
-            case "aqua":
-                graphic.setColor(Color.decode("#00FFFF"));
-                break;
-            case "beige":
-                graphic.setColor(Color.decode("#F5F5DC"));
-                break;
-            case "chocolate":
-                graphic.setColor(Color.decode("#D2691E"));
-                break;
-            case "orange":
-                graphic.setColor(Color.decode("#FFA500"));
-                break;
-            case "purple":
-                graphic.setColor(Color.decode("#800080"));
-                break;
-            case "gray":
-                graphic.setColor(Color.decode("#808080"));
-                break;
-            case "silver":
-                graphic.setColor(Color.decode("#C0C0C0"));
-                break;
-            case "pink":
-                graphic.setColor(Color.decode("#FFC0CB"));
-                break;
-            case "coral":
-                graphic.setColor(Color.decode("#FF7F50"));
-                break;
-            case "crimson":
-                graphic.setColor(Color.decode("#DC143C"));
-                break;
-            case "gold":
-                graphic.setColor(Color.decode("#FFD700"));
-                break;
-            case "teal":
-                graphic.setColor(Color.decode("#008080"));
-                break;
-            case "turquoise":
-                graphic.setColor(Color.decode("#40E0D0"));
-                break;
-            case "navy":
-                graphic.setColor(Color.decode("#000080"));
-                break;
-            case "lime":
-                graphic.setColor(Color.decode("#00FF00"));
-                break;
-            case "olive":
-                graphic.setColor(Color.decode("#808000"));
-                break;
-            case "indigo":
-                graphic.setColor(Color.decode("#4B0082"));
-                break;
-            case "violet":
-                graphic.setColor(Color.decode("#EE82EE"));
-                break;
-            case "brown":
-                graphic.setColor(Color.decode("#A52A2A"));
-                break;
-            default:
-                graphic.setColor(Color.black);
-                break;
-        }
+
+        graphic.setColor(color);
     }
  
     /**
