@@ -39,12 +39,10 @@ public class SlotMachine {
   public void addWheel(int pos) {
     if (pos < 1) {
         pos = 1;
-        MessageUtil.showWarning("La posición no puede ser inferior a 1, se usará la posición 1.");
     }
     if (pos > wheels.size() + 1) {
         pos = wheels.size() + 1;
     }
-
     if (pos > wheels.size()) {
         if (!wheels.isEmpty()) {
             if (lastWheelPosX != MAX_COLUMNS) {
@@ -67,6 +65,9 @@ public class SlotMachine {
         }
 
         Wheel newWheel = new Wheel(lastWheelPosX, lastWheelPosY);
+        if (!wheels.isEmpty()){
+            copySymbols(wheels.get(0), newWheel);
+        }
         wheels.add(newWheel);
         updateBoardSize();
 
@@ -75,7 +76,6 @@ public class SlotMachine {
             int posX = ((pos - 1) % MAX_COLUMNS) + 1;
             int posY = ((pos - 1) / MAX_COLUMNS) + 1;
 
-            updateBoardSize();
             Wheel newWheel = new Wheel(posX, posY);
             wheels.add(pos - 1, newWheel);
             
@@ -83,8 +83,20 @@ public class SlotMachine {
             for (int i = pos; i < wheels.size(); i++) {
                 wheels.get(i).accommodate(1);
             }
-            
+
+            updateBoardSize();
         }
+    }
+
+    /**
+ * Copia todos los símbolos de una wheel "molde" a una wheel nueva,
+ * respetando el orden original.
+ */
+    private void copySymbols(Wheel source, Wheel target) {
+        for (String symbol : source.symbols()) {
+            target.addSymbol(Integer.MAX_VALUE, symbol);
+        }
+    
     }
     public void delWheel(int pos) {
         if (wheels.isEmpty()) {
@@ -229,12 +241,21 @@ public class SlotMachine {
      */
     private void updateBoardSize() {
         int count = wheels.isEmpty() ? 1 : wheels.size();
-        int totalWidth = count * Wheel.CELL_SIZE + (count - 1) * Wheel.GAP + 20;
-        int totalHeight = Wheel.CELL_SIZE + 20;
+
+        int rows = count / MAX_COLUMNS;
+        if (count % MAX_COLUMNS != 0) {
+            rows += 1;
+        }
+
+        int columns = (count < MAX_COLUMNS) ? count : MAX_COLUMNS;
+
+        int totalWidth = columns * Wheel.CELL_SIZE + (columns - 1) * Wheel.GAP + 20;
+        int totalHeight = rows * Wheel.CELL_SIZE + (rows - 1) * Wheel.GAP + 20;
+
         board.changeSize(totalHeight, totalWidth);
 
         for (Wheel w : wheels) {
-        w.makeVisible();
+            w.makeVisible();
         }
     }
 }

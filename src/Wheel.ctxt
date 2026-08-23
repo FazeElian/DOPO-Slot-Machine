@@ -1,9 +1,5 @@
 #BlueJ class context
-<<<<<<< Updated upstream
-#Sat Aug 22 21:10:29 COT 2026
-=======
-#Sat Aug 22 20:36:41 COT 2026
->>>>>>> Stashed changes
+#Sat Aug 22 22:38:21 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Represents a single wheel of the slot machine.\r\n Each wheel owns its own list of symbols and its visual \r\n representation\: a background Rectangle (slot) and a Traingle\r\n that shows the currently visible symbol (visibleShape). Both\r\n shapes are created once, with a fixed size; only their color changes when the wheel spins\r\n \r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.params=posX posY

@@ -1,32 +1,33 @@
 #BlueJ class context
-<<<<<<< Updated upstream
-#Sat Aug 22 21:10:33 COT 2026
-=======
-#Sat Aug 22 21:37:07 COT 2026
->>>>>>> Stashed changes
+#Sat Aug 22 22:39:09 COT 2026
 comment0.target=SlotMachine
 comment1.target=SlotMachine()
-comment10.target=java.lang.String[] configuration()
-comment11.target=boolean isJackpot()
-comment12.target=void makeVisible()
-comment13.target=void makeInvisible()
-comment14.target=void exit()
-comment15.target=boolean ok()
-comment16.params=pos
-comment16.target=int adjustPosition(int)
-comment17.target=void updateBoardSize()
-comment17.text=\r\n Actualiza el ancho del tablero seg\u00FAn la cantidad de ruedas actuales.\r\n Si la lista est\u00E1 vac\u00EDa, mantiene el ancho por defecto para 1 rueda.\r\n
+comment10.target=java.lang.String[] symbols()
+comment11.target=int distinctSymbols()
+comment12.target=java.lang.String[] configuration()
+comment13.target=boolean isJackpot()
+comment14.target=void makeVisible()
+comment15.target=void makeInvisible()
+comment16.target=void exit()
+comment17.target=boolean ok()
+comment18.params=pos
+comment18.target=int adjustPosition(int)
+comment19.target=void updateBoardSize()
+comment19.text=\r\n Actualiza el ancho del tablero seg\u00FAn la cantidad de ruedas actuales.\r\n Si la lista est\u00E1 vac\u00EDa, mantiene el ancho por defecto para 1 rueda.\r\n
 comment2.params=pos
 comment2.target=void addWheel(int)
-comment3.params=pos color
-comment3.target=void addSymbol(int, java.lang.String)
-comment4.params=color
-comment4.target=void delSymbol(java.lang.String)
-comment5.params=wheelPos symbol
-comment5.target=void placeSymbol(int, java.lang.String)
-comment6.params=wheelPos
-comment6.target=void spin(int)
-comment7.target=void spin()
-comment8.target=java.lang.String[] symbols()
-comment9.target=int distinctSymbols()
-numComments=18
+comment3.params=source target
+comment3.target=void copySymbols(Wheel, Wheel)
+comment3.text=\r\n Copia todos los s\u00EDmbolos de una wheel "molde" a una wheel nueva,\r\n respetando el orden original.\r\n
+comment4.params=pos
+comment4.target=void delWheel(int)
+comment5.params=pos color
+comment5.target=void addSymbol(int, java.lang.String)
+comment6.params=color
+comment6.target=void delSymbol(java.lang.String)
+comment7.params=wheelPos symbol
+comment7.target=void placeSymbol(int, java.lang.String)
+comment8.params=wheelPos
+comment8.target=void spin(int)
+comment9.target=void spin()
+numComments=20
