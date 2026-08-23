@@ -158,7 +158,7 @@ public class Canvas{
             }
         } else {
             // If its a name of a color, example: "red", search it on the dictionary
-            color = COLORS.getOrDefault(colorString.toLowerCase(), Color.decode("#000000"));
+            color = COLORS.getOrDefault(colorString.toLowerCase(), Color.decode("#A7A7A7"));
         }
 
         graphic.setColor(color);
