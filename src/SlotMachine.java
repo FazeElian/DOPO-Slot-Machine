@@ -163,7 +163,7 @@ public class SlotMachine {
      */
     public void addSymbol(int pos, String color) {
         int index = Wheel.symbols.indexOf(color.toLowerCase());
-         // indexOf returns -1 if the symbol is not yet registered
+        // indexOf returns -1 if the symbol is not yet registered
         if (index==-1){
             if (pos<1){
                 Wheel.symbols.add(0,color.toLowerCase());
@@ -180,7 +180,10 @@ public class SlotMachine {
                 wheels.get(i).addSymbol(pos);
                 ok = true;
             }
-        }else{
+        } else if (Wheel.symbols.size() == 0) {
+            ok = false;
+        }
+        else{
             ok = false;
             MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
         }
@@ -357,6 +360,7 @@ public class SlotMachine {
             return true;
         }else{
             MessageUtil.showError("No existen símbolos aún");
+            ok = false;
             return false;
         }
     }
@@ -385,7 +389,7 @@ public class SlotMachine {
             wheel.makeInvisible();
         }
         board.makeInvisible();
-        lever.makeVisible();
+        lever.makeInvisible();
         ok = true;
     }
 
@@ -404,6 +408,7 @@ public class SlotMachine {
     // Returns 0 if pos < 1, or wheels.size() (out of range) if pos > size.
     // Callers must validate the result before using it as an index.
     private int adjustPosition(int pos) {
+        if (wheels.isEmpty()) return 0;
         if (pos <= 0) return 0;
         if (pos > wheels.size()) return wheels.size() -1;
         return pos - 1;
