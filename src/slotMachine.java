@@ -1,7 +1,4 @@
-import java.awt.*;
-
-public class slotMachine {
+public class SlotMachine {
     private Rectangle board;
     private Wheel[] wheels;
-    
 }
