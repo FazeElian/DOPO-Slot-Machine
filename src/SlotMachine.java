@@ -99,6 +99,7 @@ public class SlotMachine {
         // Grid limit: 14 x 9 = 126 wheels
         if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
             MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
+            ok = false;
             return;
         }
 
@@ -230,7 +231,7 @@ public class SlotMachine {
         animateLever();
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
-            wheels.get(index-1).spin();
+            wheels.get(index).spin();
             if (isJackpot()){
                 board.changeColor("gold");
                 makeVisible();
@@ -276,7 +277,7 @@ public class SlotMachine {
     public void placeSymbol(int wheelPos, String symbol) {
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
-            wheels.get(index - 1).placeSymbol(symbol);
+            wheels.get(index).placeSymbol(symbol);
 
             if (isJackpot()){
                 board.changeColor("gold");
@@ -403,9 +404,9 @@ public class SlotMachine {
     // Returns 0 if pos < 1, or wheels.size() (out of range) if pos > size.
     // Callers must validate the result before using it as an index.
     private int adjustPosition(int pos) {
-        if (pos <= 0) return 1;
-        if (pos > wheels.size()) return wheels.size();
-        return pos;
+        if (pos <= 0) return 0;
+        if (pos > wheels.size()) return wheels.size() -1;
+        return pos - 1;
     }
 
     // Pulls the lever down and back up to animate a spin.
