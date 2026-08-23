@@ -1,4 +1,11 @@
 #BlueJ class context
-#Sat Aug 22 17:29:15 COT 2026
-comment0.target=slotMachine
-numComments=1
+#Sat Aug 22 20:16:39 COT 2026
+comment0.target=SlotMachine
+comment1.target=SlotMachine()
+comment2.params=pos
+comment2.target=void addWheel(int)
+comment2.text=\r\n \r\n @param pos position of the wheel on the array that goes\r\n from 0 - 145 (145 \= 9*14), being 9 the max amount of rows\r\n and 14 the max amount of columns\r\n
+comment3.params=pos
+comment3.target=void delWheel(int)
+comment3.text=\r\n \r\n @param pos\r\n
+numComments=4

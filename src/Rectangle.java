@@ -31,7 +31,25 @@ public class Rectangle{
         color = "magenta";
         isVisible = false;
     }
-    
+
+    /**
+     * Create a new rectangle width custom values for its attributes
+     */
+    public Rectangle(
+        int height,
+        int width,
+        int xPosition,
+        int yPosition,
+        String color,
+        boolean isVisible
+    ){
+        this.height = height;
+        this.width = width;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.color = color;
+        this.isVisible = isVisible;
+    }
 
     /**
      * Make this rectangle visible. If it was already visible, do nothing.

@@ -24,6 +24,11 @@ public class Wheel {
     private Rectangle slot;
     private Triangle visibleShape;
 
+    /**
+     * Method that constructs the class
+     * @param posX
+     * @param posY
+     */
     public Wheel(int posX, int posY) {
         symbols = new ArrayList<String>();
         currentIndex = -1;
@@ -48,9 +53,10 @@ public class Wheel {
 
     public void addSymbol(int pos, String color){
         if (pos<1){
+            MessageUtil.showWarning("La posición del nuevo símbolo no puede ser inferior a 1.");
             symbols.add(0,color);
         }
-        else if(pos >= symbols.size()){
+        else if(pos > symbols.size()){
             symbols.add(color);
         }
         else {
@@ -115,7 +121,7 @@ public class Wheel {
         visibleShape.changeColor(symbols.get(currentIndex));
     }
 
-private void accommodate(int newPosX, int newPosY) {
+    private void accommodate(int newPosX, int newPosY) {
         int oldTargetX = 0;
         int oldTargetY = 0;
         if (posX!=0 && posY!=0){
