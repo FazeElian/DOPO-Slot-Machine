@@ -25,9 +25,9 @@ public class Wheel {
     private Triangle visibleShape;
 
     /**
-     * Method that constructs the class
-     * @param posX
-     * @param posY
+     * Constructs the object for every wheel of the board
+     * @param posX the position in X axis of the board
+     * @param posY the position in Y axis of the board
      */
     public Wheel(int posX, int posY) {
         symbols = new ArrayList<String>();
@@ -51,6 +51,12 @@ public class Wheel {
         visibleShape.makeVisible();
     }
 
+    /**
+     * Adds a symbol to the symbols array for all
+     * the wheels of the board
+     * @param pos
+     * @param color
+     */
     public void addSymbol(int pos, String color){
         if (pos<1){
             MessageUtil.showWarning("La posición del nuevo símbolo no puede ser inferior a 1.");
@@ -69,6 +75,11 @@ public class Wheel {
         refreshShape();
     }
 
+    /**
+     * Removes a symbol to the symbols array for all
+     * the wheels of the board
+     * @param color string value of the symbol's color
+     */
     public void delSymbol(String color){
         int index = symbols.indexOf(color);
         if (currentIndex == index){
@@ -82,14 +93,22 @@ public class Wheel {
         symbols.remove(index);
     }
 
+    /**
+     * Updates the value of the index of the current wheel
+     * @param color string value of the symbol's color
+     */
     public void placeSymbol(String color){
         int index = symbols.indexOf(color);
         currentIndex = index;
         refreshShape();
     }
 
+    /**
+     * Change the wheel ("spin" the board) going to
+     * the next one on the slot
+     */
     public void spin(){
-        if (currentIndex == symbols.size()-1){
+        if (currentIndex == symbols.size() - 1){
             currentIndex = 0;
         }else{
             currentIndex += 1;
@@ -97,41 +116,74 @@ public class Wheel {
         refreshShape();
     }
 
+    /**
+     * Return the list of symbols on the board
+     */
     public String[] symbols(){
-        return symbols.toArray(String[]::new); // // Returns the symbols as a String array
+        return symbols.toArray(String[]::new);
     }
 
+    /**
+     * Return the symbol located on the current index
+     */
     public String visibleSymbol(){
         return symbols.get(currentIndex);
     }
 
+    /**
+     * Show the wheel: the symbol and the slot which it
+     * is located
+     */
     public void makeVisible(){
         visible = true;
         slot.makeVisible();
         visibleShape.makeVisible();
     }
 
+    /**
+     * Hide the wheel: the symbol and the slot which it
+     * is located
+     */
     public void makeInvisible(){
         visible = false;
         visibleShape.makeInvisible();
         slot.makeInvisible();
     }
-
+    /**
+     * Updates the color of the visible shape on the screen
+     * according to the symbol that is located on the 
+     * current index
+     */
     private void refreshShape(){
         visibleShape.changeColor(symbols.get(currentIndex));
     }
 
+    /**
+     * Repositions the slot and its associated visual shape on the canvas based on grid coordinates.
+     * Translates the grid matrix positions into screen pixel coordinates using the cell size, 
+     * gap spacing, and offset adjustments, then updates the internal position state.
+     * @param newPosX the target column (X index) in the grid matrix
+     * @param newPosY the target row (Y index) in the grid matrix
+     */
     private void accommodate(int newPosX, int newPosY) {
         int oldTargetX = 0;
         int oldTargetY = 0;
         if (posX!=0 && posY!=0){
+            // Convert the positions of the grid to coordinates on the
+            // screen using the constant CELL_SIZE and the space between them
+            // which is GAP
             oldTargetX = posX * (CELL_SIZE + GAP) + GAP;
             oldTargetY = posY * (CELL_SIZE + GAP) + GAP;
         }
  
+        // Convert the positions of the grid to coordinates on the
+        // screen using the constant CELL_SIZE and the space between them
+        // which is GAP
         int newTargetX = newPosX * (CELL_SIZE + GAP) + GAP;
         int newTargetY = newPosY * (CELL_SIZE + GAP) + GAP;
  
+        // Substract the previous position to know how many
+        // pixels should move the shape
         int deltaX = newTargetX - oldTargetX;
         int deltaY = newTargetY - oldTargetY;
  
