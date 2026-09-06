@@ -305,33 +305,34 @@ public class SlotMachine {
             return;
         }
 
-        animateSwap(i1, i2);
+        Wheel w1 = wheels.get(i1);
+        Wheel w2 = wheels.get(i2);
+
+        // Misma fórmula que usa addWheel para calcular posX/posY (1-based)
+        int posX1 = ((wheel1 - 1) % MAX_COLUMNS) + 1;
+        int posY1 = ((wheel1 - 1) / MAX_COLUMNS) + 1;
+        int posX2 = ((wheel2 - 1) % MAX_COLUMNS) + 1;
+        int posY2 = ((wheel2 - 1) / MAX_COLUMNS) + 1;
+
+        animateSwap(w1, w2, posX1, posY1, posX2, posY2);
+
+        // Each wheel is moved to the other's position, then the list is updated to reflect the swap
+        w1.setLocation(posX2, posY2);
+        w2.setLocation(posX1, posY1);
+
         Wheel temp = wheels.get(i1);
         wheels.set(i1, wheels.get(i2));
         wheels.set(i2, temp);
+        ok = true;
     }
-
-    // Makes an animation when a swaps occures, step by step using pause
-    private void animateSwap(int posWheel1, int posWheel2) {
-        Wheel w1 = wheels.get(posWheel1);
-        Wheel w2 = wheels.get(posWheel2);
-        int cellStep = Wheel.CELL_SIZE + Wheel.GAP;
-        int distance = (posWheel2 - posWheel1) * cellStep;
-        
-        // Move both vertical at the same time
-        w1.slowMoveVertical(Wheel.CELL_SIZE);
-        w2.slowMoveVertical(-Wheel.CELL_SIZE);
-
-        // Move both horizontal at the same time
-        w1.slowMoveHorizontal(distance);
-        w2.slowMoveHorizontal(-distance);
-
-        // Move it to come back vertically to the UI position of the another
-        w1.slowMoveVertical(-Wheel.CELL_SIZE);
-        w2.slowMoveVertical(Wheel.CELL_SIZE);
-    }
-
-
+        // Small visual "hop" so the movement is noticeable before the final setLocation
+        private void animateSwap(Wheel w1, Wheel w2, int posX1, int posY1, int posX2, int posY2) {
+            int hop = 10;
+            w1.slowMoveVertical(-hop);
+            w2.slowMoveVertical(-hop);
+            w1.slowMoveVertical(hop);
+            w2.slowMoveVertical(hop);
+        }
    // MINI-CYCLE 3 – Spin and query result
 
     /**
