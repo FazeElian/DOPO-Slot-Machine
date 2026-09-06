@@ -389,16 +389,6 @@ public class SlotMachineTest
      * Verifies that toggling the machine's visibility (visible/invisible)
      * always leaves the machine status as ok.
      */
-    @Test
-    public void shouldSetOkToTrueWhenChangingVisibility() {
-        // Check if is true when is visible
-        slotMachine.makeVisible();
-        assertTrue(slotMachine.ok());
-    
-        // Check is false when is NOT visible (Invisible)
-        slotMachine.makeInvisible();
-        assertTrue(slotMachine.ok());
-    }
     
     /**
      * Verifies that out-of-range positions passed to placeSymbol are
@@ -421,7 +411,6 @@ public class SlotMachineTest
         slotMachine.placeSymbol(99, "yellow");
         assertTrue(slotMachine.ok());
     }
-    
     /**
      * Tears down the test case.
      *

@@ -1,62 +1,64 @@
 #BlueJ class context
-#Fri Sep 04 21:04:30 COT 2026
+#Sun Sep 06 11:12:41 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Represents a slot machine composed of a visual board (gray background)\r\n and a list of wheels ({@link Wheel}) organized in a grid of up to\r\n 14 columns and 9 rows. Symbols are shared globally across all wheels\r\n through {@link Wheel\#symbols}.\r\n\r\n <p>Position convention\: all positions exposed in public methods are\r\n <b>1-based</b> (the first wheel is position 1).</p>\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.target=SlotMachine()
 comment1.text=\r\n Constructs an empty SlotMachine with a gray board positioned\r\n to wrap exactly one wheel cell (with a 10px margin).\r\n The board grows automatically when wheels are added via {@link \#addWheel(int)}.\r\n
-comment10.target=java.lang.String[] configuration()
-comment10.text=\r\n Returns the current visible symbol of each wheel, in order.\r\n Returns an empty array and shows an error if no symbols have been registered.\r\n\r\n @return array of visible color names, one per wheel\r\n
-comment11.target=int distinctSymbols()
-comment11.text=\r\n Returns the number of unique symbols currently visible across all wheels.\r\n Returns 0 and shows an error if no symbols have been registered.\r\n\r\n @return count of distinct visible symbols\r\n
-comment12.target=boolean isJackpot()
-comment12.text=\r\n Returns true if all wheels are showing the same symbol.\r\n Returns false if the wheels list is empty or no symbols have been registered.\r\n\r\n @return true on jackpot, false otherwise\r\n
-comment13.target=void makeVisible()
-comment13.text=\r\n Makes the board and all wheels visible.\r\n
-comment14.target=void makeInvisible()
-comment14.text=\r\n Hides all wheels first, then the board, to avoid the board\r\n covering shapes still on the canvas.\r\n
-comment15.target=void exit()
-comment15.text=Finish - abort the application execution.
-comment16.target=boolean ok()
-comment16.text=Returns true if the last operation was successful.
-comment17.params=pos
-comment17.target=int adjustPosition(int)
-comment18.target=void animateLever()
-comment19.target=void updateBoardSize()
+comment10.params=wheelPos
+comment10.target=void spin(int)
+comment10.text=\r\n Spins a specific wheel at the given position.\r\n Triggers the lever animation before spinning.\r\n\r\n @param wheelPos 1-based position of the wheel to spin\r\n
+comment11.target=void spin()
+comment11.text=\r\n Spins all wheels simultaneously and check if is jackpot.\r\n Triggers the lever animation before spinning.\r\n Sets ok \= false if there are no wheels.\r\n
+comment12.params=wheelPos symbol
+comment12.target=void placeSymbol(int, java.lang.String)
+comment12.text=\r\n Changes the color of visible symbol of a wheel to the given one.\r\n Then, checks if its jackpot.\r\n \r\n @param wheelPos 1-based position of the wheel\r\n @param symbol   color to display\r\n
+comment13.target=java.lang.String[] configuration()
+comment13.text=\r\n Returns the current visible symbol of each wheel, in order.\r\n Returns an empty array and shows an error if no symbols have been registered.\r\n\r\n @return array of visible color names, one per wheel\r\n
+comment14.target=int distinctSymbols()
+comment14.text=\r\n Returns the number of unique symbols currently visible across all wheels.\r\n Returns 0 and shows an error if no symbols have been registered.\r\n\r\n @return count of distinct visible symbols\r\n
+comment15.target=boolean isJackpot()
+comment15.text=\r\n Returns true if all wheels are showing the same symbol.\r\n Returns false if the wheels list is empty or no symbols have been registered.\r\n\r\n @return true on jackpot, false otherwise\r\n
+comment16.params=wheel steps
+comment16.target=void spin(int, int)
+comment16.text=\r\n Spin a specific wheel a given number of steps.\r\n If the machine is visible, the movement is animated step by step.\r\n @param wheel 1-based position of the wheel\r\n @param steps number of times to advance the symbol\r\n
+comment17.params=setSymbols
+comment17.target=void spin(java.lang.String[])
+comment17.text=\r\n Set a specific symbol configuration for all wheels.\r\n @param setSymbols array of symbols, one per wheel in order\r\n
+comment18.target=void makeVisible()
+comment18.text=\r\n Makes the board and all wheels visible.\r\n
+comment19.target=void makeInvisible()
+comment19.text=\r\n Hides all wheels first, then the board, to avoid the board\r\n covering shapes still on the canvas.\r\n
 comment2.params=pos
 comment2.target=void addWheel(int)
 comment2.text=\r\n Adds a new wheel at the given position.\r\n Positions below 1 are corrected to 1; positions beyond the end are corrected to the last valid index to avoid gaps.\r\n Grid position is derived from pos using\: posX \= ((pos-1) % MAX_COLUMNS) + 1\r\n and posY \= ((pos-1) / MAX_COLUMNS) + 1, so there is only one calculation\r\n system and no external counters that could fall out of sync or return old data.\r\n When inserting in the middle, all wheels after pos are shifted right with accommodate(1).\r\n\r\n @param pos 1-based position where the new wheel is inserted\r\n
-comment20.params=wheel steps
-comment20.target=void spin(int, int)
-comment20.text=\r\n Spin a specific wheel a given number of steps.\r\n @param wheel 1-based position of the wheel\r\n @param steps number of times to advance the symbol\r\n
-comment21.params=setSymbols
-comment21.target=void spin(java.lang.String[])
-comment21.text=\r\n Set a specific symbol configuration for all wheels.\r\n @param setSymbols array of symbols, one per wheel in order\r\n
-comment22.params=wheel
-comment22.target=void lock(int)
-comment22.text=\r\n Lock a specific wheel so it cannot be spun.\r\n @param wheel 1-based position of the wheel to lock\r\n
-comment23.params=wheel
-comment23.target=void unlock(int)
-comment23.text=\r\n Unlock a specific wheel so it can be spun again.\r\n @param wheel 1-based position of the wheel to unlock\r\n
-comment24.params=wheel1 wheel2
-comment24.target=void swap(int, int)
-comment24.text=\r\n Swap two wheels based on their 1-based positions.\r\n @param wheel1 position of the first wheel\r\n @param wheel2 position of the second wheel\r\n
+comment20.target=void exit()
+comment20.text=Finish - abort the application execution.
+comment21.target=boolean ok()
+comment21.text=Returns true if the last operation was successful.
+comment22.params=pos
+comment22.target=int adjustPosition(int)
+comment23.target=void animateLever()
+comment24.target=void updateBoardSize()
+comment25.target=void pause()
+comment26.target=void winnerAppearance()
 comment3.params=pos
 comment3.target=void delWheel(int)
 comment3.text=\r\n Removes the wheel at the given position and shifts all subsequent wheels\r\n one position to the left with accommodate(-1).\r\n\r\n @param pos 1-based position of the wheel to remove\r\n
-comment4.params=pos color
-comment4.target=void addSymbol(int, java.lang.String)
-comment4.text=\r\n Adds a new symbol (color) to the global symbol list at the given position and\r\n inserts it into every existing wheel.\r\n Colors are lowercased to avoid case-sensitive duplicates.\r\n If the color already exists, shows an error and sets ok \= false.\r\n\r\n @param pos   1-based position in the global symbol list\r\n @param color color name to add\r\n
-comment5.params=color
-comment5.target=void delSymbol(java.lang.String)
-comment5.text=\r\n Removes a color from the global symbol list and from every wheel.\r\n If the color does not exist, shows an error and sets ok \= false.\r\n\r\n @param color color name to remove\r\n
-comment6.target=java.lang.String[] symbols()
-comment6.text=\r\n Returns the global list of registered symbols on the board.\r\n\r\n @return array of color names or its hexagesimal code if the user entered it on its creation\r\n
-comment7.params=wheelPos
-comment7.target=void spin(int)
-comment7.text=\r\n Spins a specific wheel at the given position.\r\n Triggers the lever animation before spinning.\r\n\r\n @param wheelPos 1-based position of the wheel to spin\r\n
-comment8.target=void spin()
-comment8.text=\r\n Spins all wheels simultaneously and check if is jackpot.\r\n Triggers the lever animation before spinning.\r\n Sets ok \= false if there are no wheels.\r\n
-comment9.params=wheelPos symbol
-comment9.target=void placeSymbol(int, java.lang.String)
-comment9.text=\r\n Changes the color of visible symbol of a wheel to the given one.\r\n Then, checks if its jackpot.\r\n \r\n @param wheelPos 1-based position of the wheel\r\n @param symbol   color to display\r\n
-numComments=25
+comment4.params=wheel
+comment4.target=void lock(int)
+comment4.text=\r\n Lock a specific wheel so it cannot be spun.\r\n @param wheel 1-based position of the wheel to lock\r\n
+comment5.params=wheel
+comment5.target=void unlock(int)
+comment5.text=\r\n Unlock a specific wheel so it can be spun again.\r\n @param wheel 1-based position of the wheel to unlock\r\n
+comment6.params=pos color
+comment6.target=void addSymbol(int, java.lang.String)
+comment6.text=\r\n Adds a new symbol (color) to the global symbol list at the given position and\r\n inserts it into every existing wheel.\r\n Colors are lowercased to avoid case-sensitive duplicates.\r\n If the color already exists, shows an error and sets ok \= false.\r\n\r\n @param pos   1-based position in the global symbol list\r\n @param color color name to add\r\n
+comment7.params=color
+comment7.target=void delSymbol(java.lang.String)
+comment7.text=\r\n Removes a color from the global symbol list and from every wheel.\r\n If the color does not exist, shows an error and sets ok \= false.\r\n\r\n @param color color name to remove\r\n
+comment8.target=java.lang.String[] symbols()
+comment8.text=\r\n Returns the global list of registered symbols on the board.\r\n\r\n @return array of color names or its hexagesimal code if the user entered it on its creation\r\n
+comment9.params=wheel1 wheel2
+comment9.target=void swap(int, int)
+comment9.text=\r\n Swap two wheels based on their 1-based positions.\r\n Both positions must correspond to existing wheels; otherwise the\r\n operation fails and shows an error.\r\n @param wheel1 position of the first wheel\r\n @param wheel2 position of the second wheel\r\n
+numComments=27

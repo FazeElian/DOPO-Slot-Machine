@@ -1,5 +1,5 @@
 #BlueJ class context
-#Fri Sep 04 21:04:34 COT 2026
+#Sun Sep 06 11:12:41 COT 2026
 comment0.target=SlotMachineTest
 comment0.text=\r\n The test class SlotMachineTest.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.1\r\n
 comment1.target=SlotMachineTest()
@@ -32,10 +32,9 @@ comment21.target=void shouldNotBeJackpot()
 comment21.text=\r\n Verifies that an empty machine is never considered a jackpot.\r\n
 comment22.target=void shouldBeJackpot()
 comment22.text=\r\n Verifies that spinning all wheels when they share the same\r\n symbol results in a jackpot, keeping the machine status ok.\r\n
-comment23.target=void shouldSetOkToTrueWhenChangingVisibility()
-comment23.text=\r\n Verifies that toggling the machine's visibility (visible/invisible)\r\n always leaves the machine status as ok.\r\n
-comment24.target=void shouldHandlePositionAdjustmentsInOperations()
-comment24.text=\r\n Verifies that out-of-range positions passed to placeSymbol are\r\n adjusted to the nearest valid index (zero for positions below\r\n range, the last index for positions above range), keeping the\r\n machine status ok.\r\n
+comment23.target=void shouldHandlePositionAdjustmentsInOperations()
+comment23.text=\r\n Verifies that out-of-range positions passed to placeSymbol are\r\n adjusted to the nearest valid index (zero for positions below\r\n range, the last index for positions above range), keeping the\r\n machine status ok.\r\n
+comment24.target=void shouldLockAndUnlockAnExistingWheel()
 comment25.target=void tearDown()
 comment25.text=\r\n Tears down the test case.\r\n\r\n Called after every test case method.\r\n
 comment3.target=void shouldAddWheelInAValidPos()
