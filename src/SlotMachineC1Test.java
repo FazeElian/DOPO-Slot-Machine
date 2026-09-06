@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * The test class SlotMachineTest.
+ * The SlotMachine test class for cycle 1.
  *
  * @author  Oscar Poveda, Elian Ibarra
  * @version 1.1
