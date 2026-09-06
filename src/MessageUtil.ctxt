@@ -1,17 +1,17 @@
 #BlueJ class context
-#Sun Sep 06 12:48:54 COT 2026
+#Sun Sep 06 15:28:07 COT 2026
 comment0.target=MessageUtil
-comment0.text=\r\n JOptionPane utility class for global application alerts\r\n MessageUtil\r\n
+comment0.text=\n JOptionPane utility class for global application alerts\n MessageUtil\n
 comment1.params=message title messageType
 comment1.target=void showMessage(java.lang.String, java.lang.String, int)
-comment1.text=\r\n Shows a popup message based on the specified message\r\n type, rendering its title and content on it.\r\n @param message message to display\r\n @param title\r\n @param messageType\r\n
+comment1.text=\n Shows a popup message based on the specified message\n type, rendering its title and content on it.\n @param message message to display\n @param title\n @param messageType\n
 comment2.params=message
 comment2.target=void showSuccess(java.lang.String)
-comment2.text=\r\n Displays a success dialog for successful user actions.\r\n @param message message to display\r\n
+comment2.text=\n Displays a success dialog for successful user actions.\n @param message message to display\n
 comment3.params=message
 comment3.target=void showError(java.lang.String)
-comment3.text=\r\n Displays a error dialog when an operation fails\r\n @param message message to display\r\n
+comment3.text=\n Displays a error dialog when an operation fails\n @param message message to display\n
 comment4.params=message
 comment4.target=void showWarning(java.lang.String)
-comment4.text=\r\n Displays a warning dialog for non-critical alerts\r\n @param message message to display\r\n
+comment4.text=\n Displays a warning dialog for non-critical alerts\n @param message message to display\n
 numComments=5
