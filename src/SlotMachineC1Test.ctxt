@@ -1,7 +1,7 @@
 #BlueJ class context
-#Sun Sep 06 13:23:19 COT 2026
+#Sun Sep 06 15:59:54 COT 2026
 comment0.target=SlotMachineC1Test
-comment0.text=\r\n The test class SlotMachineTest.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.1\r\n
+comment0.text=\r\n The SlotMachine test class for cycle 1.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.1\r\n
 comment1.target=SlotMachineC1Test()
 comment1.text=\r\n Default constructor for test class SlotMachineTest\r\n
 comment10.target=void shouldNotAddSymbol()
