@@ -1,0 +1,3 @@
+https://github.com/FazeElian/DOPO-Slot-Machine
+
+Las retrospectivas se encuentra en esta ruta: https://github.com/FazeElian/DOPO-Slot-Machine/docs

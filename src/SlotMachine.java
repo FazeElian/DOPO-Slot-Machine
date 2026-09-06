@@ -293,6 +293,18 @@ public class SlotMachine {
     public void swap(int wheel1, int wheel2) {
         int i1 = adjustPosition(wheel1);
         int i2 = adjustPosition(wheel2);
+
+        if (lockedWheels.contains(wheel1)) {
+            MessageUtil.showError("La primera rueda no puede intercambiarse, está bloqueada.");
+            ok = false;
+            return;
+        }
+        if (lockedWheels.contains(wheel2)) {
+            MessageUtil.showError("La segunda rueda no puede intercambiarse, está bloqueada.");
+            ok = false;
+            return;
+        }
+
         animateSwap(i1, i2);
         Wheel temp = wheels.get(i1);
         wheels.set(i1, wheels.get(i2));
@@ -344,6 +356,7 @@ public class SlotMachine {
         } else {
             MessageUtil.showError("No existe esa rueda en la maquina");
             ok = false;
+            return;
         }
     }
 
