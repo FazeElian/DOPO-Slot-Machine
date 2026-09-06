@@ -243,4 +243,13 @@ public class Wheel {
     public static int getIndexOfSymbol(String symbol) {
         return symbols.indexOf(symbol);
     }
-}
+
+    /**
+     * Modify the coordiinates of the wheel to the new values
+     * @param posX the new position in X axis of the board
+     * @param posY the new position in Y axis of the board
+     */
+    public void setPosition(int posX, int posY) {
+        this.posX = posX;
+        this.posY = posY;
+    }   
