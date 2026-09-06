@@ -1,11 +1,31 @@
 #BlueJ class context
-#Sun Sep 06 16:59:13 COT 2026
+#Sun Sep 06 15:42:52 COT 2026
 comment0.target=SlotMachineC2Test
-comment0.text=\n The test class SlotMachineC2Test.\n\n @author  (your name)\n @version (a version number or a date)\n
+comment0.text=\r\n The test class SlotMachineC2Test.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.target=SlotMachineC2Test()
-comment1.text=\n Default constructor for test class SlotMachineC2Test\n
+comment1.text=\r\n Default constructor for test class SlotMachineC2Test\r\n
+comment10.target=void shouldNotSpinAWheel()
+comment10.text=\r\n Verifies that attempting to spin a wheel that is currently locked\r\n fails, setting the machine status to not ok.\r\n
+comment11.target=void shouldNotSpinWheelsSettingSymbols()
+comment11.text=\r\n Verifies that setting a full symbol configuration via\r\n spin(String[]) fails in two situations\: when at least one wheel\r\n is locked, and when the amount of symbols provided doesn't match\r\n the number of wheels on the board.\r\n
+comment12.target=void shouldSpinWheelsSettingSymbols()
+comment12.text=\r\n Verifies that setting a full symbol configuration via\r\n spin(String[]) succeeds when no wheel is locked and the amount\r\n of symbols matches the number of wheels, and that the resulting\r\n configuration matches exactly what was requested.\r\n
+comment13.target=void tearDown()
+comment13.text=\r\n Tears down the test fixture.\r\n\r\n Called after every test case method.\r\n
 comment2.target=void setUp()
-comment2.text=\n Sets up the test fixture.\n\n Called before every test case method.\n
-comment3.target=void tearDown()
-comment3.text=\n Tears down the test fixture.\n\n Called after every test case method.\n
-numComments=4
+comment2.text=\r\n Sets up the test fixture.\r\n\r\n Called before every test case method.\r\n
+comment3.target=void shouldNotLockASpin()
+comment3.text=\r\n Verifies that attempting to lock a wheel that doesn't exist yet\r\n fails, setting the machine status to not ok.\r\n
+comment4.target=void shouldLockASpin()
+comment4.text=\r\n Verifies that locking an existing wheel succeeds, leaving the\r\n machine status as ok.\r\n
+comment5.target=void shouldNotUnlockASpin()
+comment5.text=\r\n Verifies that attempting to unlock a wheel that was never locked\r\n fails, setting the machine status to not ok.\r\n
+comment6.target=void shouldUnlockASpin()
+comment6.text=\r\n Verifies that unlocking a previously locked wheel succeeds,\r\n leaving the machine status as ok.\r\n
+comment7.target=void shouldNotSwap()
+comment7.text=\r\n Verifies that attempting to swap two wheels fails when one of\r\n them is locked, setting the machine status to not ok.\r\n
+comment8.target=void shouldSwap()
+comment8.text=\r\n Verifies that swapping two wheels succeeds once neither of them\r\n is locked, leaving the machine status as ok.\r\n
+comment9.target=void shouldSpinAWheel()
+comment9.text=\r\n Verifies that a wheel can be spun successfully once it has been\r\n locked and then unlocked, leaving the machine status as ok.\r\n
+numComments=14
