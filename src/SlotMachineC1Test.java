@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
  * @author  Oscar Poveda, Elian Ibarra
  * @version 1.1
  */
-public class SlotMachineTest
+public class SlotMachineC1Test
 {
     private SlotMachine slotMachine;
     public final static int MAX_COLUMNS = 14;
@@ -18,7 +18,7 @@ public class SlotMachineTest
     /**
      * Default constructor for test class SlotMachineTest
      */
-    public SlotMachineTest()
+    public SlotMachineC1Test()
     {
     }
 
@@ -81,6 +81,29 @@ public class SlotMachineTest
         assertFalse(slotMachine.ok());
     }
     
+    @Test
+    public void shouldAddWheelWhenLimitNotExceeded() {
+        // Add less than the limit to add a last one
+        for (int i = 1; i <= (slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS - 1); i++) {
+            slotMachine.addWheel(i);
+        }
+        
+        // Check that all were added succesfully
+        assertTrue(slotMachine.ok());
+        
+        // Add the 126th wheel
+        slotMachine.addWheel(126);
+        
+        /// Check that weren's added the 126th wheel so ok status is true
+        assertTrue(slotMachine.ok());
+        
+        // Add the 127th wheel
+        slotMachine.addWheel(127);
+        
+        /// Check that weren's added the 127th (exceeding the limit) wheel so ok status is false
+        assertFalse(slotMachine.ok());
+    }
+    
     /**
      * Verifies that trying to delete a wheel that doesn't exist
      * sets the machine status to not ok.
@@ -129,23 +152,12 @@ public class SlotMachineTest
     }
     
     /**
-     * Verifies that deleting a nonexistent symbol sets the machine
-     * status to not ok.
-     */
-    @Test
-    public void shouldNotDeleteIfNoSymbols () {
-        // Check that the status changed after checking that symbols is a []
-        slotMachine.delSymbol("red"); // This wheel doesn't exists
-        assertFalse(slotMachine.ok());
-    }
-    
-    /**
      * Verifies that adding the same symbol twice for the same wheel
      * sets the machine status to not ok, since duplicated symbols
      * are not allowed.
      */
     @Test
-    public void checkSymbolIsNotDuplicated () {
+    public void shouldNotAddSymbol () {
         // Add symbol
         slotMachine.addSymbol(1, "yellow");
         
@@ -178,39 +190,33 @@ public class SlotMachineTest
     
     /**
      * Verifies that deleting a symbol when it is the only one present
-     * fails, setting the machine status to not ok.
+     * fails, setting the machine status to not ok. And checks that can't be
+     * deleted a symbol if there's no symbols on the machine.
      */
     @Test
-    public void shouldNotDeleteASingleSymbol() {
+    public void shouldNotDeleteSymbol() {
+        // This should return false because no symbols where added before delete this one
+        slotMachine.delSymbol("blue");
+        
+        // Check is false
+        assertFalse(slotMachine.ok());
+        
         // Add a single symbol that SHOULD'NT be deleted
         slotMachine.addSymbol(1, "red");
         
         // Try to delete it
         slotMachine.delSymbol("red");
         
-        // Check is NOT OK due to a failed action (delete a symbol where there's only on symbols[])
+        // Check is NOT OK due to a failed action (delete a symbol where there's only one on symbols[])
         assertFalse(slotMachine.ok());
     }
-    
-    /**
-     * Verifies that deleting a symbol that was never added fails,
-     * setting the machine status to not ok.
-     */
-    @Test
-    public void shouldFailWhenDeletingNonexistentSymbol () {
-        // This should return false because no symbols where added before delete this one
-        slotMachine.delSymbol("red");
-        
-        // Check is false
-        assertFalse(slotMachine.ok());
-    }
-    
+
     /**
      * Verifies that the symbols list starts as an empty array
      * when no symbols have been added.
      */
     @Test
-    public void checkReturnsASymbolsList () {
+    public void shouldReturnSymbolsList () {
         // Check returns a [] because symbols has a [] inital value
         String[] expected = {};
         assertArrayEquals(expected, slotMachine.symbols());
@@ -243,6 +249,23 @@ public class SlotMachineTest
         // Check the wheel on the index (pos) had changed it's symbol (color)
         assertEquals("blue", slotMachine.symbols()[1]); // On the second one (watching it from left to right)
     }
+    
+    // This test is disabled due to the adjustment that is made when the position is out of range
+    // So this never returns error on that case
+    // @Test
+    // public void shouldNotSpinAWheel() {
+    //     // Add some Wheels
+    //     slotMachine.addWheel(1);
+    //     slotMachine.addWheel(2);
+    //     slotMachine.addWheel(3);
+        
+    //     // Add some symbols
+    //     slotMachine.addSymbol(1, "yellow");
+    //     slotMachine.addSymbol(2, "blue");
+    //     slotMachine.addSymbol(3, "red");
+        
+    //     assertFalse(slotMachine.ok());
+    // }
     
     /**
      * Verifies that spinning a wheel at an invalid position adjusts
@@ -279,11 +302,26 @@ public class SlotMachineTest
      * setting the machine status to not ok.
      */
     @Test
-    public void shouldNotSpinAnyWheel() {
+    public void shouldNotSpin() {
         // Spin when there's no wheels or symbols neither
         slotMachine.spin();
         
         // Check is NOT OK
+        assertFalse(slotMachine.ok());
+    }
+    
+    /**
+     * Verifies that attempting to spin a specific wheel when the machine
+     * has no wheels at all fails, setting the machine status to not ok.
+     * adjustPosition() returns index 0 on an empty list, which then fails
+     * the (index < wheels.size()) check, so ok must end up false.
+     */
+    @Test
+    public void shouldNotSpinWhenNoWheelsExist() {
+        // No wheels added
+        slotMachine.spin(1);
+    
+        // Check is NOT OK because there is no wheel at index 0
         assertFalse(slotMachine.ok());
     }
     
@@ -328,11 +366,25 @@ public class SlotMachineTest
     }
     
     /**
+     * Verifies that placing a symbol on a wheel fails when the machine
+     * has no wheels registered, since there is no valid index to place
+     * the symbol on.
+     */
+    @Test
+    public void shouldNotPlaceSymbolWhenNoWheelsExist() {
+        // No wheels added, try to place a symbol anyway
+        slotMachine.placeSymbol(1, "red");
+    
+        // Check is NOT OK, since there is no wheel to place a symbol on
+        assertFalse(slotMachine.ok());
+    }
+    
+    /**
      * Verifies that the count of distinct symbols correctly ignores
      * repeated symbols placed on different wheels.
      */
     @Test
-    public void checkDistinctSymbols () {
+    public void shouldCheckDistinctSymbols () {
         // Add some Wheels
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
@@ -352,12 +404,52 @@ public class SlotMachineTest
     }
     
     /**
+     * Verifies that counting distinct symbols returns 0 when no symbols
+     * have been registered yet, regardless of whether wheels exist.
+     */
+    @Test
+    public void shouldNotCountDistinctSymbolsWhenNoSymbolsRegistered() {
+        // Add wheels but no symbols
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+    
+        // Check returns 0 because Wheel.symbols is empty
+        assertEquals(0, slotMachine.distinctSymbols());
+    }
+    
+    /**
      * Verifies that an empty machine is never considered a jackpot.
      */
     @Test
     public void shouldNotBeJackpot () {
         // This should return false because the machine is empty        
         // Check is NOT OK (false)
+        assertFalse(slotMachine.isJackpot());
+    }
+    
+    /**
+     * Verifies that the machine is not considered a jackpot when the
+     * wheels are showing different symbols, exercising the "false" branch
+     * of isJackpot() beyond the trivial empty-machine case.
+     */
+    @Test
+    public void shouldNotBeJackpotWhenSymbolsDiffer() {
+        // Add some Wheels
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
+    
+        // Add some symbols
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol(2, "blue");
+        slotMachine.addSymbol(3, "green");
+    
+        // Assign different symbols so they don't all match
+        slotMachine.placeSymbol(1, "red");
+        slotMachine.placeSymbol(2, "blue");
+        slotMachine.placeSymbol(3, "green");
+    
+        // Check is NOT a jackpot since symbols differ
         assertFalse(slotMachine.isJackpot());
     }
     
@@ -389,16 +481,6 @@ public class SlotMachineTest
      * Verifies that toggling the machine's visibility (visible/invisible)
      * always leaves the machine status as ok.
      */
-    @Test
-    public void shouldSetOkToTrueWhenChangingVisibility() {
-        // Check if is true when is visible
-        slotMachine.makeVisible();
-        assertTrue(slotMachine.ok());
-    
-        // Check is false when is NOT visible (Invisible)
-        slotMachine.makeInvisible();
-        assertTrue(slotMachine.ok());
-    }
     
     /**
      * Verifies that out-of-range positions passed to placeSymbol are

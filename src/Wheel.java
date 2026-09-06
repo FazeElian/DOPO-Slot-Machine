@@ -111,12 +111,6 @@ public class Wheel {
         refreshShape();
     }
 
-    public void spin(int steps){
-        currentIndex += steps;
-        currentIndex %= symbols.size();
-        refreshShape();
-    }
-
     /**
      * Return the symbol located on the current index
      */
@@ -221,11 +215,32 @@ public class Wheel {
         accommodate(newPosX, newPosY);
     }
 
+    // Pauses execution briefly so the step-by-step movement can be visibly evidenced
+    private void pause(){
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void slowMoveHorizontal(int distance) {
+        slot.moveHorizontal(distance);
+        visibleShape.moveHorizontal(distance);
+        pause();
+    }
+
+    public void slowMoveVertical(int distance) {
+        slot.moveVertical(distance);
+        visibleShape.moveVertical(distance);
+        pause();
+    }
+
     /**
      * Returns the index of the symbol on the array according to its value
      * @param symbols string value of the symbol
      */
-    public int getIndexOfSymbol(String symbol) {
+    public static int getIndexOfSymbol(String symbol) {
         return symbols.indexOf(symbol);
     }
 }
