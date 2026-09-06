@@ -72,7 +72,7 @@ public class Wheel {
      * @param color string value of the symbol's color
      */
     public void delSymbol(String color){
-        int index = symbols.indexOf(color);
+        int index = getIndexOfSymbol(color);
         if (symbols.size()>1){
             if (currentIndex == index){
                 if (currentIndex == 0){
@@ -90,7 +90,7 @@ public class Wheel {
      * @param color string value of the symbol's color
      */
     public void placeSymbol(String color){
-        int index = symbols.indexOf(color);
+        int index = getIndexOfSymbol(color);
         if (index != -1) currentIndex = index;
         else {
             MessageUtil.showError("Ese símbolo no existe, añádelo e intenta de nuevo.");
@@ -108,6 +108,12 @@ public class Wheel {
         }else{
             currentIndex += 1;
         }
+        refreshShape();
+    }
+
+    public void spin(int steps){
+        currentIndex += steps;
+        currentIndex %= symbols.size();
         refreshShape();
     }
 
@@ -213,5 +219,13 @@ public class Wheel {
             }
         }
         accommodate(newPosX, newPosY);
+    }
+
+    /**
+     * Returns the index of the symbol on the array according to its value
+     * @param symbols string value of the symbol
+     */
+    public int getIndexOfSymbol(String symbol) {
+        return symbols.indexOf(symbol);
     }
 }
