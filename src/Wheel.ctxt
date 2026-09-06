@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Sep 06 15:28:07 COT 2026
+#Sun Sep 06 16:59:05 COT 2026
 comment0.target=Wheel
 comment0.text=\n Represents a single wheel of the slot machine.\n Each wheel owns its own list of symbols and its visual \n representation\: a background Rectangle (slot) and a Traingle\n that shows the currently visible symbol (visibleShape). Both\n shapes are created once, with a fixed size; only their color changes when the wheel spins\n \n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.params=posX posY
@@ -19,6 +19,9 @@ comment14.target=void slowMoveVertical(int)
 comment15.params=symbol
 comment15.target=int getIndexOfSymbol(java.lang.String)
 comment15.text=\n Returns the index of the symbol on the array according to its value\n @param symbols string value of the symbol\n
+comment16.params=posX posY
+comment16.target=void setLocation(int, int)
+comment16.text=\n Modify the coordiinates of the wheel to the new values\n @param posX the new position in X axis of the board\n @param posY the new position in Y axis of the board\n
 comment2.params=index
 comment2.target=void addSymbol(int)
 comment2.text=\n Adds a symbol to the symbols array for all\n the wheels of the board\n @param pos\n @param color\n
@@ -38,4 +41,4 @@ comment8.target=void makeInvisible()
 comment8.text=\n Hide the wheel\: the symbol and the slot which it\n is located\n
 comment9.target=void refreshShape()
 comment9.text=\n Updates the color of the visible shape on the screen\n according to the symbol that is located on the \n current index\n
-numComments=16
+numComments=17

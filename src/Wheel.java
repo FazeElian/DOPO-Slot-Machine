@@ -249,7 +249,8 @@ public class Wheel {
      * @param posX the new position in X axis of the board
      * @param posY the new position in Y axis of the board
      */
-    public void setPosition(int posX, int posY) {
+    public void setLocation(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-    }   
+    }
+}
