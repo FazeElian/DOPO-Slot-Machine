@@ -215,6 +215,27 @@ public class Wheel {
         accommodate(newPosX, newPosY);
     }
 
+    // Pauses execution briefly so the step-by-step movement can be visibly evidenced
+    private void pause(){
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void slowMoveHorizontal(int distance) {
+        slot.moveHorizontal(distance);
+        visibleShape.moveHorizontal(distance);
+        pause();
+    }
+
+    public void slowMoveVertical(int distance) {
+        slot.moveVertical(distance);
+        visibleShape.moveVertical(distance);
+        pause();
+    }
+
     /**
      * Returns the index of the symbol on the array according to its value
      * @param symbols string value of the symbol

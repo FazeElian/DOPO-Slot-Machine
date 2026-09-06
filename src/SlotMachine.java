@@ -291,37 +291,35 @@ public class SlotMachine {
      * @param wheel2 position of the second wheel
      */
     public void swap(int wheel1, int wheel2) {
-        if (wheel1 < 1 || wheel1 > wheels.size() || wheel2 < 1 || wheel2 > wheels.size()) {
-            MessageUtil.showError("No existe esa rueda, intenta de nuevo");
-            ok = false;
-            return;
-        }
-
-        if (lockedWheels.contains(wheel1) || lockedWheels.contains(wheel2)) {
-            MessageUtil.showError("Una de las ruedas está bloqueada, no puede intercambiarse");
-            ok = false;
-            return;
-        }
-
-        int i1 = wheel1 - 1;
-        int i2 = wheel2 - 1;
-
-        int distance = Math.abs(wheel2 - wheel1);
-        int dir1 = (wheel2 > wheel1) ? 1 : -1;
-        int dir2 = -dir1;
-
-        Wheel w1 = wheels.get(i1);
-        Wheel w2 = wheels.get(i2);
-
-        for (int i = 0; i < distance; i++) {
-            w1.accommodate(dir1);
-            w2.accommodate(dir2);
-        }
-
-        wheels.set(i1, w2);
-        wheels.set(i2, w1);
-        ok = true;
+        int i1 = adjustPosition(wheel1);
+        int i2 = adjustPosition(wheel2);
+        animateSwap(i1, i2);
+        Wheel temp = wheels.get(i1);
+        wheels.set(i1, wheels.get(i2));
+        wheels.set(i2, temp);
     }
+
+    // Makes an animation when a swaps occures, step by step using pause
+    private void animateSwap(int posWheel1, int posWheel2) {
+        Wheel w1 = wheels.get(posWheel1);
+        Wheel w2 = wheels.get(posWheel2);
+        int cellStep = Wheel.CELL_SIZE + Wheel.GAP;
+        int distance = (posWheel2 - posWheel1) * cellStep;
+        
+        // Move both vertical at the same time
+        w1.slowMoveVertical(Wheel.CELL_SIZE);
+        w2.slowMoveVertical(-Wheel.CELL_SIZE);
+
+        // Move both horizontal at the same time
+        w1.slowMoveHorizontal(distance);
+        w2.slowMoveHorizontal(-distance);
+
+        // Move it to come back vertically to the UI position of the another
+        w1.slowMoveVertical(-Wheel.CELL_SIZE);
+        w2.slowMoveVertical(Wheel.CELL_SIZE);
+    }
+
+
    // MINI-CYCLE 3 – Spin and query result
 
     /**
@@ -624,10 +622,10 @@ public class SlotMachine {
     // Pauses execution briefly so the step-by-step movement can be visibly evidenced
     private void pause(){
         try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private void winnerAppearance(){
@@ -637,6 +635,4 @@ public class SlotMachine {
                 MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
             }
     } 
-
-    
 }

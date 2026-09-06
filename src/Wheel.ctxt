@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Sep 06 09:47:12 COT 2026
+#Sun Sep 06 11:58:09 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Represents a single wheel of the slot machine.\r\n Each wheel owns its own list of symbols and its visual \r\n representation\: a background Rectangle (slot) and a Traingle\r\n that shows the currently visible symbol (visibleShape). Both\r\n shapes are created once, with a fixed size; only their color changes when the wheel spins\r\n \r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.params=posX posY
@@ -11,9 +11,13 @@ comment10.text=\r\n Repositions the slot and its associated visual shape on the 
 comment11.params=move
 comment11.target=void accommodate(int)
 comment11.text=\r\n Moves this wheel one grid position forward (move \=\= 1) or\r\n backward (move \=\= -1), wrapping to the next/previous row\r\n when it falls off the edge of the grid. Delegates to\r\n accommodate(int, int) with the newly computed position.\r\n
-comment12.params=symbol
-comment12.target=int getIndexOfSymbol(java.lang.String)
-comment12.text=\r\n Returns the index of the symbol on the array according to its value\r\n @param symbols string value of the symbol\r\n
+comment12.params=distance
+comment12.target=void slowMoveHorizontal(int)
+comment13.params=distance
+comment13.target=void slowMoveVertical(int)
+comment14.params=symbol
+comment14.target=int getIndexOfSymbol(java.lang.String)
+comment14.text=\r\n Returns the index of the symbol on the array according to its value\r\n @param symbols string value of the symbol\r\n
 comment2.params=index
 comment2.target=void addSymbol(int)
 comment2.text=\r\n Adds a symbol to the symbols array for all\r\n the wheels of the board\r\n @param pos\r\n @param color\r\n
@@ -33,4 +37,4 @@ comment8.target=void makeInvisible()
 comment8.text=\r\n Hide the wheel\: the symbol and the slot which it\r\n is located\r\n
 comment9.target=void refreshShape()
 comment9.text=\r\n Updates the color of the visible shape on the screen\r\n according to the symbol that is located on the \r\n current index\r\n
-numComments=13
+numComments=15
