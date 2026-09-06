@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Sep 06 11:12:41 COT 2026
+#Sun Sep 06 12:15:21 COT 2026
 comment0.target=SlotMachineTest
 comment0.text=\r\n The test class SlotMachineTest.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.1\r\n
 comment1.target=SlotMachineTest()
@@ -34,9 +34,8 @@ comment22.target=void shouldBeJackpot()
 comment22.text=\r\n Verifies that spinning all wheels when they share the same\r\n symbol results in a jackpot, keeping the machine status ok.\r\n
 comment23.target=void shouldHandlePositionAdjustmentsInOperations()
 comment23.text=\r\n Verifies that out-of-range positions passed to placeSymbol are\r\n adjusted to the nearest valid index (zero for positions below\r\n range, the last index for positions above range), keeping the\r\n machine status ok.\r\n
-comment24.target=void shouldLockAndUnlockAnExistingWheel()
-comment25.target=void tearDown()
-comment25.text=\r\n Tears down the test case.\r\n\r\n Called after every test case method.\r\n
+comment24.target=void tearDown()
+comment24.text=\r\n Tears down the test case.\r\n\r\n Called after every test case method.\r\n
 comment3.target=void shouldAddWheelInAValidPos()
 comment3.text=\r\n Verifies that a wheel can be added at a valid position and that\r\n the machine status remains ok.\r\n
 comment4.target=void shouldAddWheelInAInvalidPos()
@@ -51,4 +50,4 @@ comment8.target=void shouldAddSymbol()
 comment8.text=\r\n Verifies that a symbol can be added both when the wheels list is\r\n empty and after wheels have been added, keeping the machine status ok.\r\n
 comment9.target=void shouldNotDeleteIfNoSymbols()
 comment9.text=\r\n Verifies that deleting a nonexistent symbol sets the machine\r\n status to not ok.\r\n
-numComments=26
+numComments=25
