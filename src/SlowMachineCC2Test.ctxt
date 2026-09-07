@@ -1,0 +1,29 @@
+#BlueJ class context
+#Sun Sep 06 22:49:44 COT 2026
+comment0.target=SlowMachineCC2Test
+comment0.text=\r\n The test class SlowMachineCC2Test.\r\n\r\n @author  DOPO-2026-02\r\n @version 1.0\r\n
+comment1.target=SlowMachineCC2Test()
+comment1.text=\r\n Default constructor for test class SlowMachineCC2Test\r\n
+comment10.target=void shouldKeepDistinctSymbolCountAfterSwapWithPlacedSymbols()
+comment10.text=\r\n Verifica que el intercambio de ruedas no altere el catalogo de\r\n simbolos distintos reportado por la maquina.\r\n
+comment11.target=void lockedWheelShouldNotSpin()
+comment11.text=Una rueda fijada no debe girar
+comment12.target=void shouldNotAllowSpinningALockedWheel()
+comment12.text=\r\n Una rueda fija no deber\u00EDa poder girar.\r\n
+comment2.target=void setUp()
+comment2.text=\r\n Sets up the test fixture.\r\n\r\n Called before every test case method.\r\n
+comment3.target=void tearDown()
+comment3.text=\r\n Tears down the test fixture.\r\n\r\n Called after every test case method.\r\n
+comment4.target=void shouldNotSwap()
+comment4.text=\r\n Verifies that attempting to swap two wheels fails when one of\r\n them is locked, setting the machine status to not ok.\r\n
+comment5.target=void shouldNotChangeConfigurationWhenWheelIsLocked()
+comment5.text=\r\n Verifica que, tras bloquear una rueda con lock(), llamar a\r\n spin(wheel, steps) no altera lo que esa rueda muestra en\r\n configuration().\r\n
+comment6.target=void shouldChangeConfigurationWhenWheelIsUnlockedAfterLock()
+comment6.text=\r\n Verificar que, tras bloquear y luego desbloquear una rueda\r\n (lock() seguido de unlock()), spin(wheel, steps) s\u00ED puede\r\n cambiar lo que esa rueda muestra.\r\n
+comment7.target=void shouldNotSwapWhenAWheelIsLocked()
+comment7.text=\r\n QUE NO DEBERIA HACER\: intercambiar dos ruedas cuando una de ellas\r\n esta fija (lock). La operacion debe fallar y dejar ok() en false,\r\n sin alterar la configuracion de ninguna rueda.\r\n
+comment8.target=void shouldLockWheel()
+comment8.text=\r\n Prueba que una rueda existente pueda ser bloqueada correctamente.\r\n La maquina debe permitir bloquear una rueda que existe.\r\n La operacion debe realizarse correctamente y ok() debe retornar true.\r\n
+comment9.target=void addSymbolShouldFailWhenColorAlreadyExists()
+comment9.text=Adding a color that already exists on a wheel should fail
+numComments=13
