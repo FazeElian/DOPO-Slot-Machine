@@ -132,7 +132,7 @@ public class SlotMachine {
 
         // Grid limit: 14 x 9 = 126 wheels
         if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
-            MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
+            if(visible) if(visible) MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
             ok = false;
             return;
         }
@@ -168,7 +168,7 @@ public class SlotMachine {
     public void delWheel(int pos) {
         if (wheels.isEmpty()) {
             ok = false;
-            MessageUtil.showError("No hay ruedas para eliminar");
+            if(visible) MessageUtil.showError("No hay ruedas para eliminar");
             return;
         }
 
@@ -189,12 +189,12 @@ public class SlotMachine {
      */
     public void lock(int wheel) {
         if (wheel < 1 || wheel > wheels.size()) {
-            MessageUtil.showError("No existe esa rueda, intenta de nuevo");
+            if(visible) MessageUtil.showError("No existe esa rueda, intenta de nuevo");
             ok = false;
             return;
         }
         if (lockedWheels.contains(wheel)) {
-            MessageUtil.showError("Esa rueda ya está bloqueada");
+            if(visible) MessageUtil.showError("Esa rueda ya está bloqueada");
             ok = false;
             return;
         }
@@ -208,7 +208,7 @@ public class SlotMachine {
      */
     public void unlock(int wheel) {
         if (!lockedWheels.contains(wheel)) {
-            MessageUtil.showError("Esa rueda no estaba bloqueada");
+            if(visible) MessageUtil.showError("Esa rueda no estaba bloqueada");
             ok = false;
             return;
         }
@@ -246,7 +246,7 @@ public class SlotMachine {
             }
         } else {
             ok = false;
-            MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
+            if(visible) MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
         }
     }
 
@@ -258,7 +258,7 @@ public class SlotMachine {
      */
     public void delSymbol(String color) {
         if (!Wheel.symbols.contains(color)) {
-            MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
+            if(visible) MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
             ok = false;
             return;
         }
@@ -269,7 +269,7 @@ public class SlotMachine {
             Wheel.symbols.remove(color);
             ok = true;
         } else {
-            MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
+            if(visible) MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
             ok = false;
         }
     }
@@ -295,12 +295,12 @@ public class SlotMachine {
         int i2 = adjustPosition(wheel2);
 
         if (lockedWheels.contains(wheel1)) {
-            MessageUtil.showError("La primera rueda no puede intercambiarse, está bloqueada.");
+            if(visible) MessageUtil.showError("La primera rueda no puede intercambiarse, está bloqueada.");
             ok = false;
             return;
         }
         if (lockedWheels.contains(wheel2)) {
-            MessageUtil.showError("La segunda rueda no puede intercambiarse, está bloqueada.");
+            if(visible) MessageUtil.showError("La segunda rueda no puede intercambiarse, está bloqueada.");
             ok = false;
             return;
         }
@@ -343,7 +343,7 @@ public class SlotMachine {
      */
     public void spin(int wheelPos) {
         if (lockedWheels.contains(wheelPos)) {
-            MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
+            if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
             return;
         }
@@ -355,7 +355,7 @@ public class SlotMachine {
             winnerAppearance();
             ok = true;
         } else {
-            MessageUtil.showError("No existe esa rueda en la maquina");
+            if(visible) MessageUtil.showError("No existe esa rueda en la maquina");
             ok = false;
             return;
         }
@@ -369,12 +369,12 @@ public class SlotMachine {
     public void spin() {
         animateLever();
         if (wheels.isEmpty()) {
-            MessageUtil.showError("No hay ruedas por girar");
+            if(visible) MessageUtil.showError("No hay ruedas por girar");
             ok = false;
             return;
         }
         if (!lockedWheels.isEmpty()){
-            MessageUtil.showError("Algunas ruedas estan bloqueadas");
+            if(visible) MessageUtil.showError("Algunas ruedas estan bloqueadas");
             ok = false;
             return;
         }
@@ -399,7 +399,7 @@ public class SlotMachine {
             winnerAppearance();
             ok = true;
         } else {
-            MessageUtil.showError("No existe esa rueda, intenta de nuevo");
+            if(visible) MessageUtil.showError("No existe esa rueda, intenta de nuevo");
             ok = false;
         }
     }
@@ -419,7 +419,7 @@ public class SlotMachine {
             ok = true;
             return config;
         } else {
-            MessageUtil.showError("No existen símbolos aún");
+            if(visible) MessageUtil.showError("No existen símbolos aún");
             return new String[0];
         }
     }
@@ -439,7 +439,7 @@ public class SlotMachine {
             ok = true;
             return uniqueSymbols.size();
         } else {
-            MessageUtil.showError("No existen símbolos aún");
+            if(visible) if(visible) MessageUtil.showError("No existen símbolos aún");
             return 0;
         }
     }
@@ -466,7 +466,7 @@ public class SlotMachine {
             ok = true;
             return true;
         } else {
-            MessageUtil.showError("No existen símbolos aún");
+            if(visible) MessageUtil.showError("No existen símbolos aún");
             ok = false;
             return false;
         }
@@ -479,7 +479,7 @@ public class SlotMachine {
      */
     public void spin(int wheel, int steps) {
         if (lockedWheels.contains(wheel)) {
-            MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
+            if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
             return;
         }
@@ -502,13 +502,13 @@ public class SlotMachine {
      */
     public void spin(String[] setSymbols) {
         if (!lockedWheels.isEmpty()){
-            MessageUtil.showError("Algunas ruedas estan bloqueadas");
+            if(visible) MessageUtil.showError("Algunas ruedas estan bloqueadas");
             ok = false;
             return;
         }
 
         if (setSymbols.length != wheels.size()) {
-            MessageUtil.showError("No tiene los simbolos suficientes para las ruedas de la maquina");
+            if(visible) MessageUtil.showError("No tiene los simbolos suficientes para las ruedas de la maquina");
             ok = false;
             return;
         }
@@ -547,7 +547,7 @@ public class SlotMachine {
         base.makeInvisible();
         leverArm.makeInvisible();
         lever.makeInvisible();
-        visible =  true;
+        visible = false;
         ok = true;
     }
 
@@ -646,7 +646,7 @@ public class SlotMachine {
         if (isJackpot() && visible) {
                 board.changeColor("gold");
                 makeVisible();
-                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+                if(visible) MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
             }
     } 
 }
