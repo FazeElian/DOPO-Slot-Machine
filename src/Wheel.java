@@ -93,7 +93,7 @@ public class Wheel {
         int index = getIndexOfSymbol(color);
         if (index != -1) currentIndex = index;
         else {
-            MessageUtil.showError("Ese símbolo no existe, añádelo e intenta de nuevo.");
+            if (visible)MessageUtil.showError("Ese símbolo no existe, añádelo e intenta de nuevo.");
         }
         refreshShape();
     }
