@@ -49,7 +49,8 @@ public class SlotMachine {
     private int leverArmY = 0;
     // Tracks current X of the lever arm to compute deltas on each resize
     private int leverArmX = 0;
-
+    // Tracks whether the machine is currently visible, to decide if spins/swaps should animate
+    private boolean visible = false;
     // List of indexes of the locked wheels
     private static ArrayList<Integer> lockedWheels = new ArrayList<>();
 
@@ -80,7 +81,6 @@ public class SlotMachine {
         this.board.moveHorizontal(boardX);
         this.board.moveVertical(boardY);
         this.board.changeSize(defaultHeight, defaultWidth);
-        this.board.makeVisible();
 
         // Base: black bar 10px tall, sticks out 5px on each side of the board,
         // anchored to the bottom edge of the board
@@ -90,7 +90,6 @@ public class SlotMachine {
         this.base.changeSize(10, defaultWidth + 10);
         this.base.moveHorizontal(boardX - 5);
         this.base.moveVertical(baseY);
-        this.base.makeVisible();
 
         // Arm: horizontally exits right edge of board, vertically at mid-board
         // so it connects with the bottom of the lever
@@ -102,7 +101,6 @@ public class SlotMachine {
         this.leverArm.changeSize(armHeight, armWidth);
         this.leverArm.moveHorizontal(boardX + defaultWidth);
         this.leverArm.moveVertical(leverArmY);
-        this.leverArm.makeVisible();
         leverArmX = boardX + defaultWidth;
 
         // Lever: starts at mid-board going upward, bottom edge aligned with arm
@@ -114,7 +112,6 @@ public class SlotMachine {
         this.lever.changeSize(defaultHeight / 2, 25);
         this.lever.moveHorizontal(leverX);
         this.lever.moveVertical(leverY);
-        this.lever.makeVisible();
 
         this.ok = true;
     }
@@ -135,7 +132,7 @@ public class SlotMachine {
 
         // Grid limit: 14 x 9 = 126 wheels
         if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
-            MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
+            if(visible) MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
             ok = false;
             return;
         }
@@ -171,7 +168,7 @@ public class SlotMachine {
     public void delWheel(int pos) {
         if (wheels.isEmpty()) {
             ok = false;
-            MessageUtil.showError("No hay ruedas para eliminar");
+            if(visible) MessageUtil.showError("No hay ruedas para eliminar");
             return;
         }
 
@@ -184,6 +181,38 @@ public class SlotMachine {
         }
 
         updateBoardSize();
+        ok = true;
+    }
+    /**
+     * Lock a specific wheel so it cannot be spun.
+     * @param wheel 1-based position of the wheel to lock
+     */
+    public void lock(int wheel) {
+        if (wheel < 1 || wheel > wheels.size()) {
+            if(visible) MessageUtil.showError("No existe esa rueda, intenta de nuevo");
+            ok = false;
+            return;
+        }
+        if (lockedWheels.contains(wheel)) {
+            if(visible) MessageUtil.showError("Esa rueda ya está bloqueada");
+            ok = false;
+            return;
+        }
+        lockedWheels.add(wheel);
+        ok = true;
+    }
+
+    /**
+     * Unlock a specific wheel so it can be spun again.
+     * @param wheel 1-based position of the wheel to unlock
+     */
+    public void unlock(int wheel) {
+        if (!lockedWheels.contains(wheel)) {
+            if(visible) MessageUtil.showError("Esa rueda no estaba bloqueada");
+            ok = false;
+            return;
+        }
+        lockedWheels.remove(Integer.valueOf(wheel));
         ok = true;
     }
 
@@ -217,7 +246,7 @@ public class SlotMachine {
             }
         } else {
             ok = false;
-            MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
+            if(visible) MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
         }
     }
 
@@ -229,7 +258,7 @@ public class SlotMachine {
      */
     public void delSymbol(String color) {
         if (!Wheel.symbols.contains(color)) {
-            MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
+            if(visible) MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
             ok = false;
             return;
         }
@@ -240,7 +269,7 @@ public class SlotMachine {
             Wheel.symbols.remove(color);
             ok = true;
         } else {
-            MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
+            if(visible) MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
             ok = false;
         }
     }
@@ -254,6 +283,56 @@ public class SlotMachine {
         return Wheel.symbols.toArray(String[]::new);
     }
 
+    /**
+     * Swap two wheels based on their 1-based positions.
+     * Both positions must correspond to existing wheels; otherwise the
+     * operation fails and shows an error.
+     * @param wheel1 position of the first wheel
+     * @param wheel2 position of the second wheel
+     */
+    public void swap(int wheel1, int wheel2) {
+        int i1 = adjustPosition(wheel1);
+        int i2 = adjustPosition(wheel2);
+
+        if (lockedWheels.contains(wheel1)) {
+            if(visible) MessageUtil.showError("La primera rueda no puede intercambiarse, está bloqueada.");
+            ok = false;
+            return;
+        }
+        if (lockedWheels.contains(wheel2)) {
+            if(visible) MessageUtil.showError("La segunda rueda no puede intercambiarse, está bloqueada.");
+            ok = false;
+            return;
+        }
+
+        Wheel w1 = wheels.get(i1);
+        Wheel w2 = wheels.get(i2);
+
+        // Misma fórmula que usa addWheel para calcular posX/posY (1-based)
+        int posX1 = ((wheel1 - 1) % MAX_COLUMNS) + 1;
+        int posY1 = ((wheel1 - 1) / MAX_COLUMNS) + 1;
+        int posX2 = ((wheel2 - 1) % MAX_COLUMNS) + 1;
+        int posY2 = ((wheel2 - 1) / MAX_COLUMNS) + 1;
+
+        animateSwap(w1, w2, posX1, posY1, posX2, posY2);
+
+        // Each wheel is moved to the other's position, then the list is updated to reflect the swap
+        w1.setLocation(posX2, posY2);
+        w2.setLocation(posX1, posY1);
+
+        Wheel temp = wheels.get(i1);
+        wheels.set(i1, wheels.get(i2));
+        wheels.set(i2, temp);
+        ok = true;
+    }
+        // Small visual "hop" so the movement is noticeable before the final setLocation
+        private void animateSwap(Wheel w1, Wheel w2, int posX1, int posY1, int posX2, int posY2) {
+            int hop = 10;
+            w1.slowMoveVertical(-hop);
+            w2.slowMoveVertical(-hop);
+            w1.slowMoveVertical(hop);
+            w2.slowMoveVertical(hop);
+        }
    // MINI-CYCLE 3 – Spin and query result
 
     /**
@@ -264,7 +343,8 @@ public class SlotMachine {
      */
     public void spin(int wheelPos) {
         if (lockedWheels.contains(wheelPos)) {
-            MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
+            if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
+            ok = false;
             return;
         }
 
@@ -272,15 +352,12 @@ public class SlotMachine {
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
             wheels.get(index).spin();
-            if (isJackpot()) {
-                board.changeColor("gold");
-                makeVisible();
-                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
-            }
+            winnerAppearance();
             ok = true;
         } else {
-            MessageUtil.showError("No existe esa rueda en la maquina");
+            if(visible) MessageUtil.showError("No existe esa rueda en la maquina");
             ok = false;
+            return;
         }
     }
 
@@ -292,18 +369,19 @@ public class SlotMachine {
     public void spin() {
         animateLever();
         if (wheels.isEmpty()) {
-            MessageUtil.showError("No hay ruedas por girar");
+            if(visible) MessageUtil.showError("No hay ruedas por girar");
+            ok = false;
+            return;
+        }
+        if (!lockedWheels.isEmpty()){
+            if(visible) MessageUtil.showError("Algunas ruedas estan bloqueadas");
             ok = false;
             return;
         }
         for (Wheel wheel : wheels) {
             wheel.spin();
         }
-        if (isJackpot()) {
-            board.changeColor("gold");
-            makeVisible();
-            MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
-        }
+        winnerAppearance();
         ok = true;
     }
 
@@ -318,14 +396,10 @@ public class SlotMachine {
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
             wheels.get(index).placeSymbol(symbol);
-            if (isJackpot()) {
-                board.changeColor("gold");
-                makeVisible();
-                MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
-            }
+            winnerAppearance();
             ok = true;
         } else {
-            MessageUtil.showError("No existe esa rueda, intenta de nuevo");
+            if(visible) MessageUtil.showError("No existe esa rueda, intenta de nuevo");
             ok = false;
         }
     }
@@ -345,7 +419,7 @@ public class SlotMachine {
             ok = true;
             return config;
         } else {
-            MessageUtil.showError("No existen símbolos aún");
+            if(visible) MessageUtil.showError("No existen símbolos aún");
             return new String[0];
         }
     }
@@ -365,7 +439,7 @@ public class SlotMachine {
             ok = true;
             return uniqueSymbols.size();
         } else {
-            MessageUtil.showError("No existen símbolos aún");
+            if(visible) if(visible) MessageUtil.showError("No existen símbolos aún");
             return 0;
         }
     }
@@ -392,12 +466,58 @@ public class SlotMachine {
             ok = true;
             return true;
         } else {
-            MessageUtil.showError("No existen símbolos aún");
+            if(visible) MessageUtil.showError("No existen símbolos aún");
             ok = false;
             return false;
         }
     }
+    /**
+     * Spin a specific wheel a given number of steps.
+     * If the machine is visible, the movement is animated step by step.
+     * @param wheel 1-based position of the wheel
+     * @param steps number of times to advance the symbol
+     */
+    public void spin(int wheel, int steps) {
+        if (lockedWheels.contains(wheel)) {
+            if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
+            ok = false;
+            return;
+        }
+        animateLever();
+        int pos = adjustPosition(wheel);
 
+        for (int i = 0; i < steps; i++) {
+            wheels.get(pos).spin();
+            if (visible) {
+                pause();
+            }
+        }
+        winnerAppearance();
+        ok = true;
+    }
+
+    /**
+     * Set a specific symbol configuration for all wheels.
+     * @param setSymbols array of symbols, one per wheel in order
+     */
+    public void spin(String[] setSymbols) {
+        if (!lockedWheels.isEmpty()){
+            if(visible) MessageUtil.showError("Algunas ruedas estan bloqueadas");
+            ok = false;
+            return;
+        }
+
+        if (setSymbols.length != wheels.size()) {
+            if(visible) MessageUtil.showError("No tiene los simbolos suficientes para las ruedas de la maquina");
+            ok = false;
+            return;
+        }
+        for (int i = 0; i < wheels.size(); i++) {
+            wheels.get(i).placeSymbol(setSymbols[i]);
+        }
+        winnerAppearance();
+        ok = true;
+    }
     // MINI-CYCLE 4 – Usability and visibility
 
     /**
@@ -411,6 +531,7 @@ public class SlotMachine {
         for (Wheel wheel : wheels) {
             wheel.makeVisible();
         }
+        visible = true;
         ok = true;
     }
     
@@ -426,6 +547,7 @@ public class SlotMachine {
         base.makeInvisible();
         leverArm.makeInvisible();
         lever.makeInvisible();
+        visible = false;
         ok = true;
     }
 
@@ -474,10 +596,8 @@ public class SlotMachine {
 
         // Base: follows the bottom edge of the board using a vertical delta
         int newBaseY = boardY + totalHeight;
-        base.makeInvisible();
         base.moveVertical(newBaseY - baseY);
         base.changeSize(30, totalWidth + 10);
-        base.makeVisible();
         baseY = newBaseY;
 
         // Arm: sits just above the base (flush with the bottom of the board);
@@ -487,11 +607,9 @@ public class SlotMachine {
         int armWidth  = 20;
         int newLeverArmY = boardY + (totalHeight / 2) - (armHeight / 2);
         int newLeverArmX = boardX + totalWidth;
-        leverArm.makeInvisible();
         leverArm.moveVertical(newLeverArmY - leverArmY);
         leverArm.moveHorizontal(newLeverArmX - leverArmX);
         leverArm.changeSize(armHeight, armWidth);
-        leverArm.makeVisible();
         leverArmY = newLeverArmY;
         leverArmX = newLeverArmX;
 
@@ -500,76 +618,35 @@ public class SlotMachine {
         int newLeverX = boardX + totalWidth + armWidth;
         int newLeverHeight = totalHeight / 2;
         int newLeverY = newLeverArmY + armHeight - newLeverHeight;
-        lever.makeInvisible();
         lever.moveHorizontal(newLeverX - leverX);
         lever.moveVertical(newLeverY - leverY);
         lever.changeSize(newLeverHeight, 25);
-        lever.makeVisible();
         leverX = newLeverX;
         leverY = newLeverY;
 
 
         // Bring wheels back to the front after the board was redrawn
-        for (Wheel w : wheels) {
-            w.makeVisible();
+        if (visible){
+            for (Wheel w : wheels) {
+                w.makeVisible();
+            }
         }
     }
 
-    /**
-     * Spin a specific wheel a given number of steps.
-     * @param wheel 1-based position of the wheel
-     * @param steps number of times to advance the symbol
-     */
-    public void spin(int wheel, int steps) {
-        if (lockedWheels.contains(wheel)) {
-            MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
-            return;
-        }
-        animateLever();
-        int pos = adjustPosition(wheel);
-        wheels.get(pos).spin(steps);
-    }
-
-    /**
-     * Set a specific symbol configuration for all wheels.
-     * @param setSymbols array of symbols, one per wheel in order
-     */
-    public void spin(String[] setSymbols) {
-        if (setSymbols.length != wheels.size()) {
-            MessageUtil.showError("No tiene los simbolos suficientes para las ruedas de la maquina");
-            return;
-        }
-        for (int i = 0; i < wheels.size(); i++) {
-            wheels.get(i).placeSymbol(setSymbols[i]);
+    // Pauses execution briefly so the step-by-step movement can be visibly evidenced
+    private void pause(){
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
-    /**
-     * Lock a specific wheel so it cannot be spun.
-     * @param wheel 1-based position of the wheel to lock
-     */
-    public void lock(int wheel) {
-        lockedWheels.add(wheel);
-    }
-
-    /**
-     * Unlock a specific wheel so it can be spun again.
-     * @param wheel 1-based position of the wheel to unlock
-     */
-    public void unlock(int wheel) {
-        lockedWheels.remove(Integer.valueOf(wheel));
-    }
-
-    /**
-     * Swap two wheels based on their 1-based positions.
-     * @param wheel1 position of the first wheel
-     * @param wheel2 position of the second wheel
-     */
-    public void swap(int wheel1, int wheel2) {
-        int i1 = adjustPosition(wheel1);
-        int i2 = adjustPosition(wheel2);
-        Wheel temp = wheels.get(i1);
-        wheels.set(i1, wheels.get(i2));
-        wheels.set(i2, temp);
-    }
+    private void winnerAppearance(){
+        if (isJackpot() && visible) {
+                board.changeColor("gold");
+                makeVisible();
+                if(visible) MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
+            }
+    } 
 }
