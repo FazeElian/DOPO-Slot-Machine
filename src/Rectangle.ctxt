@@ -1,44 +1,44 @@
 #BlueJ class context
-#Sun Sep 06 12:48:54 COT 2026
+#Sun Sep 06 15:28:07 COT 2026
 comment0.target=Rectangle
-comment0.text=\r\n A rectangle that can be manipulated and that draws itself on a canvas.\r\n \r\n @author  Michael Kolling and David J. Barnes (Modified)\r\n @version 1.0  (15 July 2000)()\r\n
+comment0.text=\n A rectangle that can be manipulated and that draws itself on a canvas.\n \n @author  Michael Kolling and David J. Barnes (Modified)\n @version 1.0  (15 July 2000)()\n
 comment1.target=Rectangle()
-comment1.text=\r\n Create a new rectangle at default position with default color.\r\n
+comment1.text=\n Create a new rectangle at default position with default color.\n
 comment10.params=distance
 comment10.target=void moveVertical(int)
-comment10.text=\r\n Move the rectangle vertically.\r\n @param distance the desired distance in pixels\r\n
+comment10.text=\n Move the rectangle vertically.\n @param distance the desired distance in pixels\n
 comment11.params=distance
 comment11.target=void slowMoveHorizontal(int)
-comment11.text=\r\n Slowly move the rectangle horizontally.\r\n @param distance the desired distance in pixels\r\n
+comment11.text=\n Slowly move the rectangle horizontally.\n @param distance the desired distance in pixels\n
 comment12.params=distance
 comment12.target=void slowMoveVertical(int)
-comment12.text=\r\n Slowly move the rectangle vertically.\r\n @param distance the desired distance in pixels\r\n
+comment12.text=\n Slowly move the rectangle vertically.\n @param distance the desired distance in pixels\n
 comment13.params=newHeight newWidth
 comment13.target=void changeSize(int, int)
-comment13.text=\r\n Change the size to the new size\r\n @param newHeight the new height in pixels. newHeight must be >\=0.\r\n @param newWidht the new width in pixels. newWidth must be >\=0.\r\n
+comment13.text=\n Change the size to the new size\n @param newHeight the new height in pixels. newHeight must be >\=0.\n @param newWidht the new width in pixels. newWidth must be >\=0.\n
 comment14.params=newColor
 comment14.target=void changeColor(java.lang.String)
-comment14.text=\r\n Change the color. \r\n @param color the new color. Valid colors are "red", "yellow", "blue", "green",\r\n "magenta" and "black".\r\n
+comment14.text=\n Change the color. \n @param color the new color. Valid colors are "red", "yellow", "blue", "green",\n "magenta" and "black".\n
 comment15.target=void draw()
-comment15.text=\r\n Draw the rectangle with current specifications on screen.\r\n
+comment15.text=\n Draw the rectangle with current specifications on screen.\n
 comment16.target=void erase()
-comment16.text=\r\n Erase the rectangle on screen.\r\n
+comment16.text=\n Erase the rectangle on screen.\n
 comment2.params=height width xPosition yPosition color isVisible
 comment2.target=Rectangle(int, int, int, int, java.lang.String, boolean)
-comment2.text=\r\n Create a new rectangle width custom values for its attributes\r\n
+comment2.text=\n Create a new rectangle width custom values for its attributes\n
 comment3.target=void makeVisible()
-comment3.text=\r\n Make this rectangle visible. If it was already visible, do nothing.\r\n
+comment3.text=\n Make this rectangle visible. If it was already visible, do nothing.\n
 comment4.target=void makeInvisible()
-comment4.text=\r\n Make this rectangle invisible. If it was already invisible, do nothing.\r\n
+comment4.text=\n Make this rectangle invisible. If it was already invisible, do nothing.\n
 comment5.target=void moveRight()
-comment5.text=\r\n Move the rectangle a few pixels to the right.\r\n
+comment5.text=\n Move the rectangle a few pixels to the right.\n
 comment6.target=void moveLeft()
-comment6.text=\r\n Move the rectangle a few pixels to the left.\r\n
+comment6.text=\n Move the rectangle a few pixels to the left.\n
 comment7.target=void moveUp()
-comment7.text=\r\n Move the rectangle a few pixels up.\r\n
+comment7.text=\n Move the rectangle a few pixels up.\n
 comment8.target=void moveDown()
-comment8.text=\r\n Move the rectangle a few pixels down.\r\n
+comment8.text=\n Move the rectangle a few pixels down.\n
 comment9.params=distance
 comment9.target=void moveHorizontal(int)
-comment9.text=\r\n Move the rectangle horizontally.\r\n @param distance the desired distance in pixels\r\n
+comment9.text=\n Move the rectangle horizontally.\n @param distance the desired distance in pixels\n
 numComments=17
