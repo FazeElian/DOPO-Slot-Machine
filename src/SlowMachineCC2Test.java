@@ -46,7 +46,7 @@ public class SlowMachineCC2Test
      * them is locked, setting the machine status to not ok.
      */
     @Test
-    public void shouldNotSwap()
+    public void accordingIcPgShouldNotSwap()
     {
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(1, "blue");
@@ -62,13 +62,40 @@ public class SlowMachineCC2Test
         assertFalse(slotMachine.ok());
     }
 
+        /**
+     * Verifies that a wheel can be spun successfully once it has been
+     * locked and then unlocked, leaving the machine status as ok.
+     */
+    @Test
+    public void accordingIcPgshouldSpinAWheel() {
+        // Add some symbols
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol(1, "blue");
+        
+        // Add some wheels
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+
+        // Lock the first one
+        slotMachine.lock(1);
+        
+        // Unlock it then
+        slotMachine.unlock(1);
+        
+        // Spin the second wheel which is not locked
+        slotMachine.spin(1);
+        
+        // Check that the action was succesful due to the wheel to spin is locked
+        assertTrue(slotMachine.ok());
+    }
+
     /**
      * Verifica que, tras bloquear una rueda con lock(), llamar a
      * spin(wheel, steps) no altera lo que esa rueda muestra en
      * configuration().
      */
     @Test
-    public void shouldNotChangeConfigurationWhenWheelIsLocked()
+    public void accordingCgCpShouldNotChangeConfigurationWhenWheelIsLocked()
     {
         slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
@@ -88,7 +115,7 @@ public class SlowMachineCC2Test
      * cambiar lo que esa rueda muestra.
      */
     @Test
-    public void shouldChangeConfigurationWhenWheelIsUnlockedAfterLock()
+    public void accordingCgCpShouldChangeConfigurationWhenWheelIsUnlockedAfterLock()
     {
         slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
@@ -108,7 +135,7 @@ public class SlowMachineCC2Test
      * sin alterar la configuracion de ninguna rueda.
      */
     @Test
-    public void shouldNotSwapWhenAWheelIsLocked()
+    public void accordingFsGcShouldNotSwapWhenAWheelIsLocked()
     {
         slotMachine.lock(1);
         String[] before = slotMachine.configuration().clone();
@@ -123,7 +150,7 @@ public class SlowMachineCC2Test
      * La operacion debe realizarse correctamente y ok() debe retornar true.
      */
     @Test
-    public void shouldLockWheel()
+    public void accordingBaGqShouldLockWheel()
     {
         slotMachine.addWheel(1);
         slotMachine.lock(1);
@@ -132,7 +159,7 @@ public class SlowMachineCC2Test
 
     /* Adding a color that already exists on a wheel should fail */
     @Test
-    public void addSymbolShouldFailWhenColorAlreadyExists()
+    public void accordingCgHnAddSymbolShouldFailWhenColorAlreadyExists()
     {
         slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
@@ -145,7 +172,7 @@ public class SlowMachineCC2Test
      * simbolos distintos reportado por la maquina.
      */
     @Test
-    public void shouldKeepDistinctSymbolCountAfterSwapWithPlacedSymbols()
+    public void accordingClPcShouldKeepDistinctSymbolCountAfterSwap()
     {
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
@@ -164,7 +191,7 @@ public class SlowMachineCC2Test
 
     /** Una rueda fijada no debe girar */
     @Test
-    public void lockedWheelShouldNotSpin()
+    public void accordingJcSrShouldNotSpinLockedWheel()
     {
         String[] before = slotMachine.configuration();
         slotMachine.lock(1);
@@ -177,7 +204,7 @@ public class SlowMachineCC2Test
      * Una rueda fija no debería poder girar.
      */
     @Test
-    public void shouldNotAllowSpinningALockedWheel()
+    public void accordingGmLaShouldNotAllowSpinningALockedWheel()
     {
         slotMachine.lock(1);
         slotMachine.spin(1);
