@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 /**
@@ -132,7 +133,7 @@ public class SlotMachine {
 
         // Grid limit: 14 x 9 = 126 wheels
         if (wheels.size() >= MAX_COLUMNS * MAX_ROWS) {
-            if(visible) if(visible) MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
+            if(visible) MessageUtil.showError("Ha alcanzado el máximo de ruedas posibles.");
             ok = false;
             return;
         }
@@ -169,6 +170,10 @@ public class SlotMachine {
         if (wheels.isEmpty()) {
             ok = false;
             if(visible) MessageUtil.showError("No hay ruedas para eliminar");
+            return;
+        }
+        if (lockedWheels.contains(pos)){
+            if (visible)MessageUtil.showError("Esta rueda esta bloqueada");
             return;
         }
 
@@ -257,16 +262,19 @@ public class SlotMachine {
      * @param color color name to remove
      */
     public void delSymbol(String color) {
-        if (!Wheel.symbols.contains(color)) {
+        String c = color.trim().toLowerCase();
+    
+        if (!Wheel.symbols.contains(c)) {
             if(visible) MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
             ok = false;
             return;
         }
+    
         if (Wheel.symbols.size() > 1) {
             for (Wheel wheel : wheels) {
-                wheel.delSymbol(color);
+                wheel.delSymbol(c);
             }
-            Wheel.symbols.remove(color);
+            Wheel.symbols.remove(c);
             ok = true;
         } else {
             if(visible) MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
@@ -393,6 +401,10 @@ public class SlotMachine {
      * @param symbol   color to display
      */
     public void placeSymbol(int wheelPos, String symbol) {
+        if (lockedWheels.contains(wheelPos)){
+            if (visible)MessageUtil.showError("Esta rueda esta bloqueada");
+            return;
+        }
         int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
             wheels.get(index).placeSymbol(symbol);
@@ -439,7 +451,7 @@ public class SlotMachine {
             ok = true;
             return uniqueSymbols.size();
         } else {
-            if(visible) if(visible) MessageUtil.showError("No existen símbolos aún");
+            if(visible) MessageUtil.showError("No existen símbolos aún");
             return 0;
         }
     }
@@ -452,7 +464,7 @@ public class SlotMachine {
      */
     public boolean isJackpot() {
         if (!Wheel.symbols.isEmpty()) {
-            if (wheels.isEmpty()) {
+            if (wheels.isEmpty() || wheels.size()==1) {
                 ok = true;
                 return false;
             }
@@ -516,6 +528,12 @@ public class SlotMachine {
             wheels.get(i).placeSymbol(setSymbols[i]);
         }
         winnerAppearance();
+
+        if (!Arrays.equals(configuration(), setSymbols)) {
+            if(visible) MessageUtil.showError("Algunos simbolos no existen en sus ruedas correspondientes");
+            ok = false;
+            return;
+        }
         ok = true;
     }
     // MINI-CYCLE 4 – Usability and visibility
