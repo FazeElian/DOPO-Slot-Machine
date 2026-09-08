@@ -303,7 +303,7 @@ public class SlotMachine {
         if (wheel1 == wheel2) {
             if (visible) MessageUtil.showError("No se puede intercambiar una rueda consigo misma.");
             ok = false;
-        return;
+            return;
         }
 
         int i1 = adjustPosition(wheel1);
