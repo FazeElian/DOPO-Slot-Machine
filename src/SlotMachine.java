@@ -299,6 +299,13 @@ public class SlotMachine {
      * @param wheel2 position of the second wheel
      */
     public void swap(int wheel1, int wheel2) {
+
+        if (wheel1 == wheel2) {
+            if (visible) MessageUtil.showError("No se puede intercambiar una rueda consigo misma.");
+            ok = false;
+        return;
+        }
+
         int i1 = adjustPosition(wheel1);
         int i2 = adjustPosition(wheel2);
 
