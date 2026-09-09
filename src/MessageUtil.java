@@ -34,8 +34,9 @@ public class MessageUtil {
         JOptionPane optionPane = new JOptionPane(messagePanel, messageType);
         JDialog dialog = optionPane.createDialog(title);
 
-        // Set size with global static variables
-        dialog.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+        // Set automatical size with message length
+        dialog.pack(); 
+        dialog.setLocationRelativeTo(null);
 
         // Centers the dialog message on the screen
         dialog.setLocationRelativeTo(null);
