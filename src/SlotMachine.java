@@ -497,6 +497,12 @@ public class SlotMachine {
      * @param steps number of times to advance the symbol
      */
     public void spin(int wheel, int steps) {
+        if (this.wheels.isEmpty()) {
+            if(visible) MessageUtil.showError("La máquina no tiene ruedas.");
+            ok = false;
+            return;
+        }
+        
         if (lockedWheels.contains(wheel)) {
             if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
