@@ -13,6 +13,37 @@ This project was developed at **Escuela Colombiana de Ingeniería Julio Garavito
 - [Elián Ibarra](https://github.com/FazeElian/)
 - [Oscar Poveda](https://github.com/SOYOSCAR1287)
 
+## 🏷️ Development cycles & versioning
+
+This project is developed iteratively across multiple academic cycles. Contributions, refactoring, and features are continuously added during each cycle, and a permanent release tag (e.g., `ciclo-1`, `ciclo-2`) is created at the end of each stage to lock the deliverable version.
+
+### How to view the project at a specific cycle
+
+You can explore or switch your local workspace to any completed cycle using Git tags:
+
+#### 1. List available cycles
+```bash
+git tag
+
+```
+
+#### 2. Checkout a specific cycle locally
+
+To inspect or run the codebase at the end of a specific cycle, switch to its tag:
+
+```bash
+git checkout tags/ciclo-1
+
+```
+
+*(To return to the latest active development branch afterwards, run `git checkout main`).*
+
+#### 3. View on GitHub
+
+You can also browse the codebase for any cycle directly in the browser by selecting the tag from the **Branch/Tag** dropdown menu on GitHub or visiting the repository's **Tags / Releases** section.
+
+---
+
 ## 📝 Project description
 
 The purpose of this project is to develop an application that simulates a situation inspired by **Problem I** of the 2025 International Collegiate Programming Contest: *Slot Machine*. In this simulator, symbols are identified by shapes of different colors.
@@ -35,8 +66,8 @@ The simulator allows:
 ## 🛠️ Build
 
 - The project was developed in **BlueJ**.
-- The classes reuse, and when necessary extend, components from the **shapes** package.
-- The design (class and sequence diagrams) was done using the **Astah** tool.
+- The classes reuse, and when necessary extend, components from the **shapes*- package.
+- The design (class and sequence diagrams) was done using the **Astah*- tool.
 - Code documentation follows **Javadoc** standards.
 
 ## 📂 Repository structure
