@@ -420,6 +420,7 @@ public class SlotMachine {
         } else {
             if(visible) MessageUtil.showError("No existe esa rueda, intenta de nuevo");
             ok = false;
+            return;
         }
     }
 
