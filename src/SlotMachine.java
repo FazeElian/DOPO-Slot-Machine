@@ -460,6 +460,7 @@ public class SlotMachine {
             return uniqueSymbols.size();
         } else {
             if(visible) MessageUtil.showError("No existen símbolos aún");
+            ok = false;
             return 0;
         }
     }

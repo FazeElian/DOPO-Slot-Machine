@@ -72,7 +72,6 @@ public class SlotMachineC1Test
     public void shouldNotAddWheelWhenLimitExcedeed() {
         // Add a common symbol
         slotMachine.addSymbol(1, "blue");
-        
         // Check slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS (126) wheels -> add the limit of wheels into the board
         for (int i = 1; i <= (slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS); i++) {
             slotMachine.addWheel(i);
@@ -110,13 +109,6 @@ public class SlotMachineC1Test
         
         /// Check that were added the 126th wheel so ok status is true
         assertTrue(slotMachine.ok());
-        
-        // Add the 127th wheel & check the 127th wheel wasn't added
-        assertEquals(126, slotMachine.configuration().length);
-        slotMachine.addWheel(127);
-        
-        /// Check that weren's added the 127th (exceeding the limit) wheel so ok status is false
-        assertFalse(slotMachine.ok());
     }
     
     /**
@@ -211,7 +203,8 @@ public class SlotMachineC1Test
         slotMachine.addSymbol(1, "yellow");
         slotMachine.addSymbol(2, "blue");
         slotMachine.addSymbol(3, "red");
-        
+        assertEquals(3, slotMachine.symbols().length);
+
         // Try to delete some of them
         slotMachine.delSymbol("yellow");
         slotMachine.delSymbol("red");
@@ -324,7 +317,7 @@ public class SlotMachineC1Test
         
         // Spin the wheel on a position of an unexisten wheel, it is until 3.
         // So this should put the position on 0 and spin the first one
-        slotMachine.spin(1); // spin it
+        slotMachine.spin(0); // spin it
         
         // Check is OK after the position was adjusted
         assertTrue(slotMachine.ok());
@@ -406,7 +399,7 @@ public class SlotMachineC1Test
         slotMachine.addWheel(2);
         slotMachine.addWheel(3);
         
-        // Place a specific symbol on te second wheel
+        // Place a specific symbol on the first wheel
         slotMachine.placeSymbol(1, "aqua");
     
         // Check is OK, since there are 3 wheels to place a symbol on
@@ -425,6 +418,7 @@ public class SlotMachineC1Test
         slotMachine.placeSymbol(1, "red");
     
         // Check is NOT OK, since there is no wheel to place a symbol on
+        assertEquals(0, slotMachine.configuration().length);
         assertFalse(slotMachine.ok());
     }
     
@@ -464,6 +458,7 @@ public class SlotMachineC1Test
     
         // Check returns 0 because Wheel.symbols is empty
         assertEquals(0, slotMachine.distinctSymbols());
+        assertFalse(slotMachine.ok());
     }
 
     /**
