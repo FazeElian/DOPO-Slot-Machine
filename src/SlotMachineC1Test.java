@@ -45,17 +45,21 @@ public class SlotMachineC1Test
      */
     @Test
     public void shouldAddWheelInAValidPos() {
+        // Add a common symbol to all wheels
+        slotMachine.addSymbol(1, "red");
+        
+        // Add some wheels
+        slotMachine.addWheel(1);
         slotMachine.addWheel(2);
-        assertTrue(slotMachine.ok());
-    }
-    
-    /**
-     * Verifies that attempting to add a wheel at an invalid position
-     * still leaves the machine status as ok.
-     */
-    @Test
-    public void shouldAddWheelInAInvalidPos() {
-        slotMachine.addWheel(-1);
+        
+        // One of them exceeds the wheels array size, so should be fixed and added to the end of it
+        slotMachine.addWheel(20000);
+        
+        // Another one is below the minimum value for the wheel pos on the array
+        slotMachine.addWheel(-234234);
+        
+        // Check if the action was succesful & the amount of elements is the same as the ones which where added previously (3)
+        assertEquals(slotMachine.configuration().length, 4);
         assertTrue(slotMachine.ok());
     }
     
@@ -66,38 +70,49 @@ public class SlotMachineC1Test
      */
     @Test
     public void shouldNotAddWheelWhenLimitExcedeed() {
+        // Add a common symbol
+        slotMachine.addSymbol(1, "blue");
+        
         // Check slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS (126) wheels -> add the limit of wheels into the board
         for (int i = 1; i <= (slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS); i++) {
             slotMachine.addWheel(i);
         }
         
-        // Check that all were added succesfully
+        // Check that all were added succesfully && the current amount of wheels (126) is correct
+        assertEquals(slotMachine.configuration().length, 126);
         assertTrue(slotMachine.ok());
         
         // Add the 127th wheel
         slotMachine.addWheel(127);
         
-        /// Check that weren's added the 127th wheel so ok status is false
+        /// Check that weren's added the 127th wheel so ok status is false & the amount of wheels is still 126
         assertFalse(slotMachine.ok());
+        assertEquals(slotMachine.configuration().length, 126);
     }
     
     @Test
     public void shouldAddWheelWhenLimitNotExceeded() {
+        // Add a common symbol
+        slotMachine.addSymbol(1, "blue");
+        
         // Add less than the limit to add a last one
         for (int i = 1; i <= (slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS - 1); i++) {
             slotMachine.addWheel(i);
         }
         
-        // Check that all were added succesfully
+        // Check that all were added succesfully & added correctly 125 wheels
         assertTrue(slotMachine.ok());
+        assertEquals(125, slotMachine.configuration().length);
         
         // Add the 126th wheel
         slotMachine.addWheel(126);
+        assertEquals(126, slotMachine.configuration().length);
         
-        /// Check that weren's added the 126th wheel so ok status is true
+        /// Check that were added the 126th wheel so ok status is true
         assertTrue(slotMachine.ok());
         
-        // Add the 127th wheel
+        // Add the 127th wheel & check the 127th wheel wasn't added
+        assertEquals(126, slotMachine.configuration().length);
         slotMachine.addWheel(127);
         
         /// Check that weren's added the 127th (exceeding the limit) wheel so ok status is false
@@ -110,7 +125,14 @@ public class SlotMachineC1Test
      */
     @Test
     public void shouldNotDelWheel() {
-        slotMachine.delWheel(1);
+        // Check that the machine is empty
+        assertEquals(0, slotMachine.configuration().length);
+        
+        // Delete a wheel that doesn't exists (machione is empty)
+        slotMachine.delWheel(345345);
+        
+        // Check that wasn't deleted any of the wheels & that the action failed
+        assertEquals(0, slotMachine.configuration().length);
         assertFalse(slotMachine.ok());
     }
     
@@ -120,9 +142,22 @@ public class SlotMachineC1Test
      */
     @Test
     public void shouldDelWheel() {
+        // Add a common symbol
+        slotMachine.addSymbol(1, "blue");
+        
+        // Add some wheels
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
+        
+        // Check the amount of wheels is equals 3, the 3 that were just added
+        assertEquals(3, slotMachine.configuration().length);
+        
+        // Delete the first one
         slotMachine.delWheel(1);
+        
+        // Check amount of wheels & that the action suceeded
+        assertEquals(2, slotMachine.configuration().length);
         assertTrue(slotMachine.ok());
     }
     
@@ -133,21 +168,18 @@ public class SlotMachineC1Test
      */
     @Test
     public void shouldAddSymbol() {
-        // Add symbol if wheels[] is empty
+        // Add symbols if wheels[] is empty & only one wheel
         slotMachine.addSymbol(1, "red");
         
-        // Check is ok even when wheels[] is empty
+        // Check is ok even when wheels[] is empty & that the acmount of symbols are the same shown with the configuration() method
+        assertEquals(1, slotMachine.symbols().length);
         assertTrue(slotMachine.ok());
         
-        // Add some wheels so wheels[] is not empty
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
-        
-        // Add a symbol for the wheels
+        // Add another symbol for the wheels
         slotMachine.addSymbol(2, "blue");
         
-        // Check is ok
+        // Check is ok & that the amount of symbols increased, check the amount of symbols is 2
+        assertEquals(2, slotMachine.symbols().length);
         assertTrue(slotMachine.ok());
     }
     
@@ -163,7 +195,10 @@ public class SlotMachineC1Test
         
         // Add another one with the same value
         slotMachine.addSymbol(1, "yellow");
+        
+        // Check the amount is the same so wasn't added
         assertFalse(slotMachine.ok());
+        assertEquals(1, slotMachine.symbols().length);
     }
     
     /**
@@ -185,7 +220,7 @@ public class SlotMachineC1Test
         assertTrue(slotMachine.ok());
         
         // Check size is correct after delete 2 of them
-        assertEquals(1, (slotMachine.symbols()).length);
+        assertEquals(1, slotMachine.symbols().length);
     }
     
     /**
@@ -198,17 +233,22 @@ public class SlotMachineC1Test
         // This should return false because no symbols where added before delete this one
         slotMachine.delSymbol("blue");
         
-        // Check is false
+        // Check is false & there's no symbols
+        assertEquals(0, slotMachine.symbols().length);
         assertFalse(slotMachine.ok());
         
         // Add a single symbol that SHOULD'NT be deleted
         slotMachine.addSymbol(1, "red");
+        assertEquals(1, slotMachine.symbols().length);
         
         // Try to delete it
         slotMachine.delSymbol("red");
         
         // Check is NOT OK due to a failed action (delete a symbol where there's only one on symbols[])
         assertFalse(slotMachine.ok());
+        
+        // This keeps the amount of symbols (1)
+        assertEquals(1, slotMachine.symbols().length);
     }
 
     /**
@@ -220,6 +260,21 @@ public class SlotMachineC1Test
         // Check returns a [] because symbols has a [] inital value
         String[] expected = {};
         assertArrayEquals(expected, slotMachine.symbols());
+        
+        // Add some symbols
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol(2, "blue");
+        slotMachine.addSymbol(3, "aqua");
+        
+        // Check the expected ones are the one on the array
+        expected = new String[] {"red", "blue", "aqua"};
+        assertArrayEquals(slotMachine.symbols(), expected);
+        
+        // Check the amount
+        assertEquals(slotMachine.symbols().length, 3);
+        
+        // Finally, the status of the last operation
+        assertTrue(slotMachine.ok());
     }
     
     // Tests for MINI-CYCLE 3
@@ -247,25 +302,8 @@ public class SlotMachineC1Test
         assertTrue(slotMachine.ok());
         
         // Check the wheel on the index (pos) had changed it's symbol (color)
-        assertEquals("blue", slotMachine.symbols()[1]); // On the second one (watching it from left to right)
+        assertEquals("blue", slotMachine.configuration()[1]); // On the second one (watching it from left to right)
     }
-    
-    // This test is disabled due to the adjustment that is made when the position is out of range
-    // So this never returns error on that case
-    // @Test
-    // public void shouldNotSpinAWheel() {
-    //     // Add some Wheels
-    //     slotMachine.addWheel(1);
-    //     slotMachine.addWheel(2);
-    //     slotMachine.addWheel(3);
-        
-    //     // Add some symbols
-    //     slotMachine.addSymbol(1, "yellow");
-    //     slotMachine.addSymbol(2, "blue");
-    //     slotMachine.addSymbol(3, "red");
-        
-    //     assertFalse(slotMachine.ok());
-    // }
     
     /**
      * Verifies that spinning a wheel at an invalid position adjusts
@@ -286,15 +324,13 @@ public class SlotMachineC1Test
         
         // Spin the wheel on a position of an unexisten wheel, it is until 3.
         // So this should put the position on 0 and spin the first one
-        int nonExistentWheelPos = -1;
-        slotMachine.spin(-1); // spin it
+        slotMachine.spin(1); // spin it
         
         // Check is OK after the position was adjusted
         assertTrue(slotMachine.ok());
         
         // Check that the first wheel changed its symbol (color)
-        String visibleSymbol = slotMachine.configuration()[0];
-        assertTrue(visibleSymbol.equals("red") | visibleSymbol.equals("blue"));
+        assertEquals(slotMachine.configuration()[0], "blue");
     }
     
     /**
@@ -308,21 +344,10 @@ public class SlotMachineC1Test
         
         // Check is NOT OK
         assertFalse(slotMachine.ok());
-    }
-    
-    /**
-     * Verifies that attempting to spin a specific wheel when the machine
-     * has no wheels at all fails, setting the machine status to not ok.
-     * adjustPosition() returns index 0 on an empty list, which then fails
-     * the (index < wheels.size()) check, so ok must end up false.
-     */
-    @Test
-    public void shouldNotSpinWhenNoWheelsExist() {
-        // No wheels added
-        slotMachine.spin(1);
-    
-        // Check is NOT OK because there is no wheel at index 0
-        assertFalse(slotMachine.ok());
+        
+        // Check the amount of current symbols & wheels is zero
+        assertEquals(slotMachine.symbols().length, 0);
+        assertEquals(slotMachine.configuration().length, 0);
     }
     
     /**
@@ -361,8 +386,32 @@ public class SlotMachineC1Test
         String[] expectedConfiguration = {"red", "blue", "green"};
     
         // Check the current config of the machine equals the expected one
-        assertArrayEquals(expectedConfiguration, slotMachine.configuration());
         assertTrue(slotMachine.ok());
+        assertArrayEquals(expectedConfiguration, slotMachine.configuration());
+    }
+    
+    /**
+     * Verifies that a symbol can be placed on an specific
+     * wheel on the array based on its position
+     */
+    @Test
+    public void shouldPlaceSymbol() {        
+        // Add some symbols
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol(2, "aqua");
+        slotMachine.addSymbol(3, "blue");
+        
+        // Add some Wheels
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
+        
+        // Place a specific symbol on te second wheel
+        slotMachine.placeSymbol(1, "aqua");
+    
+        // Check is OK, since there are 3 wheels to place a symbol on
+        assertTrue(slotMachine.ok());
+        assertEquals(slotMachine.configuration()[0], "aqua");
     }
     
     /**
@@ -371,7 +420,7 @@ public class SlotMachineC1Test
      * the symbol on.
      */
     @Test
-    public void shouldNotPlaceSymbolWhenNoWheelsExist() {
+    public void shouldNotPlaceSymbol() {
         // No wheels added, try to place a symbol anyway
         slotMachine.placeSymbol(1, "red");
     
@@ -384,7 +433,7 @@ public class SlotMachineC1Test
      * repeated symbols placed on different wheels.
      */
     @Test
-    public void shouldCheckDistinctSymbols () {
+    public void checkDistinctSymbols () {
         // Add some Wheels
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
@@ -408,7 +457,7 @@ public class SlotMachineC1Test
      * have been registered yet, regardless of whether wheels exist.
      */
     @Test
-    public void shouldNotCountDistinctSymbolsWhenNoSymbolsRegistered() {
+    public void shouldNotCountDistinctSymbols() {
         // Add wheels but no symbols
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
@@ -416,24 +465,15 @@ public class SlotMachineC1Test
         // Check returns 0 because Wheel.symbols is empty
         assertEquals(0, slotMachine.distinctSymbols());
     }
-    
+
     /**
-     * Verifies that an empty machine is never considered a jackpot.
+     * Verifies that an empty machine is never considered a jackpot & that
+     * the machine is not considered a jackpot when the wheels are showing
+     * different symbols, exercising the "false" branch of isJackpot() beyond
+     * the trivial empty-machine case.
      */
     @Test
-    public void shouldNotBeJackpot () {
-        // This should return false because the machine is empty        
-        // Check is NOT OK (false)
-        assertFalse(slotMachine.isJackpot());
-    }
-    
-    /**
-     * Verifies that the machine is not considered a jackpot when the
-     * wheels are showing different symbols, exercising the "false" branch
-     * of isJackpot() beyond the trivial empty-machine case.
-     */
-    @Test
-    public void shouldNotBeJackpotWhenSymbolsDiffer() {
+    public void shouldNotBeJackpot() {
         // Add some Wheels
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
@@ -451,6 +491,12 @@ public class SlotMachineC1Test
     
         // Check is NOT a jackpot since symbols differ
         assertFalse(slotMachine.isJackpot());
+        
+        // Check config & jackpot after spin (that neither is jackpot)
+        slotMachine.spin();
+        
+        String[] expected = new String[]{"blue", "green", "red"};
+        assertArrayEquals(expected, slotMachine.configuration());
     }
     
     /**
@@ -469,11 +515,29 @@ public class SlotMachineC1Test
         slotMachine.addSymbol(2, "blue");
         slotMachine.addSymbol(3, "red");
         
-        // Spin all (intially all have the same symbol)
-        slotMachine.spin(); // This should return true
+        // Check config & jackpot after spin
+        slotMachine.spin();
         
-        // Check is OK
+        String[] expected = new String[]{"blue", "blue", "blue"};
+        assertArrayEquals(expected, slotMachine.configuration());
+        
+        // Placing some symbols
+        slotMachine.placeSymbol(2, "red");
+        slotMachine.placeSymbol(3, "red");
+        
+        // Check config & jackpot after spin
+        String[] expected2 = new String[]{"blue", "red", "red"};
+        assertArrayEquals(expected2, slotMachine.configuration());
+        assertFalse(slotMachine.isJackpot());
+        
+        // Spin the first one so should be jackoit
+        slotMachine.spin(1);
+        
+        // Check status & config
+        String[] expected3 = new String[]{"red", "red", "red"};
+        assertTrue(slotMachine.isJackpot());
         assertTrue(slotMachine.ok());
+        assertArrayEquals(expected3, slotMachine.configuration());
     }
     
     // Tests for MINI-CYCLE 4
