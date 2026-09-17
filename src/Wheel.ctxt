@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 10 21:16:06 COT 2026
+#Wed Sep 16 19:33:40 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Represents a single wheel of the slot machine.\r\n Each wheel owns its own list of symbols and its visual \r\n representation\: a background Rectangle (slot) and a Traingle\r\n that shows the currently visible symbol (visibleShape). Both\r\n shapes are created once, with a fixed size; only their color changes when the wheel spins\r\n \r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.params=posX posY
@@ -22,6 +22,12 @@ comment15.text=\r\n Returns the index of the symbol on the array according to it
 comment16.params=posX posY
 comment16.target=void setLocation(int, int)
 comment16.text=\r\n Modify the coordiinates of the wheel to the new values\r\n @param posX the new position in X axis of the board\r\n @param posY the new position in Y axis of the board\r\n
+comment17.target=void lock()
+comment17.text=\r\n Locks this wheel, preventing it from being spun or modified\r\n until it is explicitly unlocked.\r\n
+comment18.target=void unlock()
+comment18.text=\r\n Unlocks this wheel, allowing it to be spun or modified again.\r\n
+comment19.target=boolean isLocked()
+comment19.text=\r\n Returns whether this element is currently locked.\r\n\r\n @return true if locked, false otherwise\r\n
 comment2.params=index
 comment2.target=void addSymbol(int)
 comment2.text=\r\n Adds a symbol to the symbols array for all\r\n the wheels of the board\r\n @param pos\r\n @param color\r\n
@@ -41,4 +47,4 @@ comment8.target=void makeInvisible()
 comment8.text=\r\n Hide the wheel\: the symbol and the slot which it\r\n is located\r\n
 comment9.target=void refreshShape()
 comment9.text=\r\n Updates the color of the visible shape on the screen\r\n according to the symbol that is located on the \r\n current index\r\n
-numComments=17
+numComments=20

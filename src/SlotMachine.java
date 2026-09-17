@@ -52,8 +52,6 @@ public class SlotMachine {
     private int leverArmX = 0;
     // Tracks whether the machine is currently visible, to decide if spins/swaps should animate
     private boolean visible = false;
-    // List of indexes of the locked wheels
-    private static ArrayList<Integer> lockedWheels = new ArrayList<>();
 
     // MINI-CYCLE 1 – Visual structure of the machine
     
@@ -171,11 +169,7 @@ public class SlotMachine {
             ok = false;
             if(visible) MessageUtil.showError("No hay ruedas para eliminar");
             return;
-        }
-        if (lockedWheels.contains(pos)){
-            if (visible)MessageUtil.showError("Esta rueda esta bloqueada");
-            return;
-        }
+        }   
 
         int index = adjustPosition(pos);
         Wheel removedWheel = wheels.remove(index);
@@ -198,12 +192,13 @@ public class SlotMachine {
             ok = false;
             return;
         }
-        if (lockedWheels.contains(wheel)) {
+        Wheel w = wheels.get(wheel-1);
+        if (w.isLocked()) {
             if(visible) MessageUtil.showError("Esa rueda ya está bloqueada");
             ok = false;
             return;
         }
-        lockedWheels.add(wheel);
+        w.lock();
         ok = true;
     }
 
@@ -212,12 +207,13 @@ public class SlotMachine {
      * @param wheel 1-based position of the wheel to unlock
      */
     public void unlock(int wheel) {
-        if (!lockedWheels.contains(wheel)) {
+        Wheel w =  wheels.get(wheel-1);
+        if (!w.isLocked()) {
             if(visible) MessageUtil.showError("Esa rueda no estaba bloqueada");
             ok = false;
             return;
         }
-        lockedWheels.remove(Integer.valueOf(wheel));
+        w.unlock();
         ok = true;
     }
 
@@ -309,21 +305,10 @@ public class SlotMachine {
         int i1 = adjustPosition(wheel1);
         int i2 = adjustPosition(wheel2);
 
-        if (lockedWheels.contains(wheel1)) {
-            if(visible) MessageUtil.showError("La primera rueda no puede intercambiarse, está bloqueada.");
-            ok = false;
-            return;
-        }
-        if (lockedWheels.contains(wheel2)) {
-            if(visible) MessageUtil.showError("La segunda rueda no puede intercambiarse, está bloqueada.");
-            ok = false;
-            return;
-        }
-
         Wheel w1 = wheels.get(i1);
         Wheel w2 = wheels.get(i2);
 
-        // Misma fórmula que usa addWheel para calcular posX/posY (1-based)
+        // Same formula used by addWheel to calculate posX/posY (1-based)
         int posX1 = ((wheel1 - 1) % MAX_COLUMNS) + 1;
         int posY1 = ((wheel1 - 1) / MAX_COLUMNS) + 1;
         int posX2 = ((wheel2 - 1) % MAX_COLUMNS) + 1;
@@ -341,12 +326,18 @@ public class SlotMachine {
         ok = true;
     }
         // Small visual "hop" so the movement is noticeable before the final setLocation
-        private void animateSwap(Wheel w1, Wheel w2, int posX1, int posY1, int posX2, int posY2) {
+       private void animateSwap(Wheel w1, Wheel w2, int posX1, int posY1, int posX2, int posY2) {
             int hop = 10;
+            int deltaX = (posX2 - posX1) * (Wheel.CELL_SIZE + Wheel.GAP);
+            int deltaY = (posY2 - posY1) * (Wheel.CELL_SIZE + Wheel.GAP);
+
             w1.slowMoveVertical(-hop);
-            w2.slowMoveVertical(-hop);
-            w1.slowMoveVertical(hop);
+            w1.slowMoveHorizontal(deltaX);
+            w1.slowMoveVertical(hop + deltaY);
+
             w2.slowMoveVertical(hop);
+            w2.slowMoveHorizontal(-deltaX);
+            w2.slowMoveVertical(-hop - deltaY);
         }
    // MINI-CYCLE 3 – Spin and query result
 
@@ -357,14 +348,15 @@ public class SlotMachine {
      * @param wheelPos 1-based position of the wheel to spin
      */
     public void spin(int wheelPos) {
-        if (lockedWheels.contains(wheelPos)) {
+        animateLever();
+        int index = adjustPosition(wheelPos);
+        Wheel w = wheels.get(index);
+        
+        if (w.isLocked()) {
             if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
             return;
         }
-
-        animateLever();
-        int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
             wheels.get(index).spin();
             winnerAppearance();
@@ -388,13 +380,15 @@ public class SlotMachine {
             ok = false;
             return;
         }
-        if (!lockedWheels.isEmpty()){
-            if(visible) MessageUtil.showError("Algunas ruedas estan bloqueadas");
-            ok = false;
-            return;
-        }
+        int contador = 1;
         for (Wheel wheel : wheels) {
+            if (!wheel.isLocked()){
             wheel.spin();
+            }
+            else{
+                if (visible) MessageUtil.showError("La rueda "+ contador + " esta bloqueada, no se gira");
+            }
+            contador += 1;
         }
         winnerAppearance();
         ok = true;
@@ -408,13 +402,14 @@ public class SlotMachine {
      * @param symbol   color to display
      */
     public void placeSymbol(int wheelPos, String symbol) {
-        if (lockedWheels.contains(wheelPos)){
+        int index = adjustPosition(wheelPos);
+        Wheel w = wheels.get(index);
+        if (w.isLocked()){
             if (visible)MessageUtil.showError("Esta rueda esta bloqueada");
             return;
         }
-        int index = adjustPosition(wheelPos);
         if (index >= 0 && index < wheels.size()) {
-            wheels.get(index).placeSymbol(symbol);
+            w.placeSymbol(symbol);
             winnerAppearance();
             ok = true;
         } else {
@@ -505,14 +500,15 @@ public class SlotMachine {
             return;
         }
         
-        if (lockedWheels.contains(wheel)) {
+        animateLever();
+        int pos = adjustPosition(wheel);
+        
+        Wheel w = wheels.get(pos);
+        if (w.isLocked()) {
             if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
             return;
         }
-        animateLever();
-        int pos = adjustPosition(wheel);
-
         for (int i = 0; i < steps; i++) {
             wheels.get(pos).spin();
             if (visible) {
@@ -528,19 +524,21 @@ public class SlotMachine {
      * @param setSymbols array of symbols, one per wheel in order
      */
     public void spin(String[] setSymbols) {
-        if (!lockedWheels.isEmpty()){
-            if(visible) MessageUtil.showError("Algunas ruedas estan bloqueadas");
-            ok = false;
-            return;
-        }
 
         if (setSymbols.length != wheels.size()) {
             if(visible) MessageUtil.showError("No tiene los simbolos suficientes para las ruedas de la maquina");
             ok = false;
             return;
         }
+        Wheel w;
         for (int i = 0; i < wheels.size(); i++) {
-            wheels.get(i).placeSymbol(setSymbols[i]);
+            w = wheels.get(i);
+            if (!w.isLocked()){
+                w.placeSymbol(setSymbols[i]);
+            }
+            else{
+                if (visible) MessageUtil.showError("La rueda "+ (i+1) + "esta bloqueada");
+            }
         }
         winnerAppearance();
 
