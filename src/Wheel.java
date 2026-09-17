@@ -23,6 +23,7 @@ public class Wheel {
     private int posY;
     private Rectangle slot;
     private Triangle visibleShape;
+    private boolean locked;
 
     /**
      * Constructs the object for every wheel of the board
@@ -36,6 +37,7 @@ public class Wheel {
         slot = new Rectangle();
         slot.changeColor("black");
         slot.changeSize(CELL_SIZE, CELL_SIZE);
+        locked = false;
         
         visibleShape = new Triangle();
         visibleShape.changeSize(SYMBOL_SIZE, SYMBOL_SIZE);
@@ -252,5 +254,28 @@ public class Wheel {
     public void setLocation(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
+    }
+
+    /**
+     * Locks this wheel, preventing it from being spun or modified
+     * until it is explicitly unlocked.
+     */
+    public void lock(){
+        locked = true;
+    }
+    /**
+     * Unlocks this wheel, allowing it to be spun or modified again.
+     */
+    public void unlock(){
+        locked=false;
+    }
+
+    /**
+     * Returns whether this element is currently locked.
+     *
+     * @return true if locked, false otherwise
+     */
+    public boolean isLocked(){
+        return locked;
     }
 }
