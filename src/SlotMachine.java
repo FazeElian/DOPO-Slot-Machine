@@ -295,7 +295,6 @@ public class SlotMachine {
      * @param wheel2 position of the second wheel
      */
     public void swap(int wheel1, int wheel2) {
-
         if (wheel1 == wheel2) {
             if (visible) MessageUtil.showError("No se puede intercambiar una rueda consigo misma.");
             ok = false;
@@ -307,7 +306,7 @@ public class SlotMachine {
 
         Wheel w1 = wheels.get(i1);
         Wheel w2 = wheels.get(i2);
-
+        
         // Same formula used by addWheel to calculate posX/posY (1-based)
         int posX1 = ((wheel1 - 1) % MAX_COLUMNS) + 1;
         int posY1 = ((wheel1 - 1) / MAX_COLUMNS) + 1;
@@ -680,4 +679,14 @@ public class SlotMachine {
                 if(visible) MessageUtil.showSuccess("Has hecho JACKPOT, GANASTE");
             }
     } 
+
+    /**
+     * Returns the wheel at the given 1-based position.
+     * @param pos 1-based position of the wheel
+     * @return the wheel, or null if the position does not exist
+     */
+    public Wheel getWheel(int pos) {
+        if (pos < 1 || pos > wheels.size()) return null;
+        return wheels.get(pos - 1);
+    }
 }
