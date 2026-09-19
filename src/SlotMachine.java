@@ -207,6 +207,11 @@ public class SlotMachine {
      * @param wheel 1-based position of the wheel to unlock
      */
     public void unlock(int wheel) {
+        if (wheels.isEmpty()) {
+            if(visible) MessageUtil.showError("No existen ruedas,intenta de nuevo");
+            ok = false;
+            return;
+        }
         Wheel w =  wheels.get(wheel-1);
         if (!w.isLocked()) {
             if(visible) MessageUtil.showError("Esa rueda no estaba bloqueada");
@@ -300,6 +305,11 @@ public class SlotMachine {
             ok = false;
             return;
         }
+        if (wheels.isEmpty()) {
+            if(visible) MessageUtil.showError("No existen ruedas,intenta de nuevo");
+            ok = false;
+            return;
+        }
 
         int i1 = adjustPosition(wheel1);
         int i2 = adjustPosition(wheel2);
@@ -348,6 +358,11 @@ public class SlotMachine {
      */
     public void spin(int wheelPos) {
         animateLever();
+        if (wheels.isEmpty()) {
+            if(visible) MessageUtil.showError("No existen esa rueda, intenta de nuevo");
+            ok = false;
+            return;
+        }
         int index = adjustPosition(wheelPos);
         Wheel w = wheels.get(index);
         
@@ -401,6 +416,11 @@ public class SlotMachine {
      * @param symbol   color to display
      */
     public void placeSymbol(int wheelPos, String symbol) {
+        if (wheels.isEmpty()) {
+            if(visible) MessageUtil.showError("No existen ruedas,intenta de nuevo");
+            ok = false;
+            return;
+        }
         int index = adjustPosition(wheelPos);
         Wheel w = wheels.get(index);
         if (w.isLocked()){

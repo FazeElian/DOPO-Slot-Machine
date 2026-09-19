@@ -96,10 +96,12 @@ public class SlotMachineC2Test
         
         // Lock the wheel that was just added
         slotMachine.lock(1);
-        
+        Wheel w1 = slotMachine.getWheel(1);
+        assertTrue(w1.isLocked());
         // Try to unlock a wheel that wasn't locked
         slotMachine.unlock(2);
-        
+        Wheel w2 = slotMachine.getWheel(2);
+        assertFalse(w2.isLocked());
         // Check the action wasn't succesfull
         assertFalse(slotMachine.ok());
     }
@@ -149,10 +151,12 @@ public class SlotMachineC2Test
         slotMachine.addWheel(1);
         slotMachine.addWheel(2);
         slotMachine.addWheel(3);
-        
+        Wheel w = slotMachine.getWheel(2);
         // Try to swap two wheels at the same position
         slotMachine.swap(2, 2);
         
+        Wheel wResult = slotMachine.getWheel(2);
+        assertEquals(w,wResult);
         // Check that the action wasn't succesfull due to a index duplication on the wheels to swap
         assertFalse(slotMachine.ok());
     }
@@ -267,13 +271,12 @@ public class SlotMachineC2Test
     }
     
     /**
-     * Verifies that setting a full symbol configuration via
-     * spin(String[]) fails when at least one wheel is locked.
-     * NOTE: this test's second block intends to also verify failure
-     * when the amount of symbols doesn't match the number of wheels,
-     * but it currently reuses the "symbols" array (2 elements) instead
-     * of "symbols2"
-     * second scenario is not actually being exercised.
+     * Verifies that setting a full symbol configuration via spin(String[])
+     * fails in two situations: first, when at least one wheel is locked
+     * (even though the requested colors aren't registered symbols, which
+     * on its own would already prevent any wheel from updating); second,
+     * when the amount of symbols exceeds the number of wheels, using
+     * "symbols2" (3 elements for only 2 wheels).
      */
     @Test
     public void shouldNotSpinWheelsSettingSymbols() {
