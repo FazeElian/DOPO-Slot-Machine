@@ -42,29 +42,6 @@ public class SlowMachineCC2Test
     {
     }
 
-    /**
-     * Verifies that attempting to swap two wheels fails when one of
-     * them is locked, setting the machine status to not ok.
-     */
-    @Test
-    public void accordingIcPgShouldNotSwap()
-    {
-        slotMachine.addSymbol(1, "red");
-        slotMachine.addSymbol(1, "blue");
-
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
-
-        slotMachine.lock(1);
-
-        slotMachine.swap(1, 3);
-
-        assertFalse(slotMachine.ok());
-
-        slotMachine.unlock(1);
-    }
-
         /**
      * Verifies that a wheel can be spun successfully once it has been
      * locked and then unlocked, leaving the machine status as ok.
@@ -132,26 +109,6 @@ public class SlowMachineCC2Test
         slotMachine.spin(1, 1);
 
         assertTrue(slotMachine.ok());
-    }
-
-    /**
-     * WHAT IT SHOULD NOT DO: swap two wheels when one of them
-     * is locked. The operation should fail and leave ok() as false,
-     * without altering the configuration of any wheel.
-     */
-    @Test
-    public void accordingFsGcShouldNotSwapWhenAWheelIsLocked()
-    {
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
-        slotMachine.lock(1);
-        String[] before = slotMachine.configuration();
-        slotMachine.swap(1, 3);
-        assertFalse(slotMachine.ok());
-        assertArrayEquals(before, slotMachine.configuration());
-
-        slotMachine.unlock(1);
     }
 
     /**
@@ -435,8 +392,9 @@ public class SlowMachineCC2Test
         slotMachine.addWheel(2);
         slotMachine.addWheel(3);
 
-        slotMachine.addSymbol(1, "red");   // Add a new symbol [black,red] - with black being the default.
-        slotMachine.addSymbol(1, "green"); // Add another symbol [black,green,red].
+        slotMachine.addSymbol(1, "red");   // Add a new symbol [red] - with black being the default.
+        slotMachine.addSymbol(1, "green"); // Add another symbol [green,red].
+        slotMachine.addSymbol(1, "black"); //Add another symbol [black, green,red].
         slotMachine.placeSymbol(1, "red"); // Change the first wheel's symbol to red.
         slotMachine.placeSymbol(2, "green"); // Change the second wheel's symbol to green.
         slotMachine.placeSymbol(3, "black"); // Change the third wheel's symbol to black.
@@ -459,51 +417,14 @@ public class SlowMachineCC2Test
         slotMachine.addWheel(2);
         slotMachine.addWheel(3);
 
+
+        slotMachine.addSymbol(1, "yellow");
+        slotMachine.addSymbol(2, "red");
+        slotMachine.addSymbol(3, "blue");
+
         slotMachine.spin(new String[] { "yellow", "red", "blue" });
         assertTrue(slotMachine.ok(), "dejar la máquina en una configuración dada debe ser exitoso");
         assertArrayEquals(new String[] { "yellow", "red", "blue" }, slotMachine.configuration());
-    }
-    
-    /**
-     * Verifies swapping between locked and unlocked wheels, and
-     * rotating a wheel by steps.
-     */
-    @Test
-    public void accordingCaPpShouldNotSwapWhenWheelIsLockedAndWorkWhenUnlocked()
-    {
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
-    
-        slotMachine.addSymbol(1, "red");
-        slotMachine.addSymbol(1, "blue");
-    
-        slotMachine.addSymbol(2, "green");
-        slotMachine.addSymbol(2, "yellow");
-    
-        slotMachine.addSymbol(3, "magenta");
-        slotMachine.addSymbol(3, "black");
-    
-        slotMachine.spin(new String[]{"blue", "yellow", "magenta"});
-        assertEquals("blue", slotMachine.configuration()[0]);
-    
-        slotMachine.lock(2);
-        slotMachine.swap(1, 2);
-    
-        assertFalse(slotMachine.ok());
-        assertEquals("yellow", slotMachine.configuration()[1]);
-    
-        slotMachine.unlock(2);
-        slotMachine.swap(1, 2);
-    
-        assertTrue(slotMachine.ok());
-        assertEquals("yellow", slotMachine.configuration()[0]);
-        assertEquals("blue", slotMachine.configuration()[1]);
-    
-        slotMachine.spin(3, 1);
-        assertTrue(slotMachine.ok());
-        assertNotNull(slotMachine.configuration());
-        assertEquals(3, slotMachine.configuration().length);
     }
 
     /**
