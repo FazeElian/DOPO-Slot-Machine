@@ -123,12 +123,14 @@ public class SlotMachineC2Test
         
         // Try to unlock a wheel that was locked
         slotMachine.unlock(1);
+        assertFalse(slotMachine.getWheel(1).isLocked());
         
         // Check the action was succesfull
         assertTrue(slotMachine.ok());
         
         // Try to unlock a wheel that wasn't locked
         slotMachine.unlock(2);
+        assertFalse(slotMachine.getWheel(2).isLocked());
         
         // Check the action wasn't succesfull
         assertFalse(slotMachine.ok());
@@ -262,12 +264,15 @@ public class SlotMachineC2Test
 
         // Lock the first one
         slotMachine.lock(1);
-        
+        String[] symbols2 = slotMachine.configuration();
+
         // Spin the first wheel 3 times
         slotMachine.spin(1, 3);
-        
+
         // Check that the action wasn't succesful due to the wheel to spin is locked
         assertFalse(slotMachine.ok());
+        assertTrue(Arrays.equals(symbols2, slotMachine.configuration()));
+        
     }
     
     /**
