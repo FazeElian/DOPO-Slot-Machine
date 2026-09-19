@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 17 22:07:24 COT 2026
+#Sat Sep 19 15:01:11 COT 2026
 comment0.target=SlotMachineC2Test
 comment0.text=\r\n The SlotMachine test class for cycle 2.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.1\r\n
 comment1.target=SlotMachineC2Test()
@@ -7,7 +7,7 @@ comment1.text=\r\n Default constructor for test class SlotMachineC2Test\r\n
 comment10.target=void shouldNotSpinByStepsAWheel()
 comment10.text=\r\n Verifies that attempting to spin a wheel that is currently locked\r\n fails, setting the machine status to not ok.\r\n
 comment11.target=void shouldNotSpinWheelsSettingSymbols()
-comment11.text=\r\n Verifies that setting a full symbol configuration via\r\n spin(String[]) fails when at least one wheel is locked.\r\n NOTE\: this test's second block intends to also verify failure\r\n when the amount of symbols doesn't match the number of wheels,\r\n but it currently reuses the "symbols" array (2 elements) instead\r\n of "symbols2"\r\n second scenario is not actually being exercised.\r\n
+comment11.text=\r\n Verifies that setting a full symbol configuration via spin(String[])\r\n fails in two situations\: first, when at least one wheel is locked\r\n (even though the requested colors aren't registered symbols, which\r\n on its own would already prevent any wheel from updating); second,\r\n when the amount of symbols exceeds the number of wheels, using\r\n "symbols2" (3 elements for only 2 wheels).\r\n
 comment12.target=void shouldSpinWheelsSettingSymbols()
 comment12.text=\r\n Verifies that setting a full symbol configuration via\r\n spin(String[]) succeeds when no wheel is locked and the amount\r\n of symbols matches the number of wheels on the board, and that\r\n the resulting configuration matches exactly what was requested.\r\n
 comment13.target=void tearDown()
