@@ -54,10 +54,11 @@ public class Wheel {
     }
 
     /**
-     * Adds a symbol to the symbols array for all
-     * the wheels of the board
-     * @param pos
-     * @param color
+     * Adds a symbol to the wheel's visible cycle, adjusting the current
+     * index if the new symbol was inserted before or at the wheel's
+     * current position.
+     * @param index 1-based position at which the new symbol was inserted
+     *              into the global symbols list
      */
     public void addSymbol(int index){
         if (currentIndex == -1){
@@ -99,19 +100,39 @@ public class Wheel {
         }
         refreshShape();
     }
-
     /**
-     * Change the wheel ("spin" the board) going to
-     * the next one on the slot
+     * Changes the wheel's visible symbol by one position in the given
+     * direction: forward (direction == 1) advances to the next symbol,
+     * wrapping to the first when at the end; backward (direction == -1)
+     * moves to the previous symbol, wrapping to the last when at the start.
+     *
+     * @param direction 1 to advance one step, -1 to go back one step
      */
-    public void spin(){
-        if (currentIndex == symbols.size() - 1){
-            currentIndex = 0;
-        }else{
-            currentIndex += 1;
+    public void spin(int direction) {
+        if (direction >= 0) {
+            if (currentIndex == symbols.size() - 1) {
+                currentIndex = 0;
+            } else {
+                currentIndex += 1;
+            }
+        } else {
+            if (currentIndex == 0) {
+                currentIndex = symbols.size() - 1;
+            } else {
+                currentIndex -= 1;
+            }
         }
         refreshShape();
     }
+
+    /**
+     * Change the wheel ("spin" the board) going to the next one on the slot.
+     * Equivalent to spin(1).
+     */
+    public void spin(){
+        spin(1);
+    }
+
 
     /**
      * Return the symbol located on the current index
@@ -240,7 +261,7 @@ public class Wheel {
 
     /**
      * Returns the index of the symbol on the array according to its value
-     * @param symbols string value of the symbol
+     * @param symbol string value of the symbol
      */
     public static int getIndexOfSymbol(String symbol) {
         return symbols.indexOf(symbol);

@@ -1,0 +1,25 @@
+#BlueJ class context
+#Sat Sep 19 21:40:20 COT 2026
+comment0.target=SlotMachineContestTest
+comment0.text=\r\n Unit tests for SlotMachineContest\: verifies that solve(n) produces a\r\n valid action sequence reaching jackpot within the action limit, and\r\n that simulate(n) makes the resolved machine visible.\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
+comment1.target=SlotMachineContestTest()
+comment1.text=\r\n Default constructor for test class SlotMachineContestTest\r\n
+comment10.target=void tearDown()
+comment10.text=\r\n Tears down the test case.\r\n\r\n Called after every test case method.\r\n
+comment2.target=void setUp()
+comment2.text=\r\n Sets up the test case.\r\n\r\n Called before every test case method.\r\n
+comment3.target=void shouldReachJackpotForSmallN()
+comment3.text=\r\n Verifies that solve(n) reaches jackpot for a small n (3),\r\n the lower bound of the contest's valid range.\r\n
+comment4.target=void shouldReachJackpotForMidN()
+comment4.text=\r\n Verifies that solve(n) reaches jackpot for a mid-range n (10),\r\n a typical case away from either edge of the valid range.\r\n
+comment5.target=void shouldReachJackpotForMaxN()
+comment5.text=\r\n Verifies that solve(n) reaches jackpot for n \= 50, the maximum\r\n size allowed by the contest and the hardest case to solve.\r\n
+comment6.target=void shouldStayUnderActionLimit()
+comment6.text=\r\n Verifies that the number of actions used to solve n \= 50 never\r\n exceeds the contest's hard limit of 10000 actions.\r\n
+comment7.target=void shouldOnlyReferenceValidWheelPositions()
+comment7.text=\r\n Verifies that every action returned by solve(n) references a\r\n wheel position within the valid 1-based range [1, n].\r\n
+comment8.target=void shouldReachJackpotAcrossMultipleRandomRuns()
+comment8.text=\r\n Verifies that solve(n) reliably reaches jackpot across many runs,\r\n since SlotMachine(n) randomizes its starting configuration each time.\r\n
+comment9.target=void shouldCreateNewMachineWhenNChanges()
+comment9.text=\r\n Verifies that calling solve(n) with a different n creates a fresh\r\n SlotMachine sized for that n, instead of reusing the previous one.\r\n
+numComments=11
