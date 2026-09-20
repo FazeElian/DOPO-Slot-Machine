@@ -2,21 +2,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Solves the ICPC 2025 World Finals "Slot Machine" contest problem
+ * A class whose objective is solve the ICPC 2025 World Finals "Slot Machine" contest problem
  * (Problem I, Baku): given a slot machine with n wheels, each cycling
  * through the same n distinct symbols, this class figures out how to
  * rotate the wheels so that all of them end up showing the same
- * symbol at the same time (a jackpot) — without ever being able to
- * see which symbol any wheel is actually showing.
+ * symbol at the same time (whicj is called a jackpot), this without ever being able to
+ * see which symbol is been showed on every wheel.
  *
- * The only feedback available while solving is the number of distinct
+ * The only available information while solving is the number of distinct
  * symbols currently visible across all wheels, obtained through
  * {@link SlotMachine#distinctSymbols()}. All reasoning about which
  * wheel matches which symbol is done indirectly, by observing how
  * that count changes after each rotation.
  *
  * @author Oscar Poveda, Elian Ibarra
- * @version 1.0
+ * @version 1.1
  */
 public class SlotMachineContest {
     public static SlotMachine sm; // SlotMachine created for the problem
@@ -29,25 +29,37 @@ public class SlotMachineContest {
 
     /**
      * Solves the ICPC 2025 World Finals "Slot Machine" contest problem
-     * (Problem I) using the three-phase strategy: (1) separate all wheels
-     * so each shows a distinct symbol, (2) discover the exact relative
-     * permutation between wheels by exploiting collisions detected only
-     * through distinctSymbols(), and (3) align every wheel to the same
-     * symbol using the permutation found. The colors themselves are never
-     * read directly — only the count of distinct symbols currently shown.
-     *
-     * Worst-case action count: Phase 1 ~ n*(n-1), Phase 2 ~ 2*C(n,2),
-     * Phase 3 ~ n-1 — comfortably under the 10000-action limit for n <= 50.
+     * (Problem I) using the three-phase strategy:
+     * <ol>
+     *   <li>Separate all wheels so each shows a distinct symbol.</li>
+     *   <li>
+     *     Discover the exact relative permutation between wheels by exploiting
+     *     collisions detected only through <code>distinctSymbols()</code>.
+     *   </li>
+     *   <li>
+     *     Align every wheel to the same symbol using the permutation found. The
+     *     colors themselves are never read directly — only the count of distinct
+     *     symbols currently shown.
+     *   </li>
+     * </ol>
+     * 
+     * Worst-case action count:
+     * <ul>
+     *   <li>Phase 1 ~ n*(n-1)</li>
+     *   <li>Phase 2 ~ 2*C(n,2)</li>
+     *   <li>Phase 3 ~ n-1 — comfortably under the 10000-action limit for n &lt;= 50</li>
+     * </ul>
      *
      * The SlotMachine created here stays invisible for the entire process.
+     * It's shown only when user wants to simulate all the solution.
      *
      * @param n number of wheels and symbols
      * @return the list of actions {wheel, steps} applied, in order
      */
     public static int[][] solve(int n) {
-            sm = new SlotMachine(n);
-            setSymbols = sm.configuration();
-            List<int[]> actions = new ArrayList<>();
+        sm = new SlotMachine(n);
+        setSymbols = sm.configuration();
+        List<int[]> actions = new ArrayList<>();
 
         if (sm.distinctSymbols() == 1) {
             return actions.toArray(new int[0][]);
