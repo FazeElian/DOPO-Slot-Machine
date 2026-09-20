@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Random;
 /**
  * Represents a slot machine composed of a visual board (gray background)
  * and a list of wheels ({@link Wheel}) organized in a grid of up to
@@ -113,6 +114,63 @@ public class SlotMachine {
         this.lever.moveVertical(leverY);
 
         this.ok = true;
+    }
+
+    /**
+     * Constructs a SlotMachine with n wheels and n distinct symbols, both
+     * randomly initialized. Symbols are generated as random hex colors
+     * (e.g. "#3fae1c") to guarantee n distinct values even when n exceeds
+     * the number of named colors the shapes package supports.
+     * If the random initial configuration happens to already be a jackpot,
+     * one wheel is adjusted to a different registered color to guarantee
+     * a non-trivial starting point, as required by the contest problem.
+     * Used as a testing tool for SlotMachineContest.solve(int).
+     *
+     * @param n number of wheels and symbols to create
+     */
+    public SlotMachine(int n) {
+        this(); // reuse the default constructor's visual setup (board, base, lever)
+
+        Random rand = new java.util.Random();
+        Set<String> usedColors = new java.util.HashSet<>();
+        String[] colors = new String[n];
+
+        // Generate n distinct random hex colors and register them as symbols
+        int added = 0;
+        while (added < n) {
+            String color = String.format("#%06x", rand.nextInt(0x1000000));
+            if (usedColors.add(color)) {
+                addSymbol(added + 1, color);
+                added++;
+            }
+        }
+        colors = symbols();
+
+        // Add n wheels to the board
+        for (int i = 1; i <= n; i++) {
+            addWheel(i);
+        }
+
+        // Build and apply a random initial configuration
+        String[] initialConfig = new String[n];
+        for (int i = 0; i < n; i++) {
+            initialConfig[i] = colors[rand.nextInt(n)];
+        }
+        spin(initialConfig);
+
+        // If the random configuration happens to already be a jackpot,
+        // shift the first wheel to the next registered color to break it
+        if (isJackpot()) {
+            int currentIndex = -1;
+            for (int i = 0; i < n; i++) {
+                if (colors[i].equals(configuration()[0])) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+            int newIndex = (currentIndex + 1) % n;
+            placeSymbol(1, colors[newIndex]);
+        }
     }
 
     /**
@@ -518,18 +576,22 @@ public class SlotMachine {
             ok = false;
             return;
         }
-        
+
         animateLever();
         int pos = adjustPosition(wheel);
-        
+
         Wheel w = wheels.get(pos);
         if (w.isLocked()) {
             if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
             return;
         }
-        for (int i = 0; i < steps; i++) {
-            wheels.get(pos).spin();
+
+        int direction = (steps < 0) ? -1 : 1;
+        int totalSteps = Math.abs(steps);
+
+        for (int i = 0; i < totalSteps; i++) {
+            wheels.get(pos).spin(direction);
             if (visible) {
                 pause();
             }
