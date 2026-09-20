@@ -19,7 +19,7 @@ import java.util.List;
  * @version 1.0
  */
 public class SlotMachineContest {
-    private static SlotMachine sm; // SlotMachine created for the problem
+    public static SlotMachine sm; // SlotMachine created for the problem
     private static String[] setSymbols;
     /**
      * Default constructor for the SlotMachineContest solver class.
@@ -137,4 +137,5 @@ public class SlotMachineContest {
         }
         sm.makeInvisible();
     }
+    
 }
