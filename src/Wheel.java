@@ -54,10 +54,11 @@ public class Wheel {
     }
 
     /**
-     * Adds a symbol to the symbols array for all
-     * the wheels of the board
-     * @param pos
-     * @param color
+     * Adds a symbol to the wheel's visible cycle, adjusting the current
+     * index if the new symbol was inserted before or at the wheel's
+     * current position.
+     * @param index 1-based position at which the new symbol was inserted
+     *              into the global symbols list
      */
     public void addSymbol(int index){
         if (currentIndex == -1){
@@ -260,7 +261,7 @@ public class Wheel {
 
     /**
      * Returns the index of the symbol on the array according to its value
-     * @param symbols string value of the symbol
+     * @param symbol string value of the symbol
      */
     public static int getIndexOfSymbol(String symbol) {
         return symbols.indexOf(symbol);
