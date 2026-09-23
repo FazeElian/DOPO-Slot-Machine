@@ -1,0 +1,17 @@
+#BlueJ class context
+#Wed Sep 23 17:50:57 COT 2026
+comment0.target=SlotMachineContestCTest
+comment0.text=\r\n Shared unit tests for SlotMachineContest, compatible across group\r\n implementations since they verify invariants any correct solution\r\n to the contest problem must satisfy, rather than implementation\r\n details specific to one group's algorithm.\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
+comment1.target=void ShouldOnlyUseExistingWheels()
+comment1.text=\r\n solve should never propose an action on a wheel that doesn't exist.\r\n
+comment2.target=void ShouldNotIncludeZeroStepActions()
+comment2.text=\r\n An action that spins 0 steps moves nothing\: it shouldn't take up a turn.\r\n
+comment3.target=void ShouldNotExceedTheActionLimit()
+comment3.text=\r\n The contest problem allows a maximum of 10000 actions, even with\r\n the largest machine size the problem statement allows.\r\n
+comment4.target=void accordingCaPpshouldReturnValidMovesStructure()
+comment4.text=\r\n Verifies that every returned action has the expected {wheel, steps}\r\n structure (an array of length 2).\r\n
+comment5.target=void accordingMurtestSolveDontHaceSpin0()
+comment5.text=\r\n What should it do? Ensure the returned action list is not null,\r\n stays within the 10000-action limit, and never includes a\r\n zero-step spin (a spin that doesn't change any wheel's state).\r\n What shouldn't it do? Return a null list or include 0-step spins.\r\n
+comment6.target=void accordingCcIcsolveShouldReturnAnEmptyPlanForOneWheel()
+comment6.text=\r\n Verifies that solving a machine with a single wheel returns an\r\n empty action plan, since a lone wheel is trivially always a\r\n jackpot (there is nothing else to match it against).\r\n
+numComments=7
