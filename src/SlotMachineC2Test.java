@@ -35,7 +35,7 @@ public class SlotMachineC2Test
         slotMachine = new SlotMachine();
          
         // Remove all elements from symbols list
-        Wheel.symbols.clear();
+        Symbol.symbols.clear();
     }
     
     // MINI-CYCLE 1: lock() & unlock()

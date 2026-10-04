@@ -2,10 +2,10 @@ import java.util.ArrayList;
 
 /**
  * Represents a single wheel of the slot machine.
- * Each wheel owns its own list of symbols and its visual 
- * representation: a background Rectangle (slot) and a Traingle
- * that shows the currently visible symbol (visibleShape). Both
- * shapes are created once, with a fixed size; only their color changes when the wheel spins
+ * Each wheel owns its own list of Symbol objects and a background
+ * Rectangle (slot). Every Symbol carries its own figure; only the
+ * figure of the symbol at the current index is shown, so spinning
+ * the wheel hides the previous figure and shows the new one.
  * 
  * @author Oscar Poveda, Elian Ibarra
  * @version 1.0
@@ -16,13 +16,14 @@ public class Wheel {
     public final static int SYMBOL_OFFSET_X = 7 * 10 / 2; 
     public final static int SYMBOL_OFFSET_Y = 10;
     public final static int GAP = 10;
-    public static ArrayList<String> symbols  = new ArrayList<String>();
+    private ArrayList<Symbol> symbols;
     private int currentIndex;
     private boolean visible;
     private int posX;
     private int posY;
     private Rectangle slot;
-    private Triangle visibleShape;
+    // Symbol whose figure is currently drawn (null if none)
+    private Symbol shownSymbol;
     private boolean locked;
 
     /**
@@ -33,59 +34,58 @@ public class Wheel {
     public Wheel(int posX, int posY) {
         currentIndex = -1;
         visible = false;
+        symbols = new ArrayList<Symbol>();
 
         slot = new Rectangle();
         slot.changeColor("black");
         slot.changeSize(CELL_SIZE, CELL_SIZE);
         locked = false;
-        
-        visibleShape = new Triangle();
-        visibleShape.changeSize(SYMBOL_SIZE, SYMBOL_SIZE);
-        if (symbols.isEmpty()){
-        visibleShape.changeColor("black");
-        }
-        else{
-            currentIndex = 0;
-            refreshShape();
-        }
+
         accommodate(posX,posY);
         this.posX = posX;
         this.posY = posY;
+
+        // The wheel starts with its own copy of every registered symbol
+        for (int i = 0; i < Symbol.symbols.size(); i++) {
+            addSymbol(i);
+        }
     }
 
     /**
-     * Adds a symbol to the wheel's visible cycle, adjusting the current
-     * index if the new symbol was inserted before or at the wheel's
-     * current position.
-     * @param index 1-based position at which the new symbol was inserted
-     *              into the global symbols list
+     * Inserts into the wheel's cycle its own copy of the catalog symbol
+     * at the given index, adjusting the current index if the new symbol was
+     * inserted before or at the wheel's current position, so the visible
+     * symbol does not change.
+     * @param index 0-based position of the symbol in Symbol.symbols
      */
     public void addSymbol(int index){
+        String name = Symbol.symbols.get(index).getName();
+        Symbol symbol = new Symbol(name, symbolX(), symbolY());
+        symbols.add(index, symbol);
         if (currentIndex == -1){
             currentIndex = 0;
-        }else if (index > 0 && index <= symbols.size() && currentIndex > index-1){
+        }else if (currentIndex >= index){
             currentIndex+=1;
         }
         refreshShape();
     }
 
     /**
-     * Removes a symbol to the symbols array for all
-     * the wheels of the board
+     * Removes a symbol from the wheel's cycle. If the removed symbol was
+     * the visible one, the wheel shows the previous symbol (or the next
+     * one when it was the first). The last symbol can't be removed.
      * @param color string value of the symbol's color
      */
     public void delSymbol(String color){
         int index = getIndexOfSymbol(color);
-        if (symbols.size()>1){
-            if (currentIndex == index){
-                if (currentIndex == 0){
-                    currentIndex = 1;
-                }else{
-                    currentIndex -=1;
-                }
-                refreshShape();
-            }
+        if (index == -1 || symbols.size() <= 1) return;
+        Symbol removed = symbols.remove(index);
+        removed.makeInvisible();
+        if (shownSymbol == removed) shownSymbol = null;
+        if (currentIndex > index || (currentIndex == index && index > 0)){
+            currentIndex -= 1;
         }
+        refreshShape();
     }
 
     /**
@@ -109,6 +109,7 @@ public class Wheel {
      * @param direction 1 to advance one step, -1 to go back one step
      */
     public void spin(int direction) {
+        if (symbols.isEmpty()) return;
         if (direction >= 0) {
             if (currentIndex == symbols.size() - 1) {
                 currentIndex = 0;
@@ -138,7 +139,7 @@ public class Wheel {
      * Return the symbol located on the current index
      */
     public String visibleSymbol(){
-        return symbols.get(currentIndex);
+        return symbols.get(currentIndex).getName();
     }
 
     /**
@@ -148,7 +149,7 @@ public class Wheel {
     public void makeVisible(){
         visible = true;
         slot.makeVisible();
-        visibleShape.makeVisible();
+        if (shownSymbol != null) shownSymbol.makeVisible();
     }
 
     /**
@@ -157,16 +158,28 @@ public class Wheel {
      */
     public void makeInvisible(){
         visible = false;
-        visibleShape.makeInvisible();
+        if (shownSymbol != null) shownSymbol.makeInvisible();
         slot.makeInvisible();
     }
     /**
-     * Updates the color of the visible shape on the screen
-     * according to the symbol that is located on the 
-     * current index
+     * Hides the figure that was shown and shows the figure of the
+     * symbol located on the current index
      */
     private void refreshShape(){
-        visibleShape.changeColor(symbols.get(currentIndex));
+        Symbol current = symbols.isEmpty() ? null : symbols.get(currentIndex);
+        if (current == shownSymbol) return;
+        if (shownSymbol != null) shownSymbol.makeInvisible();
+        shownSymbol = current;
+        if (visible && shownSymbol != null) shownSymbol.makeVisible();
+    }
+
+    // Pixel coordinates where the figure of a symbol of this wheel is drawn
+    private int symbolX(){
+        return posX * (CELL_SIZE + GAP) + GAP + SYMBOL_OFFSET_X;
+    }
+
+    private int symbolY(){
+        return posY * (CELL_SIZE + GAP) + GAP + SYMBOL_OFFSET_Y;
     }
 
     /**
@@ -200,12 +213,10 @@ public class Wheel {
  
         slot.moveHorizontal(deltaX);
         slot.moveVertical(deltaY);
-        if (posX==0 && posY==0){
-            deltaX +=SYMBOL_OFFSET_X;
-            deltaY +=SYMBOL_OFFSET_Y;
+        for (Symbol symbol : symbols) {
+            symbol.moveHorizontal(deltaX);
+            symbol.moveVertical(deltaY);
         }
-        visibleShape.moveHorizontal(deltaX);
-        visibleShape.moveVertical(deltaY);
         posX = newPosX;
         posY = newPosY;
     }
@@ -249,22 +260,26 @@ public class Wheel {
 
     public void slowMoveHorizontal(int distance) {
         slot.moveHorizontal(distance);
-        visibleShape.moveHorizontal(distance);
+        for (Symbol symbol : symbols) symbol.moveHorizontal(distance);
         pause();
     }
 
     public void slowMoveVertical(int distance) {
         slot.moveVertical(distance);
-        visibleShape.moveVertical(distance);
+        for (Symbol symbol : symbols) symbol.moveVertical(distance);
         pause();
     }
 
     /**
-     * Returns the index of the symbol on the array according to its value
+     * Returns the index of the symbol on the wheel according to its value,
+     * or -1 if the wheel doesn't have it
      * @param symbol string value of the symbol
      */
-    public static int getIndexOfSymbol(String symbol) {
-        return symbols.indexOf(symbol);
+    private int getIndexOfSymbol(String symbol) {
+        for (int i = 0; i < symbols.size(); i++) {
+            if (symbols.get(i).getName().equals(symbol)) return i;
+        }
+        return -1;
     }
 
     /**
