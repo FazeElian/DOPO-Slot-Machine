@@ -1,31 +1,31 @@
 #BlueJ class context
-#Fri Oct 02 19:44:06 COT 2026
+#Sun Oct 04 15:52:59 COT 2026
 comment0.target=SlotMachineC2Test
-comment0.text=\n The SlotMachine test class for cycle 2.\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.1\n
+comment0.text=\r\n The SlotMachine test class for cycle 2.\r\n\r\n @author  Oscar Poveda, Elian Ibarra\r\n @version 1.1\r\n
 comment1.target=SlotMachineC2Test()
-comment1.text=\n Default constructor for test class SlotMachineC2Test\n
+comment1.text=\r\n Default constructor for test class SlotMachineC2Test\r\n
 comment10.target=void shouldNotSpinByStepsAWheel()
-comment10.text=\n Verifies that attempting to spin a wheel that is currently locked\n fails, setting the machine status to not ok.\n
+comment10.text=\r\n Verifies that attempting to spin a wheel that is currently locked\r\n fails, setting the machine status to not ok.\r\n
 comment11.target=void shouldNotSpinWheelsSettingSymbols()
-comment11.text=\n Verifies that setting a full symbol configuration via spin(String[])\n fails in two situations\: first, when at least one wheel is locked\n (even though the requested colors aren't registered symbols, which\n on its own would already prevent any wheel from updating); second,\n when the amount of symbols exceeds the number of wheels, using\n "symbols2" (3 elements for only 2 wheels).\n
+comment11.text=\r\n Verifies that setting a full symbol configuration via spin(String[])\r\n fails in two situations\: first, when at least one wheel is locked\r\n (even though the requested colors aren't registered symbols, which\r\n on its own would already prevent any wheel from updating); second,\r\n when the amount of symbols exceeds the number of wheels, using\r\n "symbols2" (3 elements for only 2 wheels).\r\n
 comment12.target=void shouldSpinWheelsSettingSymbols()
-comment12.text=\n Verifies that setting a full symbol configuration via\n spin(String[]) succeeds when no wheel is locked and the amount\n of symbols matches the number of wheels on the board, and that\n the resulting configuration matches exactly what was requested.\n
+comment12.text=\r\n Verifies that setting a full symbol configuration via\r\n spin(String[]) succeeds when no wheel is locked and the amount\r\n of symbols matches the number of wheels on the board, and that\r\n the resulting configuration matches exactly what was requested.\r\n
 comment13.target=void tearDown()
-comment13.text=\n Tears down the test fixture.\n\n Called after every test case method.\n
+comment13.text=\r\n Tears down the test fixture.\r\n\r\n Called after every test case method.\r\n
 comment2.target=void setUp()
-comment2.text=\n Sets up the test fixture.\n\n Called before every test case method.\n
+comment2.text=\r\n Sets up the test fixture.\r\n\r\n Called before every test case method.\r\n
 comment3.target=void shouldNotLockASpin()
-comment3.text=\n Verifies that attempting to lock a wheel that doesn't exist yet\n fails, setting the machine status to not ok.\n
+comment3.text=\r\n Verifies that attempting to lock a wheel that doesn't exist yet\r\n fails, setting the machine status to not ok.\r\n
 comment4.target=void shouldLockASpin()
-comment4.text=\n Verifies that locking an existing wheel succeeds, leaving the\n machine status as ok.\n
+comment4.text=\r\n Verifies that locking an existing wheel succeeds, leaving the\r\n machine status as ok.\r\n
 comment5.target=void shouldNotUnlockASpin()
-comment5.text=\n Verifies that attempting to unlock a wheel that was never locked\n fails, setting the machine status to not ok.\n
+comment5.text=\r\n Verifies that attempting to unlock a wheel that was never locked\r\n fails, setting the machine status to not ok.\r\n
 comment6.target=void shouldUnlockASpin()
-comment6.text=\n Verifies unlock() in two situations\: unlocking a previously\n locked wheel succeeds and leaves the machine status as ok;\n afterward, attempting to unlock a different wheel that was\n never locked fails, setting the machine status to not ok.\n
+comment6.text=\r\n Verifies unlock() in two situations\: unlocking a previously\r\n locked wheel succeeds and leaves the machine status as ok;\r\n afterward, attempting to unlock a different wheel that was\r\n never locked fails, setting the machine status to not ok.\r\n
 comment7.target=void shouldNotSwap()
-comment7.text=\n Verifies that attempting to swap a wheel with itself (duplicate\n position) fails, setting the machine status to not ok. Note\:\n despite its name, this test does not involve a locked wheel \u2014\n it only exercises the duplicate-index validation in swap().\n
+comment7.text=\r\n Verifies that attempting to swap a wheel with itself (duplicate\r\n position) fails, setting the machine status to not ok. Note\:\r\n despite its name, this test does not involve a locked wheel \u2014\r\n it only exercises the duplicate-index validation in swap().\r\n
 comment8.target=void shouldSwap()
-comment8.text=\n Verifies swap() together with the locking rules on spin()\: first\n confirms that spinning a locked wheel fails; then, once the\n wheel is unlocked and spun, verifies that swapping two unlocked\n wheels succeeds, leaving the machine status as ok and producing\n the expected configuration order.\n
+comment8.text=\r\n Verifies swap() together with the locking rules on spin()\: first\r\n confirms that spinning a locked wheel fails; then, once the\r\n wheel is unlocked and spun, verifies that swapping two unlocked\r\n wheels succeeds, leaving the machine status as ok and producing\r\n the expected configuration order.\r\n
 comment9.target=void shouldSpinByStepsAWheel()
-comment9.text=\n Verifies spin(int, int) in two situations\: spinning an unlocked\n wheel by steps succeeds; and, after locking and then unlocking a\n different wheel, spinning that wheel by steps also succeeds,\n leaving the machine status as ok. In this scenario spinning\n wheel 1 by 3 steps results in a jackpot against wheel 2's symbol.\n
+comment9.text=\r\n Verifies spin(int, int) in two situations\: spinning an unlocked\r\n wheel by steps succeeds; and, after locking and then unlocking a\r\n different wheel, spinning that wheel by steps also succeeds,\r\n leaving the machine status as ok. In this scenario spinning\r\n wheel 1 by 3 steps results in a jackpot against wheel 2's symbol.\r\n
 numComments=14
