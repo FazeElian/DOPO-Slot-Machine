@@ -6,8 +6,9 @@ import java.util.Random;
 /**
  * Represents a slot machine composed of a visual board (gray background)
  * and a list of wheels ({@link Wheel}) organized in a grid of up to
- * 14 columns and 9 rows. Symbols are shared globally across all wheels
- * through {@link Wheel#symbols}.
+ * 14 columns and 9 rows. Symbols are registered globally in
+ * {@link Symbol#symbols} and every wheel owns its own {@link Symbol}
+ * objects built from that list.
  *
  * <p>Position convention: all positions exposed in public methods are
  * <b>1-based</b> (the first wheel is position 1).</p>
@@ -292,22 +293,23 @@ public class SlotMachine {
      * @param color color name to add
      */
     public void addSymbol(int pos, String color) {
-        int index = Wheel.symbols.indexOf(color.toLowerCase());
+        String name = color.toLowerCase();
         // indexOf returns -1 if the symbol is not yet registered
-        if (index == -1) {
+        if (Symbol.indexOf(name) == -1) {
+            int index;
             if (pos < 1) {
-                Wheel.symbols.add(0, color.toLowerCase());
-            } else if (pos > Wheel.symbols.size()) {
-                Wheel.symbols.add(color.toLowerCase());
+                index = 0;
+            } else if (pos > Symbol.symbols.size()) {
+                index = Symbol.symbols.size();
             } else {
-                Wheel.symbols.add(pos - 1, color.toLowerCase());
+                index = pos - 1;
             }
-            // Adjust currentIndex if the new symbol was inserted
-            // before or at the current position
-            for (int i = 0; i < wheels.size(); i++) {
-                wheels.get(i).addSymbol(pos);
-                ok = true;
+            Symbol.symbols.add(index, new Symbol(name));
+            // Every wheel inserts its own copy of the Symbol at the same index
+            for (Wheel wheel : wheels) {
+                wheel.addSymbol(index);
             }
+            ok = true;
         } else {
             ok = false;
             if(visible) MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
@@ -323,17 +325,18 @@ public class SlotMachine {
     public void delSymbol(String color) {
         String c = color.trim().toLowerCase();
     
-        if (!Wheel.symbols.contains(c)) {
+        int index = Symbol.indexOf(c);
+        if (index == -1) {
             if(visible) MessageUtil.showError("Ese símbolo: " + color.toUpperCase() + " no existe, añádelo e intenta de nuevo.");
             ok = false;
             return;
         }
     
-        if (Wheel.symbols.size() > 1) {
+        if (Symbol.symbols.size() > 1) {
             for (Wheel wheel : wheels) {
                 wheel.delSymbol(c);
             }
-            Wheel.symbols.remove(c);
+            Symbol.symbols.remove(index);
             ok = true;
         } else {
             if(visible) MessageUtil.showWarning("Solo queda un símbolo, no se puede eliminar");
@@ -347,7 +350,11 @@ public class SlotMachine {
      * @return array of color names or its hexagesimal code if the user entered it on its creation
      */
     public String[] symbols() {
-        return Wheel.symbols.toArray(String[]::new);
+        String[] names = new String[Symbol.symbols.size()];
+        for (int i = 0; i < names.length; i++) {
+            names[i] = Symbol.symbols.get(i).getName();
+        }
+        return names;
     }
 
     /**
@@ -503,7 +510,7 @@ public class SlotMachine {
      * @return array of visible color names, one per wheel
      */
     public String[] configuration() {
-        if (!Wheel.symbols.isEmpty()) {
+        if (!Symbol.symbols.isEmpty()) {
             String[] config = new String[wheels.size()];
             for (int i = 0; i < wheels.size(); i++) {
                 config[i] = wheels.get(i).visibleSymbol();
@@ -524,7 +531,7 @@ public class SlotMachine {
      */
     public int distinctSymbols() {
         Set<String> uniqueSymbols = new HashSet<>();
-        if (!Wheel.symbols.isEmpty()) {
+        if (!Symbol.symbols.isEmpty()) {
             for (Wheel wheel : wheels) {
                 uniqueSymbols.add(wheel.visibleSymbol());
             }
@@ -544,7 +551,7 @@ public class SlotMachine {
      * @return true on jackpot, false otherwise
      */
     public boolean isJackpot() {
-        if (!Wheel.symbols.isEmpty()) {
+        if (!Symbol.symbols.isEmpty()) {
             if (wheels.isEmpty() || wheels.size()==1) {
                 ok = true;
                 return false;
