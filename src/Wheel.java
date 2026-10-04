@@ -258,12 +258,24 @@ public class Wheel {
         }
     }
 
+    /**
+     * Moves the slot and every symbol of this wheel horizontally and then
+     * pauses briefly, so the movement can be seen step by step.
+     *
+     * @param distance number of pixels to move; negative values move left
+     */
     public void slowMoveHorizontal(int distance) {
         slot.moveHorizontal(distance);
         for (Symbol symbol : symbols) symbol.moveHorizontal(distance);
         pause();
     }
 
+    /**
+     * Moves the slot and every symbol of this wheel vertically and then
+     * pauses briefly, so the movement can be seen step by step.
+     *
+     * @param distance number of pixels to move; negative values move up
+     */
     public void slowMoveVertical(int distance) {
         slot.moveVertical(distance);
         for (Symbol symbol : symbols) symbol.moveVertical(distance);
@@ -313,5 +325,34 @@ public class Wheel {
      */
     public boolean isLocked(){
         return locked;
+    }
+    
+    /**
+     * Sets the wheel located immediately to the left of this one.
+     * The base implementation ignores it, since a normal wheel does not depend
+     * on its neighbors. Subclasses such as {@link LeftyWheel} override it.
+     *
+     * @param left the wheel to the left, or null if there is none
+     */
+    public void setLeftNeighbor(Wheel left) {}
+    
+    /**
+     * Indicates whether this wheel is of the "rebel" type, which cannot be
+     * locked, swapped or removed.
+     *
+     * @return true if this wheel is a rebel wheel, false otherwise
+     */
+    public boolean isRebel() {
+        return false;
+    }
+    
+    /**
+     * Indicates whether this wheel is of the "lefty" type, which copies the
+     * visible symbol of its left neighbor when spun.
+     *
+     * @return true if this wheel is a lefty wheel, false otherwise
+     */
+    public boolean isLefty() {
+        return false;
     }
 }
