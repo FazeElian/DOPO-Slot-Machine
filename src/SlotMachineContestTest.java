@@ -29,7 +29,7 @@ public class SlotMachineContestTest
      */
     @BeforeEach
     public void setUp() {
-        Wheel.symbols.clear();
+        Symbol.symbols.clear();
     }
 
     /**
@@ -98,7 +98,7 @@ public class SlotMachineContestTest
             SlotMachineContest.solve(15);
             assertTrue(SlotMachineContest.sm.isJackpot(),
                 "Failed to reach jackpot on run " + i);
-            Wheel.symbols.clear();
+            Symbol.symbols.clear();
         }
     }
 
@@ -111,7 +111,7 @@ public class SlotMachineContestTest
         SlotMachineContest.solve(5);
         SlotMachine first = SlotMachineContest.sm;
         
-        Wheel.symbols.clear();
+        Symbol.symbols.clear();
         SlotMachineContest.solve(8);
         SlotMachine second = SlotMachineContest.sm;
 

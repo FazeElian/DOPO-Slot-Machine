@@ -34,7 +34,7 @@ public class SlotMachineC1Test
          slotMachine = new SlotMachine();
          
          // Remove all elements from symbols list
-         Wheel.symbols.clear();
+         Symbol.symbols.clear();
     }
     
     
