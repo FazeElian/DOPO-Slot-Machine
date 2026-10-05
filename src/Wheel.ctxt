@@ -1,5 +1,5 @@
 #BlueJ class context
-#Fri Oct 02 19:44:06 COT 2026
+#Mon Oct 05 11:46:35 COT 2026
 comment0.target=Wheel
 comment0.text=\n Represents a single wheel of the slot machine.\n Each wheel owns its own list of Symbol objects and a background\n Rectangle (slot). Every Symbol carries its own figure; only the\n figure of the symbol at the current index is shown, so spinning\n the wheel hides the previous figure and shows the new one.\n \n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.params=posX posY
@@ -26,9 +26,9 @@ comment18.text=\n Returns the index of the symbol on the wheel according to its 
 comment19.params=posX posY
 comment19.target=void setLocation(int, int)
 comment19.text=\n Modify the coordiinates of the wheel to the new values\n @param posX the new position in X axis of the board\n @param posY the new position in Y axis of the board\n
-comment2.params=index
-comment2.target=void addSymbol(int)
-comment2.text=\n Inserts into the wheel's cycle its own copy of the catalog symbol\n at the given index, adjusting the current index if the new symbol was\n inserted before or at the wheel's current position, so the visible\n symbol does not change.\n @param index 0-based position of the symbol in Symbol.symbols\n
+comment2.params=index registered
+comment2.target=void addSymbol(int, Symbol)
+comment2.text=\n Inserts into the wheel's cycle its own copy of the given registered\n symbol (same type, figure placed on this wheel), adjusting the current\n index if the new symbol was inserted before or at the wheel's current\n position, so the visible symbol does not change.\n @param index 0-based position of the symbol in Symbol.symbols\n @param registered the symbol of Symbol.symbols to copy\n
 comment20.target=void lock()
 comment20.text=\n Locks this wheel, preventing it from being spun or modified\n until it is explicitly unlocked.\n
 comment21.target=void unlock()

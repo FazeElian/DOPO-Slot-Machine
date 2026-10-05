@@ -41,6 +41,18 @@ public class Symbol {
     }
 
     /**
+     * Returns a new symbol of the same type as this one, with the same
+     * name and its figure placed at the given pixel coordinates. Every
+     * subclass must override it to return an instance of its own type,
+     * so wheels can copy any registered symbol without knowing its class.
+     * @param x pixel position in X axis of the new figure
+     * @param y pixel position in Y axis of the new figure
+     */
+    public Symbol copyAt(int x, int y) {
+        return new Symbol(name, x, y);
+    }
+
+    /**
      * Returns the index of the symbol on the catalog according to its
      * name, or -1 if it isn't registered
      * @param name color string of the symbol

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Fri Oct 02 19:44:06 COT 2026
+#Mon Oct 05 11:46:35 COT 2026
 comment0.target=SlotMachineContest
 comment0.text=\n A class whose objective is solve the ICPC 2025 World Finals "Slot Machine" contest problem\n (Problem I, Baku)\: given a slot machine with n wheels, each cycling\n through the same n distinct symbols, this class figures out how to\n rotate the wheels so that all of them end up showing the same\n symbol at the same time (whicj is called a jackpot), this without ever being able to\n see which symbol is been showed on every wheel.\n\n The only available information while solving is the number of distinct\n symbols currently visible across all wheels, obtained through\n {@link SlotMachine\#distinctSymbols()}. All reasoning about which\n wheel matches which symbol is done indirectly, by observing how\n that count changes after each rotation.\n\n @author Oscar Poveda, Elian Ibarra\n @version 1.1\n
 comment1.target=SlotMachineContest()
