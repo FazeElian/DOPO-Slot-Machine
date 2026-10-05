@@ -327,16 +327,30 @@ public class SlotMachine {
             } else {
                 index = pos - 1;
             }
-            Symbol.symbols.add(index, new Symbol(name));
+            Symbol symbol = createSymbol(name);
+            Symbol.symbols.add(index, symbol);
             // Every wheel inserts its own copy of the Symbol at the same index
             for (Wheel wheel : wheels) {
-                wheel.addSymbol(index);
+                wheel.addSymbol(index, symbol);
             }
             ok = true;
         } else {
             ok = false;
             if(visible) MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
         }
+    }
+
+    /**
+     * Creates the symbol that will be registered in Symbol.symbols.
+     * This is the only place that decides which Symbol class to instantiate:
+     * new symbol types (subclasses) are added here, and wheels copy them
+     * through Symbol.copyAt without knowing their class.
+     *
+     * @param name color string of the symbol
+     * @return the new symbol
+     */
+    private Symbol createSymbol(String name) {
+        return new Symbol(name);
     }
 
     /**

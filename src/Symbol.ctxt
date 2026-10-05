@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Oct 04 15:40:30 COT 2026
+#Mon Oct 05 11:46:35 COT 2026
 comment0.target=Symbol
 comment0.text=\r\n Represents a single symbol of a wheel\: its name (the color string,\r\n e.g. "red" or "\#3fae1c") and the figure (a Triangle) that draws it\r\n on the canvas. The static list {@link \#symbols} is the catalog of\r\n registered symbols shared by the whole board; every wheel builds its own\r\n Symbol objects from it, so each figure moves with the wheel it belongs to.\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
 comment1.params=name
@@ -7,20 +7,23 @@ comment1.target=Symbol(java.lang.String)
 comment1.text=\r\n Constructs a symbol whose figure stays at the origin of the canvas.\r\n Used for the entries of the catalog, whose figures are never drawn.\r\n @param name color string that identifies the symbol\r\n
 comment2.params=name x y
 comment2.target=Symbol(java.lang.String, int, int)
-comment2.text=\r\n Constructs a symbol whose figure is placed at the given pixel\r\n coordinates of the canvas. The figure starts invisible.\r\n @param name color string that identifies the symbol\r\n @param x pixel position in X axis of the figure\r\n @param y pixel position in Y axis of the figure\r\n
-comment3.params=name
-comment3.target=int indexOf(java.lang.String)
-comment3.text=\r\n Returns the index of the symbol on the catalog according to its\r\n name, or -1 if it isn't registered\r\n @param name color string of the symbol\r\n
-comment4.target=java.lang.String getName()
-comment4.text=\r\n Returns the color string that identifies this symbol\r\n
-comment5.target=void makeVisible()
-comment5.text=\r\n Shows the figure of the symbol on the canvas\r\n
-comment6.target=void makeInvisible()
-comment6.text=\r\n Hides the figure of the symbol from the canvas\r\n
-comment7.params=distance
-comment7.target=void moveHorizontal(int)
-comment7.text=\r\n Moves the figure horizontally by the given distance in pixels\r\n @param distance pixels to move (negative moves left)\r\n
+comment2.text=\n Constructs a symbol whose figure is placed at the given pixel\n coordinates of the canvas. The figure starts invisible.\n @param name color string that identifies the symbol\n @param x pixel position in X axis of the figure\n @param y pixel position in Y axis of the figure\n
+comment3.params=x y
+comment3.target=Symbol copyAt(int, int)
+comment3.text=\n Returns a new symbol of the same type as this one, with the same\n name and its figure placed at the given pixel coordinates. Every\n subclass must override it to return an instance of its own type,\n so wheels can copy any registered symbol without knowing its class.\n @param x pixel position in X axis of the new figure\n @param y pixel position in Y axis of the new figure\n
+comment4.params=name
+comment4.target=int indexOf(java.lang.String)
+comment4.text=\n Returns the index of the symbol on the catalog according to its\n name, or -1 if it isn't registered\n @param name color string of the symbol\n
+comment5.target=java.lang.String getName()
+comment5.text=\n Returns the color string that identifies this symbol\n
+comment6.target=void makeVisible()
+comment6.text=\n Shows the figure of the symbol on the canvas\n
+comment7.target=void makeInvisible()
+comment7.text=\n Hides the figure of the symbol from the canvas\n
 comment8.params=distance
-comment8.target=void moveVertical(int)
-comment8.text=\r\n Moves the figure vertically by the given distance in pixels\r\n @param distance pixels to move (negative moves up)\r\n
-numComments=9
+comment8.target=void moveHorizontal(int)
+comment8.text=\n Moves the figure horizontally by the given distance in pixels\n @param distance pixels to move (negative moves left)\n
+comment9.params=distance
+comment9.target=void moveVertical(int)
+comment9.text=\n Moves the figure vertically by the given distance in pixels\n @param distance pixels to move (negative moves up)\n
+numComments=10

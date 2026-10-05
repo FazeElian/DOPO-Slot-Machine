@@ -47,20 +47,20 @@ public class Wheel {
 
         // The wheel starts with its own copy of every registered symbol
         for (int i = 0; i < Symbol.symbols.size(); i++) {
-            addSymbol(i);
+            addSymbol(i, Symbol.symbols.get(i));
         }
     }
 
     /**
-     * Inserts into the wheel's cycle its own copy of the catalog symbol
-     * at the given index, adjusting the current index if the new symbol was
-     * inserted before or at the wheel's current position, so the visible
-     * symbol does not change.
+     * Inserts into the wheel's cycle its own copy of the given registered
+     * symbol (same type, figure placed on this wheel), adjusting the current
+     * index if the new symbol was inserted before or at the wheel's current
+     * position, so the visible symbol does not change.
      * @param index 0-based position of the symbol in Symbol.symbols
+     * @param registered the symbol of Symbol.symbols to copy
      */
-    public void addSymbol(int index){
-        String name = Symbol.symbols.get(index).getName();
-        Symbol symbol = new Symbol(name, symbolX(), symbolY());
+    public void addSymbol(int index, Symbol registered){
+        Symbol symbol = registered.copyAt(symbolX(), symbolY());
         symbols.add(index, symbol);
         if (currentIndex == -1){
             currentIndex = 0;
