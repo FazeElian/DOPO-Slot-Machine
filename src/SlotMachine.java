@@ -149,7 +149,7 @@ public class SlotMachine {
 
         // Add n wheels to the board
         for (int i = 1; i <= n; i++) {
-            addWheel(i);
+            addWheel(i, ""); // Creates a NORMAL (default) wheel type
         }
 
         // Build and apply a random initial configuration
@@ -182,9 +182,12 @@ public class SlotMachine {
      * system and no external counters that could fall out of sync or return old data.
      * When inserting in the middle, all wheels after pos are shifted right with accommodate(1).
      *
-     * @param pos 1-based position where the new wheel is inserted
+     * @param pos  1-based position where the new wheel is inserted
+     * @param type kind of wheel to create: "lefty", "rebel" or "lazy"; any other
+     * value (including null or an empty string) creates a normal wheel
+     * 
      */
-    public void addWheel(int pos) {
+    public void addWheel(int pos, String type) {
         if (pos < 1) pos = 1;
         if (pos > wheels.size() + 1) pos = wheels.size() + 1;
 
@@ -194,27 +197,31 @@ public class SlotMachine {
             ok = false;
             return;
         }
+        
+        int posX = ((pos - 1) % MAX_COLUMNS) + 1;
+        int posY = ((pos - 1) / MAX_COLUMNS) + 1;
 
-        if (pos > wheels.size()) {// Adding at the end
-            int nextPos = wheels.size() + 1;
-            int posX = ((nextPos - 1) % MAX_COLUMNS) + 1;
-            int posY = ((nextPos - 1) / MAX_COLUMNS) + 1;
-
-            Wheel newWheel = new Wheel(posX, posY);
+        Wheel newWheel;
+        String t = (type == null || type == "") ? "" : type.trim().toLowerCase();
+        switch(t) {
+            case "lefty": newWheel = new LeftyWheel(posX, posY); break;
+            case "rebel": newWheel = new RebelWheel(posX, posY); break;
+            case "lazy": newWheel = new LazyWheel(posX, posY); break;
+            default: newWheel = new Wheel(posX, posY);
+        }
+        
+        if(pos > wheels.size()) {
             wheels.add(newWheel);
-        } else { // Inserting in the middle
-            int posX = ((pos - 1) % MAX_COLUMNS) + 1;
-            int posY = ((pos - 1) / MAX_COLUMNS) + 1;
-
-            Wheel newWheel = new Wheel(posX, posY);
+        } else {
             wheels.add(pos - 1, newWheel);
             // Move every wheel after the new one one position to the right
             for (int i = pos; i < wheels.size(); i++) {
                 wheels.get(i).accommodate(1);
             }
         }
-
+            
         updateBoardSize();
+        ok = true;
     }
 
     /**
@@ -231,15 +238,21 @@ public class SlotMachine {
         }   
 
         int index = adjustPosition(pos);
-        Wheel removedWheel = wheels.remove(index);
-        removedWheel.makeInvisible(); // remove from screen before shifting
-        // Move every wheel after the removed one one position to the left
-        for (int i = index; i < wheels.size(); i++) {
-            wheels.get(i).accommodate(-1); 
+        Wheel w = wheels.get(index);
+        if(!w.isRebel()) {
+            Wheel removedWheel = wheels.remove(index);
+            removedWheel.makeInvisible(); // remove from screen before shifting
+            // Move every wheel after the removed one one position to the left
+            for (int i = index; i < wheels.size(); i++) {
+                wheels.get(i).accommodate(-1); 
+            }
+    
+            updateBoardSize();
+            ok = true;
+        } else {
+            if(visible) MessageUtil.showError("La rueda " + (index + 1) + " es Rebel: no puede eliminarse.");
+            ok = false;
         }
-
-        updateBoardSize();
-        ok = true;
     }
     /**
      * Lock a specific wheel so it cannot be spun.
@@ -254,6 +267,11 @@ public class SlotMachine {
         Wheel w = wheels.get(wheel-1);
         if (w.isLocked()) {
             if(visible) MessageUtil.showError("Esa rueda ya está bloqueada");
+            ok = false;
+            return;
+        }
+        if (w.isRebel()) {
+            if(visible) MessageUtil.showError("Esa rueda es de tipo Rebel, no puede bloquearse.");
             ok = false;
             return;
         }
@@ -274,6 +292,11 @@ public class SlotMachine {
         Wheel w =  wheels.get(wheel-1);
         if (!w.isLocked()) {
             if(visible) MessageUtil.showError("Esa rueda no estaba bloqueada");
+            ok = false;
+            return;
+        }
+        if (w.isRebel()) {
+            if(visible) MessageUtil.showError("Esa rueda es de tipo Rebel, no puede bloquearse ni desbloquearse.");
             ok = false;
             return;
         }
@@ -393,8 +416,20 @@ public class SlotMachine {
         int i1 = adjustPosition(wheel1);
         int i2 = adjustPosition(wheel2);
 
+        if (i1 == i2) {
+            if (visible) MessageUtil.showError("No se puede intercambiar una rueda consigo misma.");
+            ok = false;
+            return;
+        }
+        
         Wheel w1 = wheels.get(i1);
         Wheel w2 = wheels.get(i2);
+        
+        if (w1.isRebel() || w2.isRebel()) {
+            if (visible) MessageUtil.showError("Una rueda Rebel no puede intercambiarse.");
+            ok = false;
+            return;
+        }
         
         // Same formula used by addWheel to calculate posX/posY (1-based)
         int posX1 = ((wheel1 - 1) % MAX_COLUMNS) + 1;
@@ -442,16 +477,22 @@ public class SlotMachine {
             ok = false;
             return;
         }
+        
         int index = adjustPosition(wheelPos);
         Wheel w = wheels.get(index);
-        
+
         if (w.isLocked()) {
             if(visible) MessageUtil.showError("Esta rueda está bloqueada, no puede girarse");
             ok = false;
             return;
         }
+        
         if (index >= 0 && index < wheels.size()) {
-            wheels.get(index).spin();
+            if (w.isLefty()) {
+                w.setLeftNeighbor(index > 0 ? wheels.get(index - 1) : null);
+            }
+            
+            w.spin();
             winnerAppearance();
             ok = true;
         } else {
@@ -473,15 +514,16 @@ public class SlotMachine {
             ok = false;
             return;
         }
-        int contador = 1;
-        for (Wheel wheel : wheels) {
-            if (!wheel.isLocked()){
+        for (int i = 0; i < wheels.size(); i++) {
+            Wheel wheel = wheels.get(i);
+            if (wheel.isLocked()){
+                if (visible) MessageUtil.showError("La rueda "+ (i+1) + " está bloqueada, no se puede girar.");
+                continue;
+            }
+            if (wheel.isLefty()) {
+                wheel.setLeftNeighbor(i > 0 ? wheels.get(i - 1) : null);
+            }      
             wheel.spin();
-            }
-            else{
-                if (visible) MessageUtil.showError("La rueda "+ contador + " esta bloqueada, no se gira");
-            }
-            contador += 1;
         }
         winnerAppearance();
         ok = true;
@@ -607,6 +649,10 @@ public class SlotMachine {
             ok = false;
             return;
         }
+        
+        if (w.isLefty()) {
+            w.setLeftNeighbor(pos > 0 ? wheels.get(pos - 1) : null);
+        }
 
         int direction = (steps < 0) ? -1 : 1;
         int totalSteps = Math.abs(steps);
@@ -626,9 +672,8 @@ public class SlotMachine {
      * @param setSymbols array of symbols, one per wheel in order
      */
     public void spin(String[] setSymbols) {
-
         if (setSymbols.length != wheels.size()) {
-            if(visible) MessageUtil.showError("No tiene los simbolos suficientes para las ruedas de la maquina");
+            if(visible) MessageUtil.showError("No tiene los símbolos suficientes para las ruedas de la máquina.");
             ok = false;
             return;
         }
@@ -639,7 +684,7 @@ public class SlotMachine {
                 w.placeSymbol(setSymbols[i]);
             }
             else{
-                if (visible) MessageUtil.showError("La rueda "+ (i+1) + "esta bloqueada");
+                if (visible) MessageUtil.showError("La rueda "+ (i+1) + "está bloqueada.");
             }
         }
         winnerAppearance();

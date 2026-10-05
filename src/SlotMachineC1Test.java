@@ -49,14 +49,14 @@ public class SlotMachineC1Test
         slotMachine.addSymbol(1, "red");
         
         // Add some wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
         
         // One of them exceeds the wheels array size, so should be fixed and added to the end of it
-        slotMachine.addWheel(20000);
+        slotMachine.addWheel(20000, "");
         
         // Another one is below the minimum value for the wheel pos on the array
-        slotMachine.addWheel(-234234);
+        slotMachine.addWheel(-234234, "");
         
         // Check if the action was succesful & the amount of elements is the same as the ones which where added previously (3)
         assertEquals(slotMachine.configuration().length, 4);
@@ -74,7 +74,7 @@ public class SlotMachineC1Test
         slotMachine.addSymbol(1, "blue");
         // Check slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS (126) wheels -> add the limit of wheels into the board
         for (int i = 1; i <= (slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS); i++) {
-            slotMachine.addWheel(i);
+            slotMachine.addWheel(i, "");
         }
         
         // Check that all were added succesfully && the current amount of wheels (126) is correct
@@ -82,7 +82,7 @@ public class SlotMachineC1Test
         assertTrue(slotMachine.ok());
         
         // Add the 127th wheel
-        slotMachine.addWheel(127);
+        slotMachine.addWheel(127, "");
         
         /// Check that weren's added the 127th wheel so ok status is false & the amount of wheels is still 126
         assertFalse(slotMachine.ok());
@@ -96,7 +96,7 @@ public class SlotMachineC1Test
         
         // Add less than the limit to add a last one
         for (int i = 1; i <= (slotMachine.MAX_COLUMNS*slotMachine.MAX_ROWS - 1); i++) {
-            slotMachine.addWheel(i);
+            slotMachine.addWheel(i, "");
         }
         
         // Check that all were added succesfully & added correctly 125 wheels
@@ -104,7 +104,7 @@ public class SlotMachineC1Test
         assertEquals(125, slotMachine.configuration().length);
         
         // Add the 126th wheel
-        slotMachine.addWheel(126);
+        slotMachine.addWheel(126, "");
         assertEquals(126, slotMachine.configuration().length);
         
         /// Check that were added the 126th wheel so ok status is true
@@ -138,9 +138,9 @@ public class SlotMachineC1Test
         slotMachine.addSymbol(1, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
         
         // Check the amount of wheels is equals 3, the 3 that were just added
         assertEquals(3, slotMachine.configuration().length);
@@ -278,9 +278,9 @@ public class SlotMachineC1Test
     @Test
     public void shouldSpinAWheel() {
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
         
         // Add some symbols
         slotMachine.addSymbol(1, "yellow");
@@ -306,9 +306,9 @@ public class SlotMachineC1Test
     @Test
     public void shouldSpinAInvalidPosWheel() {
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3); // last one added
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, ""); // last one added
         
         // Add some symbols
         slotMachine.addSymbol(1, "yellow");
@@ -361,9 +361,9 @@ public class SlotMachineC1Test
     @Test
     public void shouldReturnOrderedConfigurationOfWheels() {
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
         
         // Add some symbols
         slotMachine.addSymbol(1, "red");
@@ -395,9 +395,9 @@ public class SlotMachineC1Test
         slotMachine.addSymbol(3, "blue");
         
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
         
         // Place a specific symbol on the first wheel
         slotMachine.placeSymbol(1, "aqua");
@@ -429,9 +429,9 @@ public class SlotMachineC1Test
     @Test
     public void checkDistinctSymbols () {
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
         
         // Add some symbols
         slotMachine.addSymbol(1, "yellow");
@@ -453,8 +453,8 @@ public class SlotMachineC1Test
     @Test
     public void shouldNotCountDistinctSymbols() {
         // Add wheels but no symbols
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
     
         // Check returns 0 because Wheel.symbols is empty
         assertEquals(0, slotMachine.distinctSymbols());
@@ -470,9 +470,9 @@ public class SlotMachineC1Test
     @Test
     public void shouldNotBeJackpot() {
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
     
         // Add some symbols
         slotMachine.addSymbol(1, "red");
@@ -501,9 +501,9 @@ public class SlotMachineC1Test
     @Test
     public void shouldBeJackpot () {
         // Add some Wheels
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
-        slotMachine.addWheel(3);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(3, "");
         
         // Add some symbols
         slotMachine.addSymbol(1, "yellow");
@@ -550,8 +550,8 @@ public class SlotMachineC1Test
     @Test
     public void shouldHandlePositionAdjustmentsInOperations() {
         // Add some wheels and 1 symbol
-        slotMachine.addWheel(1);
-        slotMachine.addWheel(2);
+        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(2, "");
         slotMachine.addSymbol(1, "yellow");
     
         // Check with a position lower or equal zero (this should be adjusted to a zero index)
