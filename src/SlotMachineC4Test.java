@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
  * The SlotMachine test class for cycle 4: the different types of wheels
  * (normal, lefty, rebel, lazy) and of symbols (normal, ephemeral, shy,
  * dizzy). The machine is never made visible, so no window is opened.
- * Only the public methods the project already had are used, so what is
- * verified about the special symbols is what can be observed from
- * outside: their type and that they keep working as symbols.
+ * Besides their type and that they keep working as symbols, the behaviour
+ * of the special symbols (shrinking, hiding, flipping) is verified through
+ * the Symbol object each wheel shows, obtained with Wheel.getShownSymbol().
  *
  * @author  Oscar Poveda, Elian Ibarra
  * @version 1.0
@@ -156,6 +156,12 @@ public class SlotMachineC4Test
 
         assertTrue(slotMachine.ok());
         assertArrayEquals(new String[]{"blue", "blue"}, slotMachine.configuration());
+        // Every wheel has its own copy, and it keeps the type of the symbol
+        Symbol copy1 = slotMachine.getWheel(1).getShownSymbol();
+        Symbol copy2 = slotMachine.getWheel(2).getShownSymbol();
+        assertTrue(copy1 instanceof EphemeralSymbol);
+        assertTrue(copy2 instanceof EphemeralSymbol);
+        assertNotSame(copy1, copy2);
     }
 
     // REQUIREMENT 17: lefty and rebel wheels
@@ -191,12 +197,13 @@ public class SlotMachineC4Test
         slotMachine.addSymbol(3, "green");
         slotMachine.addWheel(1);
         slotMachine.addWheel("lefty", 2);
-        slotMachine.placeSymbol(1, "blue");
+        slotMachine.placeSymbol(1, "green");
 
         slotMachine.spin(2, -2);
 
         assertTrue(slotMachine.ok());
-        assertEquals("blue", slotMachine.configuration()[1]);
+        // A normal wheel would have gone back from red to green and then to blue
+        assertEquals("green", slotMachine.configuration()[1]);
     }
 
     /**
@@ -364,11 +371,14 @@ public class SlotMachineC4Test
     public void ephemeralShouldNeverFailNoMatterHowManyTimesItShrinks() {
         Symbol ephemeral = new EphemeralSymbol("blue");
 
-        for (int spin = 1; spin <= 30; spin++) {
-            ephemeral.spun();
-        }
+        assertDoesNotThrow(() -> {
+            for (int spin = 1; spin <= 30; spin++) {
+                ephemeral.spun();
+            }
+        });
 
         assertEquals("blue", ephemeral.getName());
+        assertEquals(EphemeralSymbol.MIN_SIDE, ephemeral.getWidth());
     }
 
     /**
@@ -455,11 +465,14 @@ public class SlotMachineC4Test
     public void shyShouldNeverFailNoMatterHowManyTimesItIsSelected() {
         Symbol shy = new ShySymbol("blue");
 
-        for (int time = 1; time <= 10; time++) {
-            shy.selected();
-        }
+        assertDoesNotThrow(() -> {
+            for (int time = 1; time <= 10; time++) {
+                shy.selected();
+            }
+        });
 
         assertEquals("blue", shy.getName());
+        assertFalse(shy.isHidden());    // selected an even number of times
     }
 
     /**
@@ -476,6 +489,7 @@ public class SlotMachineC4Test
             slotMachine.spin(1);    // blue: hidden on odd times, shown on even ones
             assertTrue(slotMachine.ok());
             assertEquals("blue", slotMachine.configuration()[0]);
+            assertEquals(time % 2 == 1, slotMachine.getWheel(1).getShownSymbol().isHidden());
 
             slotMachine.spin(1);    // red
             assertEquals("red", slotMachine.configuration()[0]);
@@ -515,6 +529,8 @@ public class SlotMachineC4Test
 
         slotMachine.spin(new String[]{"blue", "blue"});
 
+        assertTrue(slotMachine.getWheel(1).getShownSymbol().isHidden());
+        assertTrue(slotMachine.getWheel(2).getShownSymbol().isHidden());
         assertTrue(slotMachine.ok());
         assertArrayEquals(new String[]{"blue", "blue"}, slotMachine.configuration());
         assertEquals(1, slotMachine.distinctSymbols());
@@ -591,11 +607,14 @@ public class SlotMachineC4Test
     public void dizzyShouldNeverFailNoMatterHowManyTimesItFlips() {
         Symbol dizzy = new DizzySymbol("yellow");
 
-        for (int spin = 1; spin <= 10; spin++) {
-            dizzy.spun();
-        }
+        assertDoesNotThrow(() -> {
+            for (int spin = 1; spin <= 10; spin++) {
+                dizzy.spun();
+            }
+        });
 
         assertEquals("yellow", dizzy.getName());
+        assertEquals(Symbol.SYMBOL_SIZE, dizzy.getHeight());   // flipped an even number of times
     }
 
     /**
@@ -677,6 +696,10 @@ public class SlotMachineC4Test
         assertTrue(slotMachine.ok());
         assertArrayEquals(new String[]{"blue", "blue"}, slotMachine.configuration());
         assertTrue(slotMachine.isJackpot());
+        // Each wheel selected its shy once: the lazy one when it was awake,
+        // the lefty one when it copied it
+        assertTrue(slotMachine.getWheel(1).getShownSymbol().isHidden());
+        assertTrue(slotMachine.getWheel(2).getShownSymbol().isHidden());
     }
 
     /**
@@ -695,6 +718,186 @@ public class SlotMachineC4Test
         assertTrue(slotMachine.ok());
         assertArrayEquals(new String[]{"red"}, slotMachine.symbols());
         assertEquals("red", slotMachine.configuration()[0]);
+    }
+
+    // REQUIREMENT 18 and 19: behaviour of every type of symbol
+
+    /**
+     * Verifies that a normal symbol never changes its size nor hides,
+     * no matter how many times its wheel spins.
+     */
+    @Test
+    public void normalSymbolShouldNeverChange() {
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addWheel(1);
+        Symbol symbol = slotMachine.getWheel(1).getShownSymbol();
+
+        for (int spin = 0; spin < 5; spin++) {
+            slotMachine.spin(1);
+
+            assertEquals(Symbol.SYMBOL_SIZE, symbol.getWidth());
+            assertEquals(Symbol.SYMBOL_SIZE, symbol.getHeight());
+            assertFalse(symbol.isHidden());
+        }
+    }
+
+    /**
+     * Verifies that an ephemeral symbol shrinks one step on every spin of
+     * its wheel until it becomes a point, and then stays that size.
+     */
+    @Test
+    public void ephemeralShouldShrinkOnEverySpinUntilItIsAPoint() {
+        slotMachine.addSymbol("ephemeral", 1, "red");
+        slotMachine.addWheel(1);
+        Symbol ephemeral = slotMachine.getWheel(1).getShownSymbol();
+        assertEquals(Symbol.SYMBOL_SIZE, ephemeral.getWidth());
+
+        int[] expectedWidths = {40, 30, 20, 10, 2, 2, 2};
+        for (int expected : expectedWidths) {
+            slotMachine.spin(1);
+
+            assertEquals(expected, ephemeral.getWidth());
+        }
+        assertEquals(EphemeralSymbol.MIN_SIDE, ephemeral.getWidth());
+    }
+
+    /**
+     * Verifies that an ephemeral symbol on a lefty wheel also shrinks when
+     * the wheel spins by copying its left neighbor.
+     */
+    @Test
+    public void ephemeralShouldShrinkOnALeftyWheelThatCopiesItsNeighbor() {
+        slotMachine.addSymbol("ephemeral", 1, "red");
+        slotMachine.addSymbol(2, "blue");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel("lefty", 2);
+        Symbol ephemeral = slotMachine.getWheel(2).getShownSymbol();
+
+        slotMachine.spin(2);
+        assertEquals("red", slotMachine.configuration()[1]);
+        assertEquals(40, ephemeral.getWidth());
+
+        slotMachine.spin(2);
+        assertEquals(30, ephemeral.getWidth());
+    }
+
+    /**
+     * Verifies that an ephemeral symbol shrinks once per step when its
+     * wheel is spun by steps.
+     */
+    @Test
+    public void ephemeralShouldShrinkOncePerStep() {
+        slotMachine.addSymbol("ephemeral", 1, "red");
+        slotMachine.addWheel(1);
+        Symbol ephemeral = slotMachine.getWheel(1).getShownSymbol();
+
+        slotMachine.spin(1, 3);
+
+        assertEquals(20, ephemeral.getWidth());
+    }
+
+    /**
+     * Verifies that a shy symbol hides the first time it is selected and
+     * shows itself again the second time, both when it is placed and when
+     * the wheel stops at it after a spin.
+     */
+    @Test
+    public void shyShouldAlternateBetweenHiddenAndVisibleEveryTimeItIsSelected() {
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol("shy", 2, "blue");
+        slotMachine.addWheel(1);
+
+        slotMachine.placeSymbol(1, "blue");
+        Symbol shy = slotMachine.getWheel(1).getShownSymbol();
+        assertTrue(shy.isHidden());
+        assertEquals("blue", slotMachine.configuration()[0]);
+
+        slotMachine.spin(1); // red
+        assertTrue(shy.isHidden());
+
+        slotMachine.spin(1); // blue again: selected for the second time
+        assertFalse(shy.isHidden());
+    }
+
+    /**
+     * Verifies that, when a wheel is spun by steps, a step that stops at a
+     * shy symbol counts as a selection even if the wheel keeps going.
+     */
+    @Test
+    public void shyShouldCountEveryStepThatStopsAtItWhenSpunBySteps() {
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol("shy", 2, "blue");
+        slotMachine.addSymbol(3, "green");
+        slotMachine.addWheel(1);
+
+        slotMachine.spin(1, 1); // stops at blue
+        Symbol shy = slotMachine.getWheel(1).getShownSymbol();
+        assertTrue(shy.isHidden());
+
+        slotMachine.spin(1, 3); // green -> red -> blue: blue is selected again
+        assertFalse(shy.isHidden());
+        assertEquals("blue", slotMachine.configuration()[0]);
+    }
+
+    /**
+     * Verifies that a dizzy symbol flips upside down on every spin of its
+     * wheel and gets back to its normal position on the next one.
+     */
+    @Test
+    public void dizzyShouldFlipOnEverySpin() {
+        slotMachine.addSymbol("dizzy", 1, "red");
+        slotMachine.addWheel(1);
+        Symbol dizzy = slotMachine.getWheel(1).getShownSymbol();
+        assertEquals(Symbol.SYMBOL_SIZE, dizzy.getHeight());
+        assertEquals(DizzySymbol.WIDTH, dizzy.getWidth());
+
+        slotMachine.spin(1);
+        assertEquals(-Symbol.SYMBOL_SIZE, dizzy.getHeight());
+
+        slotMachine.spin(1);
+        assertEquals(Symbol.SYMBOL_SIZE, dizzy.getHeight());
+    }
+
+    /**
+     * Verifies that a lazy wheel doesn't tell its symbols about a spin it
+     * ignores: an ephemeral symbol only shrinks on the spins the wheel
+     * answers to.
+     */
+    @Test
+    public void lazyShouldNotNotifyItsSymbolsWhenItIgnoresASpin() {
+        slotMachine.addSymbol("ephemeral", 1, "red");
+        slotMachine.addWheel("lazy", 1);
+        Symbol ephemeral = slotMachine.getWheel(1).getShownSymbol();
+
+        slotMachine.spin(1);    // awake: shrinks
+        assertEquals(40, ephemeral.getWidth());
+
+        slotMachine.spin(1);    // asleep: ignored, doesn't shrink
+        assertEquals(40, ephemeral.getWidth());
+
+        slotMachine.spin(1);    // awake again: shrinks
+        assertEquals(30, ephemeral.getWidth());
+    }
+
+    /**
+     * Verifies that a shy symbol on a lefty wheel counts as selected every
+     * time the lefty copies it from its neighbor.
+     */
+    @Test
+    public void shyShouldToggleOnALeftyWheelEveryTimeItIsCopied() {
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol("shy", 2, "blue");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel("lefty", 2);
+        slotMachine.placeSymbol(1, "blue");
+
+        slotMachine.spin(2);    // copies blue: selected for the first time
+        Symbol shy = slotMachine.getWheel(2).getShownSymbol();
+        assertEquals("blue", slotMachine.configuration()[1]);
+        assertTrue(shy.isHidden());
+
+        slotMachine.spin(2);    // copies blue again: selected for the second time
+        assertFalse(shy.isHidden());
     }
 
     /**

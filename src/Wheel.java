@@ -124,9 +124,19 @@ public class Wheel {
                 currentIndex -= 1;
             }
         }
-        for (Symbol s : symbols) s.spun();
+        notifySpin();
         symbols.get(currentIndex).selected();
         refreshShape();
+    }
+
+    /**
+     * Tells every symbol of this wheel that the wheel has just spun, so the
+     * symbols that react to spins (like EphemeralSymbol or DizzySymbol) can
+     * change. Subclasses that spin in their own way (like LeftyWheel) must
+     * call it too.
+     */
+    protected void notifySpin() {
+        for (Symbol s : symbols) s.spun();
     }
 
     /**
@@ -144,6 +154,16 @@ public class Wheel {
      */
     public String visibleSymbol(){
         return symbols.get(currentIndex).getName();
+    }
+
+    /**
+     * Returns the Symbol object this wheel is showing, so its state (size,
+     * whether it is hiding) can be queried.
+     * @return the symbol on the current index, or null if the wheel has no symbols
+     */
+    public Symbol getShownSymbol(){
+        if (symbols.isEmpty()) return null;
+        return symbols.get(currentIndex);
     }
 
     /**
