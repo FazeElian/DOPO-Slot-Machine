@@ -26,7 +26,7 @@ public class SlotMachineException extends Exception {
     public static final String LAST_SYMBOL = "Solo queda un símbolo, no se puede eliminar";
     public static final String SYMBOL_NOT_FOUND = "Ese símbolo no existe, añádelo e intenta de nuevo.";
     public static final String NO_SYMBOLS = "No existen símbolos aún";
-    public static final String INVALID_SYMBOL_TYPE = "Ese tipo de símbolo no existe, usa uno de los disponibles";
+    public static final String INVALID_SYMBOL_TYPE = "El tipo de símbolo %s no existe, usa uno de los disponibles.";
 
     // Spins and configuration
     public static final String SPIN_WHEEL_NOT_FOUND = "No existen esa rueda, intenta de nuevo";
