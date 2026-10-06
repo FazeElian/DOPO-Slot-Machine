@@ -1,0 +1,22 @@
+#BlueJ class context
+#Tue Oct 06 12:39:47 COT 2026
+comment0.target=ShySymbol
+comment0.text=\r\n A shy symbol\: it alternates between showing and hiding itself every\r\n time it is selected on its wheel (the wheel stops at it after a spin\r\n or a placeSymbol). The first time it is selected it hides, the second\r\n time it shows itself, and so on. Hiding is only visual\: the wheel is\r\n still on this symbol, so it keeps counting for the configuration and\r\n the jackpot.\r\n\r\n @author Eli\u00E1n Ibarra, Oscar Poveda\r\n @version 1.0\r\n
+comment1.params=name
+comment1.target=ShySymbol(java.lang.String)
+comment1.text=\r\n Constructs a shy symbol whose figure stays at the origin of the canvas.\r\n @param name color string that identifies the symbol\r\n
+comment2.params=name x y
+comment2.target=ShySymbol(java.lang.String, int, int)
+comment2.text=\r\n Constructs a shy symbol whose figure is placed at the given pixel\r\n coordinates of the canvas. It starts willing to be seen.\r\n @param name color string that identifies the symbol\r\n @param x pixel position in X axis of the figure\r\n @param y pixel position in Y axis of the figure\r\n
+comment3.params=x y
+comment3.target=Symbol copyAt(int, int)
+comment3.text=\r\n Returns a new shy symbol with the same name at the given coordinates\r\n @param x pixel position in X axis of the new figure\r\n @param y pixel position in Y axis of the new figure\r\n
+comment4.target=void selected()
+comment4.text=\r\n Toggles between hiding and showing, and updates the canvas if the\r\n wheel has this symbol on screen.\r\n
+comment5.target=boolean isHidden()
+comment5.text=\r\n Returns whether the symbol is hiding right now\r\n @return true if it is hiding, false if it lets itself be seen\r\n
+comment6.target=void makeVisible()
+comment6.text=\r\n Shows the figure only if the symbol is not hiding; either way it\r\n remembers that the wheel wants it on screen.\r\n
+comment7.target=void makeInvisible()
+comment7.text=\r\n Hides the figure and remembers that the wheel took it off screen.\r\n
+numComments=8

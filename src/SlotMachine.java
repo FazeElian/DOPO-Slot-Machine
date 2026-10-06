@@ -64,6 +64,8 @@ public class SlotMachine {
      */
     public SlotMachine() {
         this.wheels = new ArrayList<>();
+        // A new machine starts with an empty catalog of symbols
+        Symbol.symbols.clear();
 
         // First cell position: pos * (CELL_SIZE + GAP) + GAP = 1 * 80 + 10 = 90px
         int firstWheelX = (Wheel.CELL_SIZE + Wheel.GAP) + Wheel.GAP; // 90 px
@@ -122,9 +124,6 @@ public class SlotMachine {
      * randomly initialized. Symbols are generated as random hex colors
      * (e.g. "#3fae1c") to guarantee n distinct values even when n exceeds
      * the number of named colors the shapes package supports.
-     * If the random initial configuration happens to already be a jackpot,
-     * one wheel is adjusted to a different registered color to guarantee
-     * a non-trivial starting point, as required by the contest problem.
      * Used as a testing tool for SlotMachineContest.solve(int).
      *
      * @param n number of wheels and symbols to create
@@ -149,7 +148,7 @@ public class SlotMachine {
 
         // Add n wheels to the board
         for (int i = 1; i <= n; i++) {
-            addWheel(i, ""); // Creates a NORMAL (default) wheel type
+            addWheel(i); // Creates a NORMAL (default) wheel type
         }
 
         // Build and apply a random initial configuration
@@ -161,6 +160,15 @@ public class SlotMachine {
     }
 
     /**
+     * Adds a new normal wheel at the given position.
+     *
+     * @param pos 1-based position where the new wheel is inserted
+     */
+    public void addWheel(int pos) {
+        addWheel("normal", pos);
+    }
+    
+    /**
      * Adds a new wheel at the given position.
      * Positions below 1 are corrected to 1; positions beyond the end are corrected to the last valid index to avoid gaps.
      * Grid position is derived from pos using: posX = ((pos-1) % MAX_COLUMNS) + 1
@@ -168,13 +176,12 @@ public class SlotMachine {
      * system and no external counters that could fall out of sync or return old data.
      * When inserting in the middle, all wheels after pos are shifted right with accommodate(1).
      *
-     * @param pos  1-based position where the new wheel is inserted
      * @param type kind of wheel to create: "normal", "lefty", "rebel" or "lazy";
      * null or an empty string also creates a normal wheel. Any other value
      * shows an error, sets ok = false and adds no wheel
-     * 
+     * @param pos  1-based position where the new wheel is inserted
      */
-    public void addWheel(int pos, String type) {
+    public void addWheel(String type, int pos) {
         if (pos < 1) pos = 1;
         if (pos > wheels.size() + 1) pos = wheels.size() + 1;
 
@@ -298,17 +305,29 @@ public class SlotMachine {
     }
 
     // MINI-CYCLE 2 – Symbols
-
     /**
-     * Adds a new symbol (color) to the global symbol list at the given position and
-     * inserts it into every existing wheel.
-     * Colors are lowercased to avoid case-sensitive duplicates.
-     * If the color already exists, shows an error and sets ok = false.
+     * Adds a new normal symbol (color) at the given position.
      *
      * @param pos   1-based position in the global symbol list
      * @param color color name to add
      */
     public void addSymbol(int pos, String color) {
+        addSymbol("normal", pos, color);
+    }
+
+    /**
+     * Adds a new symbol (color) of the given type to the global symbol list
+     * at the given position and inserts it into every existing wheel.
+     * Colors are lowercased to avoid case-sensitive duplicates.
+     * If the color already exists or the type is unknown, shows an error
+     * and sets ok = false.
+     *
+     * @param type  kind of symbol to create: "normal", "ephemeral" or "shy";
+     * null or an empty string also creates a normal symbol
+     * @param pos   1-based position in the global symbol list
+     * @param color color name to add
+     */
+    public void addSymbol(String type, int pos, String color) {
         String name = color.toLowerCase();
         try {
             // indexOf returns -1 if the symbol is not yet registered
@@ -323,7 +342,19 @@ public class SlotMachine {
             } else {
                 index = pos - 1;
             }
-            Symbol symbol = new Symbol(name);
+                        
+            String t = (type == null) ? "" : type.trim().toLowerCase();
+            Symbol symbol;
+            switch (t) {
+                case "":
+                case "normal": symbol = new Symbol(name); break;
+                case "ephemeral": symbol = new EphemeralSymbol(name); break;
+                case "shy": symbol = new ShySymbol(name); break;
+                case "dizzy": symbol = new DizzySymbol(name); break;
+                default:
+                    throw new SlotMachineException(String.format(SlotMachineException.INVALID_SYMBOL_TYPE, type));
+            }
+            
             Symbol.symbols.add(index, symbol);
             // Every wheel inserts its own copy of the Symbol at the same index
             for (Wheel wheel : wheels) {

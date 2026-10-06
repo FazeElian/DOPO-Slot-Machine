@@ -96,8 +96,10 @@ public class Wheel {
         int index = getIndexOfSymbol(color);
         if (index == -1) throw new SlotMachineException(SlotMachineException.SYMBOL_NOT_FOUND);
         currentIndex = index;
+        symbols.get(index).selected();
         refreshShape();
     }
+    
     /**
      * Changes the wheel's visible symbol by one position in the given
      * direction: forward (direction == 1) advances to the next symbol,
@@ -122,6 +124,8 @@ public class Wheel {
                 currentIndex -= 1;
             }
         }
+        for (Symbol s : symbols) s.spun();
+        symbols.get(currentIndex).selected();
         refreshShape();
     }
 

@@ -46,7 +46,7 @@ public class SlotMachineC2Test
     @Test
     public void shouldNotLockASpin() {
         // Add a wheel at the 1st pos
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         
         // Try to lock a wheel not registered yet
         int notRegisteredWheelPos = 2;
@@ -69,9 +69,9 @@ public class SlotMachineC2Test
     @Test
     public void shouldLockASpin() {
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
         
         // Try to lock the first wheel
         slotMachine.lock(2);
@@ -91,8 +91,8 @@ public class SlotMachineC2Test
     @Test
     public void shouldNotUnlockASpin() {
         // Add a wheel at the 1st pos
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         
         // Lock the wheel that was just added
         slotMachine.lock(1);
@@ -115,8 +115,8 @@ public class SlotMachineC2Test
     @Test
     public void shouldUnlockASpin() {
         // Add a wheel at the 1st pos
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         
         // Lock the wheel that was just added
         slotMachine.lock(1);
@@ -150,9 +150,9 @@ public class SlotMachineC2Test
         slotMachine.addSymbol(2, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
         Wheel w = slotMachine.getWheel(2);
         // Try to swap two wheels at the same position
         slotMachine.swap(2, 2);
@@ -177,9 +177,9 @@ public class SlotMachineC2Test
         slotMachine.addSymbol(2, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
         
         // Lock the first one
         slotMachine.lock(1);
@@ -223,8 +223,8 @@ public class SlotMachineC2Test
         slotMachine.addSymbol(2, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         
         // Spin the 2nd one (by default all are unlocked) 1 time
         slotMachine.spin(2, 1);
@@ -259,8 +259,8 @@ public class SlotMachineC2Test
         slotMachine.addSymbol(2, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
 
         // Lock the first one
         slotMachine.lock(1);
@@ -290,8 +290,8 @@ public class SlotMachineC2Test
         slotMachine.addSymbol(2, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         
         // Lock at least 1, in this case the 2nd one
         slotMachine.lock(2);
@@ -333,8 +333,8 @@ public class SlotMachineC2Test
         slotMachine.addSymbol(2, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         
         // Lock & unlock the 2nd wheel so the full action can be executed
         slotMachine.lock(2);
