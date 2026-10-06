@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Symbol {
+    public final static int SYMBOL_SIZE = 50;
     public static ArrayList<Symbol> symbols = new ArrayList<Symbol>();
     private String name;
     private Triangle figure;
@@ -34,7 +35,7 @@ public class Symbol {
     public Symbol(String name, int x, int y) {
         this.name = name;
         figure = new Triangle();
-        figure.changeSize(Wheel.SYMBOL_SIZE, Wheel.SYMBOL_SIZE);
+        figure.changeSize(SYMBOL_SIZE, SYMBOL_SIZE);
         figure.changeColor(name);
         figure.moveHorizontal(x);
         figure.moveVertical(y);

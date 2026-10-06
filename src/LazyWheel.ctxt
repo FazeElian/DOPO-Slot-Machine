@@ -1,11 +1,11 @@
 #BlueJ class context
-#Sun Oct 04 15:51:52 COT 2026
+#Mon Oct 05 19:18:34 COT 2026
 comment0.target=LazyWheel
-comment0.text=\r\n A wheel that only responds to every other spin request.\r\n It starts awake\: the first spin advances it, the second one is ignored\r\n (it "falls asleep"), the third one advances it again, and so on.\r\n\r\n @author Eli\u00E1n Ibarra, Oscar Poveda\r\n @version 1.0\r\n
+comment0.text=\n A wheel that only responds to every other spin request.\n It starts awake\: the first spin advances it, the second one is ignored\n (it "falls asleep"), the third one advances it again, and so on.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=posX posY
 comment1.target=LazyWheel(int, int)
-comment1.text=\r\n Constructs a lazy wheel at the given grid position.\r\n\r\n @param posX the column of the wheel in the grid\r\n @param posY the row of the wheel in the grid\r\n
+comment1.text=\n Constructs a lazy wheel at the given grid position.\n\n @param posX the column of the wheel in the grid\n @param posY the row of the wheel in the grid\n
 comment2.params=direction
 comment2.target=void spin(int)
-comment2.text=\r\n Spins this wheel only if it is awake, then toggles its state.\r\n Every call toggles the state, whether or not the wheel moved.\r\n\r\n @param direction 1 to advance one step, -1 to go back one step\r\n
+comment2.text=\n Spins this wheel only if it is awake, then toggles its state.\n Every call toggles the state, whether or not the wheel moved.\n\n @param direction 1 to advance one step, -1 to go back one step\n
 numComments=3
