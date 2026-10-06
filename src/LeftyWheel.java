@@ -35,9 +35,11 @@ public class LeftyWheel extends Wheel {
      * one step in the given direction like a normal wheel.
      *
      * @param direction 1 to advance one step, -1 to go back one step
+     * @throws SlotMachineException propagated from placeSymbol if the
+     *         neighbor's symbol doesn't exist on this wheel
      */
     @Override
-    public void spin(int direction) {
+    public void spin(int direction) throws SlotMachineException {
         if (left == null) {
             super.spin(direction);
         } else {
