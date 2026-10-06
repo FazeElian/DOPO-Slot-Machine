@@ -90,13 +90,12 @@ public class Wheel {
     /**
      * Updates the value of the index of the current wheel
      * @param color string value of the symbol's color
+     * @throws SlotMachineException if the wheel doesn't have that symbol
      */
-    public void placeSymbol(String color){
+    public void placeSymbol(String color) throws SlotMachineException {
         int index = getIndexOfSymbol(color);
-        if (index != -1) currentIndex = index;
-        else {
-            if (visible)MessageUtil.showError("Ese símbolo no existe, añádelo e intenta de nuevo.");
-        }
+        if (index == -1) throw new SlotMachineException(SlotMachineException.SYMBOL_NOT_FOUND);
+        currentIndex = index;
         refreshShape();
     }
     /**
@@ -106,8 +105,9 @@ public class Wheel {
      * moves to the previous symbol, wrapping to the last when at the start.
      *
      * @param direction 1 to advance one step, -1 to go back one step
+     * @throws SlotMachineException if a subclass can't complete the spin
      */
-    public void spin(int direction) {
+    public void spin(int direction) throws SlotMachineException {
         if (symbols.isEmpty()) return;
         if (direction >= 0) {
             if (currentIndex == symbols.size() - 1) {
@@ -128,8 +128,9 @@ public class Wheel {
     /**
      * Change the wheel ("spin" the board) going to the next one on the slot.
      * Equivalent to spin(1).
+     * @throws SlotMachineException if a subclass can't complete the spin
      */
-    public void spin(){
+    public void spin() throws SlotMachineException {
         spin(1);
     }
 

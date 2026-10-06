@@ -24,9 +24,10 @@ public class LazyWheel extends Wheel {
      * Every call toggles the state, whether or not the wheel moved.
      *
      * @param direction 1 to advance one step, -1 to go back one step
+     * @throws SlotMachineException propagated from Wheel.spin
      */
     @Override
-    public void spin(int direction) {
+    public void spin(int direction) throws SlotMachineException {
         if (awake) {
             super.spin(direction);
         }
