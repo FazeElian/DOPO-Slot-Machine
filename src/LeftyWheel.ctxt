@@ -1,16 +1,14 @@
 #BlueJ class context
-#Sun Oct 04 15:52:12 COT 2026
+#Mon Oct 05 19:18:34 COT 2026
 comment0.target=LeftyWheel
-comment0.text=\r\n A wheel that copies the state of the wheel to its left.\r\n When spun, if it has a left neighbor it shows that neighbor's visible\r\n symbol; otherwise it behaves like a normal {@link Wheel}.\r\n\r\n @author Eli\u00E1n Ibarra, Oscar Poveda\r\n @version 1.0\r\n
+comment0.text=\n A wheel that copies the state of the wheel to its left.\n When spun, if it has a left neighbor it shows that neighbor's visible\n symbol; otherwise it behaves like a normal {@link Wheel}.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=posX posY
 comment1.target=LeftyWheel(int, int)
-comment1.text=\r\n Constructs a lefty wheel at the given grid position.\r\n\r\n @param posX the column of the wheel in the grid\r\n @param posY the row of the wheel in the grid\r\n
+comment1.text=\n Constructs a lefty wheel at the given grid position.\n\n @param posX the column of the wheel in the grid\n @param posY the row of the wheel in the grid\n
 comment2.params=left
 comment2.target=void setLeftNeighbor(Wheel)
-comment2.text=\r\n Sets the wheel this one will copy when spun.\r\n\r\n @param left the wheel to the left, or null if there is none\r\n
+comment2.text=\n Sets the wheel this one will copy when spun.\n\n @param left the wheel to the left, or null if there is none\n
 comment3.params=direction
 comment3.target=void spin(int)
-comment3.text=\r\n Spins this wheel. If it has a left neighbor, it takes that neighbor's\r\n visible symbol and the direction is ignored; otherwise it spins\r\n one step in the given direction like a normal wheel.\r\n\r\n @param direction 1 to advance one step, -1 to go back one step\r\n
-comment4.target=boolean isLefty()
-comment4.text=\r\n Indicates that this wheel is of the "lefty" type.\r\n\r\n @return always true\r\n
-numComments=5
+comment3.text=\n Spins this wheel. If it has a left neighbor, it takes that neighbor's\n visible symbol and the direction is ignored; otherwise it spins\n one step in the given direction like a normal wheel.\n\n @param direction 1 to advance one step, -1 to go back one step\n
+numComments=4

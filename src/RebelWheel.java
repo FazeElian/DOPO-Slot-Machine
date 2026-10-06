@@ -1,8 +1,9 @@
 /**
  * A wheel that resists being locked, swapped or removed.
  * It can still be spun and have its symbols changed like a normal
- * {@link Wheel}. The swap and removal restrictions are enforced by
- * {@link SlotMachine}, which checks {@link #isRebel()}.
+ * {@link Wheel}. The restrictions are enforced by {@link SlotMachine},
+ * which asks every wheel {@link #canBeLocked()}, {@link #canBeSwapped()}
+ * and {@link #canBeRemoved()} before doing those actions.
  *
  * @author Elián Ibarra, Oscar Poveda
  * @version 1.0
@@ -19,19 +20,32 @@ public class RebelWheel extends Wheel {
     }
     
     /**
-     * Ignores the request: a rebel wheel never gets locked,
-     * so {@link #isLocked()} always returns false.
-     */
-    @Override
-    public void lock() {}
-    
-    /**
-     * Indicates that this wheel is of the "rebel" type.
+     * A rebel wheel never lets itself be locked.
      *
-     * @return always true
+     * @return always false
      */
     @Override
-    public boolean isRebel() {
-        return true;
+    public boolean canBeLocked() {
+        return false;
+    }
+
+    /**
+     * A rebel wheel never lets itself be swapped.
+     *
+     * @return always false
+     */
+    @Override
+    public boolean canBeSwapped() {
+        return false;
+    }
+
+    /**
+     * A rebel wheel never lets itself be removed.
+     *
+     * @return always false
+     */
+    @Override
+    public boolean canBeRemoved() {
+        return false;
     }
 }

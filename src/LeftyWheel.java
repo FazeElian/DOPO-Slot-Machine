@@ -44,14 +44,4 @@ public class LeftyWheel extends Wheel {
             placeSymbol(left.visibleSymbol());
         }
     }
-    
-    /**
-     * Indicates that this wheel is of the "lefty" type.
-     *
-     * @return always true
-     */
-    @Override
-    public boolean isLefty() {
-        return true;
-    }
 }

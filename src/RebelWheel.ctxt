@@ -1,12 +1,14 @@
 #BlueJ class context
-#Sun Oct 04 15:52:12 COT 2026
+#Mon Oct 05 19:18:34 COT 2026
 comment0.target=RebelWheel
-comment0.text=\r\n A wheel that resists being locked, swapped or removed.\r\n It can still be spun and have its symbols changed like a normal\r\n {@link Wheel}. The swap and removal restrictions are enforced by\r\n {@link SlotMachine}, which checks {@link \#isRebel()}.\r\n\r\n @author Eli\u00E1n Ibarra, Oscar Poveda\r\n @version 1.0\r\n
+comment0.text=\n A wheel that resists being locked, swapped or removed.\n It can still be spun and have its symbols changed like a normal\n {@link Wheel}. The restrictions are enforced by {@link SlotMachine},\n which asks every wheel {@link \#canBeLocked()}, {@link \#canBeSwapped()}\n and {@link \#canBeRemoved()} before doing those actions.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=posX posY
 comment1.target=RebelWheel(int, int)
-comment1.text=\r\n Constructs a rebel wheel at the given grid position.\r\n\r\n @param posX the column of the wheel in the grid\r\n @param posY the row of the wheel in the grid\r\n
-comment2.target=void lock()
-comment2.text=\r\n Ignores the request\: a rebel wheel never gets locked,\r\n so {@link \#isLocked()} always returns false.\r\n
-comment3.target=boolean isRebel()
-comment3.text=\r\n Indicates that this wheel is of the "rebel" type.\r\n\r\n @return always true\r\n
-numComments=4
+comment1.text=\n Constructs a rebel wheel at the given grid position.\n\n @param posX the column of the wheel in the grid\n @param posY the row of the wheel in the grid\n
+comment2.target=boolean canBeLocked()
+comment2.text=\n A rebel wheel never lets itself be locked.\n\n @return always false\n
+comment3.target=boolean canBeSwapped()
+comment3.text=\n A rebel wheel never lets itself be swapped.\n\n @return always false\n
+comment4.target=boolean canBeRemoved()
+comment4.text=\n A rebel wheel never lets itself be removed.\n\n @return always false\n
+numComments=5
