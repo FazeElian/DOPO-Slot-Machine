@@ -1,0 +1,16 @@
+#BlueJ class context
+#Tue Oct 06 12:39:47 COT 2026
+comment0.target=DizzySymbol
+comment0.text=\r\n A symbol that gets dizzy\: every time its wheel spins, its triangle\r\n flips upside down (and back again on the next spin). It is drawn\r\n narrower than a normal symbol so it can be told apart at any moment.\r\n\r\n @author Eli\u00E1n Ibarra, Oscar Poveda\r\n @version 1.0\r\n
+comment1.params=name
+comment1.target=DizzySymbol(java.lang.String)
+comment1.text=\r\n Constructs a dizzy symbol whose figure stays at the origin of the canvas.\r\n @param name color string that identifies the symbol\r\n
+comment2.params=name x y
+comment2.target=DizzySymbol(java.lang.String, int, int)
+comment2.text=\r\n Constructs a dizzy symbol whose figure is placed at the given pixel\r\n coordinates of the canvas. It starts pointing up.\r\n @param name color string that identifies the symbol\r\n @param x pixel position in X axis of the figure\r\n @param y pixel position in Y axis of the figure\r\n
+comment3.params=x y
+comment3.target=Symbol copyAt(int, int)
+comment3.text=\r\n Returns a new dizzy symbol (pointing up) with the same name at the\r\n given coordinates\r\n @param x pixel position in X axis of the new figure\r\n @param y pixel position in Y axis of the new figure\r\n
+comment4.target=void spun()
+comment4.text=\r\n Flips the triangle. A negative height draws it upwards from its\r\n anchor point, so the figure is also moved to stay inside its cell.\r\n
+numComments=5
