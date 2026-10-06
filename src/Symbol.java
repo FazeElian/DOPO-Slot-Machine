@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Symbol {
+    public final static int SYMBOL_SIZE = 50;
     public static ArrayList<Symbol> symbols = new ArrayList<Symbol>();
     private String name;
     private Triangle figure;
@@ -34,10 +35,22 @@ public class Symbol {
     public Symbol(String name, int x, int y) {
         this.name = name;
         figure = new Triangle();
-        figure.changeSize(Wheel.SYMBOL_SIZE, Wheel.SYMBOL_SIZE);
+        figure.changeSize(SYMBOL_SIZE, SYMBOL_SIZE);
         figure.changeColor(name);
         figure.moveHorizontal(x);
         figure.moveVertical(y);
+    }
+
+    /**
+     * Returns a new symbol of the same type as this one, with the same
+     * name and its figure placed at the given pixel coordinates. Every
+     * subclass must override it to return an instance of its own type,
+     * so wheels can copy any registered symbol without knowing its class.
+     * @param x pixel position in X axis of the new figure
+     * @param y pixel position in Y axis of the new figure
+     */
+    public Symbol copyAt(int x, int y) {
+        return new Symbol(name, x, y);
     }
 
     /**
