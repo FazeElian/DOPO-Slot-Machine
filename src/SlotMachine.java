@@ -158,20 +158,6 @@ public class SlotMachine {
             initialConfig[i] = colors[rand.nextInt(n)];
         }
         spin(initialConfig);
-
-        // If the random configuration happens to already be a jackpot,
-        // shift the first wheel to the next registered color to break it
-        if (isJackpot()) {
-            int currentIndex = -1;
-            for (int i = 0; i < n; i++) {
-                if (colors[i].equals(configuration()[0])) {
-                    currentIndex = i;
-                    break;
-                }
-            }
-            int newIndex = (currentIndex + 1) % n;
-            placeSymbol(1, colors[newIndex]);
-        }
     }
 
     /**
@@ -183,8 +169,9 @@ public class SlotMachine {
      * When inserting in the middle, all wheels after pos are shifted right with accommodate(1).
      *
      * @param pos  1-based position where the new wheel is inserted
-     * @param type kind of wheel to create: "lefty", "rebel" or "lazy"; any other
-     * value (including null or an empty string) creates a normal wheel
+     * @param type kind of wheel to create: "normal", "lefty", "rebel" or "lazy";
+     * null or an empty string also creates a normal wheel. Any other value
+     * shows an error, sets ok = false and adds no wheel
      * 
      */
     public void addWheel(int pos, String type) {
@@ -202,12 +189,17 @@ public class SlotMachine {
         int posY = ((pos - 1) / MAX_COLUMNS) + 1;
 
         Wheel newWheel;
-        String t = (type == null || type == "") ? "" : type.trim().toLowerCase();
+        String t = (type == null) ? "" : type.trim().toLowerCase();
         switch(t) {
+            case "":
+            case "normal": newWheel = new Wheel(posX, posY); break;
             case "lefty": newWheel = new LeftyWheel(posX, posY); break;
             case "rebel": newWheel = new RebelWheel(posX, posY); break;
             case "lazy": newWheel = new LazyWheel(posX, posY); break;
-            default: newWheel = new Wheel(posX, posY);
+            default:
+                if(visible) MessageUtil.showError("El tipo de rueda " + type + " no existe.");
+                ok = false;
+                return;
         }
         
         if(pos > wheels.size()) {
@@ -239,7 +231,7 @@ public class SlotMachine {
 
         int index = adjustPosition(pos);
         Wheel w = wheels.get(index);
-        if(!w.isRebel()) {
+        if(w.canBeRemoved()) {
             Wheel removedWheel = wheels.remove(index);
             removedWheel.makeInvisible(); // remove from screen before shifting
             // Move every wheel after the removed one one position to the left
@@ -250,7 +242,7 @@ public class SlotMachine {
             updateBoardSize();
             ok = true;
         } else {
-            if(visible) MessageUtil.showError("La rueda " + (index + 1) + " es Rebel: no puede eliminarse.");
+            if(visible) MessageUtil.showError("La rueda " + (index + 1) + " no puede eliminarse.");
             ok = false;
         }
     }
@@ -270,8 +262,8 @@ public class SlotMachine {
             ok = false;
             return;
         }
-        if (w.isRebel()) {
-            if(visible) MessageUtil.showError("Esa rueda es de tipo Rebel, no puede bloquearse.");
+        if (!w.canBeLocked()) {
+            if(visible) MessageUtil.showError("Esa rueda no puede bloquearse.");
             ok = false;
             return;
         }
@@ -292,11 +284,6 @@ public class SlotMachine {
         Wheel w =  wheels.get(wheel-1);
         if (!w.isLocked()) {
             if(visible) MessageUtil.showError("Esa rueda no estaba bloqueada");
-            ok = false;
-            return;
-        }
-        if (w.isRebel()) {
-            if(visible) MessageUtil.showError("Esa rueda es de tipo Rebel, no puede bloquearse ni desbloquearse.");
             ok = false;
             return;
         }
@@ -327,7 +314,7 @@ public class SlotMachine {
             } else {
                 index = pos - 1;
             }
-            Symbol symbol = createSymbol(name);
+            Symbol symbol = new Symbol(name);
             Symbol.symbols.add(index, symbol);
             // Every wheel inserts its own copy of the Symbol at the same index
             for (Wheel wheel : wheels) {
@@ -338,19 +325,6 @@ public class SlotMachine {
             ok = false;
             if(visible) MessageUtil.showError(color.toUpperCase() + " ya es un símbolo, elige uno nuevo");
         }
-    }
-
-    /**
-     * Creates the symbol that will be registered in Symbol.symbols.
-     * This is the only place that decides which Symbol class to instantiate:
-     * new symbol types (subclasses) are added here, and wheels copy them
-     * through Symbol.copyAt without knowing their class.
-     *
-     * @param name color string of the symbol
-     * @return the new symbol
-     */
-    private Symbol createSymbol(String name) {
-        return new Symbol(name);
     }
 
     /**
@@ -425,8 +399,8 @@ public class SlotMachine {
         Wheel w1 = wheels.get(i1);
         Wheel w2 = wheels.get(i2);
         
-        if (w1.isRebel() || w2.isRebel()) {
-            if (visible) MessageUtil.showError("Una rueda Rebel no puede intercambiarse.");
+        if (!w1.canBeSwapped() || !w2.canBeSwapped()) {
+            if (visible) MessageUtil.showError("Alguna de esas ruedas no puede intercambiarse.");
             ok = false;
             return;
         }
@@ -488,10 +462,7 @@ public class SlotMachine {
         }
         
         if (index >= 0 && index < wheels.size()) {
-            if (w.isLefty()) {
-                w.setLeftNeighbor(index > 0 ? wheels.get(index - 1) : null);
-            }
-            
+            w.setLeftNeighbor(index > 0 ? wheels.get(index - 1) : null);
             w.spin();
             winnerAppearance();
             ok = true;
@@ -520,9 +491,7 @@ public class SlotMachine {
                 if (visible) MessageUtil.showError("La rueda "+ (i+1) + " está bloqueada, no se puede girar.");
                 continue;
             }
-            if (wheel.isLefty()) {
-                wheel.setLeftNeighbor(i > 0 ? wheels.get(i - 1) : null);
-            }      
+            wheel.setLeftNeighbor(i > 0 ? wheels.get(i - 1) : null);
             wheel.spin();
         }
         winnerAppearance();
@@ -650,9 +619,7 @@ public class SlotMachine {
             return;
         }
         
-        if (w.isLefty()) {
-            w.setLeftNeighbor(pos > 0 ? wheels.get(pos - 1) : null);
-        }
+        w.setLeftNeighbor(pos > 0 ? wheels.get(pos - 1) : null);
 
         int direction = (steps < 0) ? -1 : 1;
         int totalSteps = Math.abs(steps);

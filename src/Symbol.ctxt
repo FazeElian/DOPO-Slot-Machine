@@ -1,10 +1,10 @@
 #BlueJ class context
-#Mon Oct 05 11:46:35 COT 2026
+#Mon Oct 05 19:18:34 COT 2026
 comment0.target=Symbol
-comment0.text=\r\n Represents a single symbol of a wheel\: its name (the color string,\r\n e.g. "red" or "\#3fae1c") and the figure (a Triangle) that draws it\r\n on the canvas. The static list {@link \#symbols} is the catalog of\r\n registered symbols shared by the whole board; every wheel builds its own\r\n Symbol objects from it, so each figure moves with the wheel it belongs to.\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
+comment0.text=\n Represents a single symbol of a wheel\: its name (the color string,\n e.g. "red" or "\#3fae1c") and the figure (a Triangle) that draws it\n on the canvas. The static list {@link \#symbols} is the catalog of\n registered symbols shared by the whole board; every wheel builds its own\n Symbol objects from it, so each figure moves with the wheel it belongs to.\n\n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.params=name
 comment1.target=Symbol(java.lang.String)
-comment1.text=\r\n Constructs a symbol whose figure stays at the origin of the canvas.\r\n Used for the entries of the catalog, whose figures are never drawn.\r\n @param name color string that identifies the symbol\r\n
+comment1.text=\n Constructs a symbol whose figure stays at the origin of the canvas.\n Used for the entries of the catalog, whose figures are never drawn.\n @param name color string that identifies the symbol\n
 comment2.params=name x y
 comment2.target=Symbol(java.lang.String, int, int)
 comment2.text=\n Constructs a symbol whose figure is placed at the given pixel\n coordinates of the canvas. The figure starts invisible.\n @param name color string that identifies the symbol\n @param x pixel position in X axis of the figure\n @param y pixel position in Y axis of the figure\n

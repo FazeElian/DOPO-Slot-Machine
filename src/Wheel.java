@@ -12,7 +12,6 @@ import java.util.ArrayList;
 */
 public class Wheel {
     public final static int CELL_SIZE = 70; 
-    public final static int SYMBOL_SIZE = 50;
     public final static int SYMBOL_OFFSET_X = 7 * 10 / 2; 
     public final static int SYMBOL_OFFSET_Y = 10;
     public final static int GAP = 10;
@@ -337,22 +336,32 @@ public class Wheel {
     public void setLeftNeighbor(Wheel left) {}
     
     /**
-     * Indicates whether this wheel is of the "rebel" type, which cannot be
-     * locked, swapped or removed.
+     * Indicates whether this wheel allows being locked. A normal wheel does;
+     * subclasses such as {@link RebelWheel} override it.
      *
-     * @return true if this wheel is a rebel wheel, false otherwise
+     * @return true if the wheel can be locked, false otherwise
      */
-    public boolean isRebel() {
-        return false;
+    public boolean canBeLocked() {
+        return true;
     }
-    
+
     /**
-     * Indicates whether this wheel is of the "lefty" type, which copies the
-     * visible symbol of its left neighbor when spun.
+     * Indicates whether this wheel allows being swapped with another one.
+     * A normal wheel does; subclasses such as {@link RebelWheel} override it.
      *
-     * @return true if this wheel is a lefty wheel, false otherwise
+     * @return true if the wheel can be swapped, false otherwise
      */
-    public boolean isLefty() {
-        return false;
+    public boolean canBeSwapped() {
+        return true;
+    }
+
+    /**
+     * Indicates whether this wheel allows being removed from the machine.
+     * A normal wheel does; subclasses such as {@link RebelWheel} override it.
+     *
+     * @return true if the wheel can be removed, false otherwise
+     */
+    public boolean canBeRemoved() {
+        return true;
     }
 }
