@@ -53,8 +53,8 @@ public class SlowMachineCC2Test
         slotMachine.addSymbol(1, "blue");
         
         // Add some wheels
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
 
         // Lock the first one
         slotMachine.lock(1);
@@ -77,7 +77,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingCgCpShouldNotChangeConfigurationWhenWheelIsLocked()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(1, "blue");
         slotMachine.placeSymbol(1, "red");
@@ -99,7 +99,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingCgCpShouldChangeConfigurationWhenWheelIsUnlockedAfterLock()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(1, "blue");
         slotMachine.placeSymbol(1, "red");
@@ -119,7 +119,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingBaGqShouldLockWheel()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.lock(1);
         assertTrue(slotMachine.ok());
 
@@ -130,7 +130,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingCgHnAddSymbolShouldFailWhenColorAlreadyExists()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(1, "red");
         assertFalse(slotMachine.ok());
@@ -143,8 +143,8 @@ public class SlowMachineCC2Test
     @Test
     public void accordingClPcShouldKeepDistinctSymbolCountAfterSwap()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
         slotMachine.placeSymbol(1, "red");
@@ -162,9 +162,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingJcSrShouldNotSpinLockedWheel()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
 
         String[] before = slotMachine.configuration();
         slotMachine.lock(1);
@@ -181,9 +181,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingGmLaShouldNotAllowSpinningALockedWheel()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
 
         slotMachine.lock(1);
         slotMachine.spin(1);
@@ -202,8 +202,8 @@ public class SlowMachineCC2Test
     {
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.placeSymbol(1, "red");
         slotMachine.placeSymbol(2, "blue");
         slotMachine.swap(1, 2);
@@ -220,7 +220,7 @@ public class SlowMachineCC2Test
     {
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.placeSymbol(1, "red");
         slotMachine.lock(1);
         slotMachine.spin(1);
@@ -239,8 +239,8 @@ public class SlowMachineCC2Test
     {
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.spin(new String[]{"red", "red"});
         assertTrue(slotMachine.isJackpot());
     }
@@ -252,8 +252,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingMsRhShouldDeleteLastWheelWhenPositionGreaterThanSize()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addSymbol(1, "red"); // configuration() needs at least one symbol
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.delWheel(10);
         assertEquals(1, slotMachine.configuration().length);
     }
@@ -264,9 +265,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingDrRmShouldBeJackpotWhenAllWheelsMatch()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
         slotMachine.spin(new String[]{"red", "red", "red"});
@@ -280,9 +281,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingDrRmShouldKeepCorrectWheelCountAfterAddAndDelete()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
         slotMachine.delWheel(2);
         slotMachine.addSymbol(1, "red");
         slotMachine.spin(new String[]{"red", "red"});
@@ -297,8 +298,8 @@ public class SlowMachineCC2Test
     @Test
     public void accordingFsGcShouldKeepDistinctSymbolCountAfterSwap()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
         slotMachine.placeSymbol(1, "red");
@@ -319,7 +320,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingBaGqShouldNotSpinLockedWheel()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
         slotMachine.placeSymbol(1, "red");
@@ -339,7 +340,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingCgHnIsJackpotShouldBeFalseWithOnlyOneWheelEvenIfSymbolIsSet()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.placeSymbol(1, "red");
     
@@ -354,8 +355,8 @@ public class SlowMachineCC2Test
     @Test
     public void accordingClPcShouldNotReportJackpotWhenSetConfigurationDiffers()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
     
@@ -371,9 +372,14 @@ public class SlowMachineCC2Test
     @Test
     public void accordingJcSrShouldExchangeWheels()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        // Two symbols and different ones placed, so the swap can be observed
+        slotMachine.addSymbol(1, "red");
+        slotMachine.addSymbol(2, "blue");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
+
+        slotMachine.placeSymbol(3, "blue");
 
         String[] before = slotMachine.configuration();
         slotMachine.swap(1, 3);
@@ -388,9 +394,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingFmSnShouldShowCorrectConfiguration()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
 
         slotMachine.addSymbol(1, "red");   // Add a new symbol [red] - with black being the default.
         slotMachine.addSymbol(1, "green"); // Add another symbol [green,red].
@@ -413,9 +419,9 @@ public class SlowMachineCC2Test
     @Test
     public void accordingGmLaShouldReflectExactConfigurationAfterSpinWithGivenSymbols()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
-        slotMachine.addWheel(3, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
+        slotMachine.addWheel(3);
 
 
         slotMachine.addSymbol(1, "yellow");
@@ -438,7 +444,7 @@ public class SlowMachineCC2Test
         slotMachine.addSymbol(2, "blue");
         slotMachine.addSymbol(3, "green");
         while (slotMachine.configuration().length < 3) {
-            slotMachine.addWheel(1, "");
+            slotMachine.addWheel(1);
         }
     
         String[] begin = {"red", "blue", "green"};
@@ -462,7 +468,7 @@ public class SlowMachineCC2Test
     {
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "blue");
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.placeSymbol(1, "red");
         slotMachine.spin(1);
         assertEquals("blue", slotMachine.configuration()[0]);
@@ -476,7 +482,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingMrSeShouldKeepLockedWheelFixedAndAllowSpinAfterUnlock()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(1, "blue");
         slotMachine.placeSymbol(1, "red"); // known state
@@ -500,8 +506,8 @@ public class SlowMachineCC2Test
     @Test
     public void accordingMrSeShouldRejectSpinSetSymbolsWhenColorMissing()
     {
-        slotMachine.addWheel(1, "");
-        slotMachine.addWheel(2, "");
+        slotMachine.addWheel(1);
+        slotMachine.addWheel(2);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(2, "green");
     
@@ -518,7 +524,7 @@ public class SlowMachineCC2Test
     @Test
     public void accordingRlBbShouldNotSpinWhenLocked()
     {
-        slotMachine.addWheel(1, "");
+        slotMachine.addWheel(1);
         slotMachine.addSymbol(1, "red");
         slotMachine.addSymbol(1, "blue");
         slotMachine.addSymbol(1, "green");

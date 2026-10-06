@@ -1,0 +1,8 @@
+#BlueJ class context
+#Tue Oct 06 12:12:58 COT 2026
+comment0.target=SlotMachineException
+comment0.text=\r\n Exception thrown when an operation of the slot machine can't be done.\r\n Its constants hold every error message of the simulator; the ones with\r\n %s or %d are completed with String.format before throwing.\r\n\r\n @author Oscar Poveda, Elian Ibarra\r\n @version 1.0\r\n
+comment1.params=message
+comment1.target=SlotMachineException(java.lang.String)
+comment1.text=\r\n Constructs the exception with the message that explains the error\r\n @param message description of the error, usually one of the constants\r\n
+numComments=2
