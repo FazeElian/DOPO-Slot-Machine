@@ -46,7 +46,9 @@ public class ShySymbol extends Symbol {
 
     /**
      * Toggles between hiding and showing, and updates the canvas if the
-     * wheel has this symbol on screen.
+     * wheel has this symbol on screen. When the wheel is spun by steps,
+     * every step the wheel stops at this symbol counts as a selection,
+     * since the symbol is shown on that step.
      */
     @Override
     public void selected() {

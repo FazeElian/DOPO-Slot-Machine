@@ -658,6 +658,9 @@ public class SlotMachine {
     /**
      * Spin a specific wheel a given number of steps.
      * If the machine is visible, the movement is animated step by step.
+     * Every step counts as a spin of the wheel: its symbols react to each
+     * one (an ephemeral shrinks once per step) and the symbol of each step
+     * counts as selected (a shy toggles every time a step stops at it).
      * @param wheel 1-based position of the wheel
      * @param steps number of times to advance the symbol
      */

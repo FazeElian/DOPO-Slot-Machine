@@ -32,7 +32,8 @@ public class LeftyWheel extends Wheel {
     /**
      * Spins this wheel. If it has a left neighbor, it takes that neighbor's
      * visible symbol and the direction is ignored; otherwise it spins
-     * one step in the given direction like a normal wheel.
+     * one step in the given direction like a normal wheel. Either way it
+     * counts as a spin for its symbols.
      *
      * @param direction 1 to advance one step, -1 to go back one step
      * @throws SlotMachineException propagated from placeSymbol if the
@@ -43,6 +44,7 @@ public class LeftyWheel extends Wheel {
         if (left == null) {
             super.spin(direction);
         } else {
+            notifySpin();
             placeSymbol(left.visibleSymbol());
         }
     }
