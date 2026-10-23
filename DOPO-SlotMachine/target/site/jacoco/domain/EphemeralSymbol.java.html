@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EphemeralSymbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">EphemeralSymbol.java</span></div><h1>EphemeralSymbol.java</h1><pre class="source lang-java linenums">package domain;
+
+/**
+ * An ephemeral symbol: every time its wheel spins, its triangle shrinks
+ * one step (width and height together, so it stays equilateral) until it
+ * is just a point. It shrinks on every spin of the wheel, whether or not
+ * it is the symbol being shown.
+ *
+ * @author Elián Ibarra, Oscar Poveda
+ * @version 1.0
+ */
+public class EphemeralSymbol extends Symbol {
+    /** Pixels the side of the triangle loses on every spin. */
+    public static final int STEP = 10;
+    /** Side of the triangle when it has become a point. */
+    public static final int MIN_SIDE = 2;
+    // Current side (base) of the triangle
+<span class="fc" id="L18">    private int side = SYMBOL_SIZE;</span>
+
+    /**
+     * Constructs an ephemeral symbol whose figure stays at the origin of the canvas.
+     * @param name color string that identifies the symbol
+     */
+    public EphemeralSymbol(String name) {
+<span class="fc" id="L25">        this(name, 0, 0);</span>
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * Constructs an ephemeral symbol whose figure is placed at the given
+     * pixel coordinates of the canvas. It starts at full size.
+     * @param name color string that identifies the symbol
+     * @param x pixel position in X axis of the figure
+     * @param y pixel position in Y axis of the figure
+     */
+    public EphemeralSymbol(String name, int x, int y) {
+<span class="fc" id="L36">        super(name, x, y);</span>
+<span class="fc" id="L37">        int height = heightOf(side);</span>
+<span class="fc" id="L38">        changeFigureSize(height, side);</span>
+<span class="fc" id="L39">        moveVertical((SYMBOL_SIZE - height) / 2);   // center it in the cell</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * Returns a new ephemeral symbol (at full size) with the same name at
+     * the given coordinates
+     * @param x pixel position in X axis of the new figure
+     * @param y pixel position in Y axis of the new figure
+     */
+    @Override
+    public Symbol copyAt(int x, int y) {
+<span class="fc" id="L50">        return new EphemeralSymbol(getName(), x, y);</span>
+    }
+
+    /**
+     * Shrinks the whole triangle (width and height together) one step,
+     * keeping it equilateral and centered, until it is just a point.
+     */
+    @Override
+    public void spun() {
+<span class="fc" id="L59">        int oldHeight = heightOf(side);</span>
+<span class="fc" id="L60">        side = Math.max(MIN_SIDE, side - STEP);</span>
+<span class="fc" id="L61">        int newHeight = heightOf(side);</span>
+<span class="fc" id="L62">        changeFigureSize(newHeight, side);</span>
+<span class="fc" id="L63">        moveVertical((oldHeight - newHeight) / 2);  // keep it centered</span>
+<span class="fc" id="L64">    }</span>
+
+    // Height of an equilateral triangle with the given side
+    private static int heightOf(int side) {
+<span class="fc" id="L68">        return Math.max(1, (int) Math.round(side * Math.sqrt(3) / 2));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

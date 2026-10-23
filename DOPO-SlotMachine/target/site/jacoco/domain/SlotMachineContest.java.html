@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SlotMachineContest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">SlotMachineContest.java</span></div><h1>SlotMachineContest.java</h1><pre class="source lang-java linenums">package domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A class whose objective is solve the ICPC 2025 World Finals &quot;Slot Machine&quot; contest problem
+ * (Problem I, Baku): given a slot machine with n wheels, each cycling
+ * through the same n distinct symbols, this class figures out how to
+ * rotate the wheels so that all of them end up showing the same
+ * symbol at the same time (whicj is called a jackpot), this without ever being able to
+ * see which symbol is been showed on every wheel.
+ *
+ * The only available information while solving is the number of distinct
+ * symbols currently visible across all wheels, obtained through
+ * {@link SlotMachine#distinctSymbols()}. All reasoning about which
+ * wheel matches which symbol is done indirectly, by observing how
+ * that count changes after each rotation.
+ *
+ * @author Oscar Poveda, Elian Ibarra
+ * @version 1.1
+ */
+public class SlotMachineContest {
+    public static SlotMachine sm; // SlotMachine created for the problem
+    private static String[] setSymbols;
+    /**
+     * Default constructor for the SlotMachineContest solver class.
+     */
+<span class="fc" id="L29">    public SlotMachineContest() {</span>
+<span class="fc" id="L30">    }</span>
+
+    /**
+     * Solves the ICPC 2025 World Finals &quot;Slot Machine&quot; contest problem
+     * (Problem I) using the three-phase strategy:
+     * &lt;ol&gt;
+     *   &lt;li&gt;Separate all wheels so each shows a distinct symbol.&lt;/li&gt;
+     *   &lt;li&gt;
+     *     Discover the exact relative permutation between wheels by exploiting
+     *     collisions detected only through &lt;code&gt;distinctSymbols()&lt;/code&gt;.
+     *   &lt;/li&gt;
+     *   &lt;li&gt;
+     *     Align every wheel to the same symbol using the permutation found. The
+     *     colors themselves are never read directly — only the count of distinct
+     *     symbols currently shown.
+     *   &lt;/li&gt;
+     * &lt;/ol&gt;
+     * 
+     * Worst-case action count:
+     * &lt;ul&gt;
+     *   &lt;li&gt;Phase 1 ~ n*(n-1)&lt;/li&gt;
+     *   &lt;li&gt;Phase 2 ~ 2*C(n,2)&lt;/li&gt;
+     *   &lt;li&gt;Phase 3 ~ n-1 — comfortably under the 10000-action limit for n &amp;lt;= 50&lt;/li&gt;
+     * &lt;/ul&gt;
+     *
+     * The SlotMachine created here stays invisible for the entire process.
+     * It's shown only when user wants to simulate all the solution.
+     *
+     * @param n number of wheels and symbols
+     * @return the list of actions {wheel, steps} applied, in order
+     */
+    public static int[][] solve(int n) {
+<span class="fc" id="L62">        sm = new SlotMachine(n);</span>
+<span class="fc" id="L63">        setSymbols = sm.configuration();</span>
+<span class="fc" id="L64">        List&lt;int[]&gt; actions = new ArrayList&lt;&gt;();</span>
+
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (sm.distinctSymbols() == 1) {</span>
+<span class="fc" id="L67">            return actions.toArray(new int[0][]);</span>
+        }
+
+        //PHASE 1: separate all wheels
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (int wheel = 2; wheel &lt;= n; wheel++) {</span>
+<span class="fc" id="L72">            int bestK = sm.distinctSymbols();</span>
+<span class="fc" id="L73">            int bestOffset = 0;</span>
+<span class="fc" id="L74">            int stepsTaken = 0;</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">            for (int offset = 1; offset &lt; n; offset++) {</span>
+<span class="fc" id="L77">                sm.spin(wheel, 1);</span>
+<span class="fc" id="L78">                actions.add(new int[]{wheel, 1});</span>
+<span class="fc" id="L79">                stepsTaken++;</span>
+
+<span class="fc" id="L81">                int k = sm.distinctSymbols();</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                if (k &gt; bestK) {</span>
+<span class="fc" id="L83">                    bestK = k;</span>
+<span class="fc" id="L84">                    bestOffset = offset;</span>
+                }
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                if (k == n) break; // ceiling reached, can't improve further</span>
+            }
+
+<span class="fc" id="L89">            int remaining = bestOffset - stepsTaken;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">            if (remaining != 0) {</span>
+<span class="fc" id="L91">                sm.spin(wheel, remaining);</span>
+<span class="fc" id="L92">                actions.add(new int[]{wheel, remaining});</span>
+            }
+        }
+        // At this point sm.distinctSymbols() == n
+
+        // PHASE 2: discover the permutation
+<span class="fc" id="L98">        int[] relativeOffset = new int[n + 1]; // relativeOffset[1] = 0</span>
+<span class="fc" id="L99">        relativeOffset[1] = 0;</span>
+<span class="fc" id="L100">        boolean[] identified = new boolean[n + 1];</span>
+<span class="fc" id="L101">        identified[1] = true;</span>
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (int i = 1; i &lt;= n - 1; i++) {</span>
+<span class="fc" id="L104">            sm.spin(1, 1);</span>
+<span class="fc" id="L105">            actions.add(new int[]{1, 1});</span>
+
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">            for (int candidate = 2; candidate &lt;= n; candidate++) {</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">                if (identified[candidate]) continue;</span>
+
+<span class="fc" id="L110">                sm.spin(candidate, -1);</span>
+<span class="fc" id="L111">                actions.add(new int[]{candidate, -1});</span>
+
+<span class="fc bfc" id="L113" title="All 2 branches covered.">                if (sm.distinctSymbols() == n) {</span>
+<span class="fc" id="L114">                    relativeOffset[candidate] = i;</span>
+<span class="fc" id="L115">                    identified[candidate] = true;</span>
+<span class="fc" id="L116">                    break;</span>
+                } else {
+<span class="fc" id="L118">                    sm.spin(candidate, 1); // wrong candidate: revert</span>
+<span class="fc" id="L119">                    actions.add(new int[]{candidate, 1});</span>
+                }
+            }
+        }
+
+        //PHASE 3: align everyone to wheel 1's original symbol
+<span class="fc" id="L125">        sm.spin(1, 1); // completes the cycle back to wheel 1's original position</span>
+<span class="fc" id="L126">        actions.add(new int[]{1, 1});</span>
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        for (int wheel = 2; wheel &lt;= n; wheel++) {</span>
+            // every other wheel has a net displacement of exactly -1 from phase 2
+<span class="fc" id="L130">            int delta = 1 - relativeOffset[wheel];</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">            if (delta!=0){</span>
+<span class="fc" id="L132">            sm.spin(wheel, delta);</span>
+<span class="fc" id="L133">            actions.add(new int[]{wheel, delta});</span>
+            }
+        }
+
+<span class="fc" id="L137">        return actions.toArray(new int[0][]);</span>
+    }
+
+    /** Simulate the solution to the problem with a given n from the matrix returned by the 
+     * steps of the solve(n) method 
+     * 
+     * @param n number of wheels and symbols
+     */
+    public static void simulate(int n){
+<span class="nc" id="L146">        int[][] actions = solve(n);</span>
+<span class="nc" id="L147">        sm.makeVisible();</span>
+<span class="nc" id="L148">        sm.spin(setSymbols);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        for (int i=0; i &lt; actions.length; i++){</span>
+<span class="nc" id="L150">            sm.spin(actions[i][0],actions[i][1]);</span>
+        }
+<span class="nc" id="L152">        sm.makeInvisible();</span>
+<span class="nc" id="L153">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

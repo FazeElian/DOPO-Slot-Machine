@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+slotMachine,domain,SlotMachineException,0,4,0,0,0,2,0,1,0,1
+slotMachine,domain,LazyWheel,0,23,0,4,0,7,0,4,0,2
+slotMachine,domain,RebelWheel,0,11,0,0,0,5,0,4,0,4
+slotMachine,domain,EphemeralSymbol,0,80,0,0,0,16,0,5,0,5
+slotMachine,domain,LeftyWheel,0,24,0,2,0,9,0,4,0,3
+slotMachine,domain,Wheel,52,524,23,51,10,123,20,45,1,27
+slotMachine,domain,SlotMachine,253,1659,54,156,56,377,51,88,4,27
+slotMachine,domain,ShySymbol,17,47,5,3,5,14,4,7,1,6
+slotMachine,domain,Symbol,4,105,0,4,2,31,1,17,1,15
+slotMachine,domain,DizzySymbol,0,54,0,4,0,14,0,6,0,4
+slotMachine,domain,SlotMachineContest,34,256,3,23,9,47,4,12,2,1
