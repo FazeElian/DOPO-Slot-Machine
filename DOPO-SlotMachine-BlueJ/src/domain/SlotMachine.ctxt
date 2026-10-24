@@ -1,0 +1,78 @@
+#BlueJ class context
+#Sat Oct 24 15:13:23 COT 2026
+comment0.target=SlotMachine
+comment0.text=\n A slot machine\: a gray board with a grid of up to 14 x 9 {@link Wheel}s.\n Symbols are registered globally in {@link Symbol\#symbols} and every wheel\n owns its own copies. All public positions are <b>1-based</b>.\n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
+comment1.target=SlotMachine()
+comment1.text=\n Constructs an empty SlotMachine with a gray board positioned\n to wrap exactly one wheel cell (with a 10px margin).\n The board grows automatically when wheels are added via {@link \#addWheel(int)}.\n
+comment10.params=color
+comment10.target=void delSymbol(java.lang.String)
+comment10.text=\n Removes a color from the global symbol list and from every wheel.\n If the color does not exist, shows an error and sets ok \= false.\n\n @param color color name to remove\n
+comment11.target=java.lang.String[] symbols()
+comment11.text=\n Returns the global list of registered symbols on the board.\n\n @return array of color names (or hex codes, as they were entered)\n
+comment12.params=wheel1 wheel2
+comment12.target=void swap(int, int)
+comment12.text=\n Swap two wheels based on their 1-based positions.\n Both positions must correspond to existing wheels; otherwise the\n operation fails and shows an error.\n @param wheel1 position of the first wheel\n @param wheel2 position of the second wheel\n
+comment13.params=w1 w2 posX1 posY1 posX2 posY2
+comment13.target=void animateSwap(Wheel, Wheel, int, int, int, int)
+comment14.params=wheelPos
+comment14.target=void spin(int)
+comment14.text=\n Spins a specific wheel at the given position.\n Triggers the lever animation before spinning.\n\n @param wheelPos 1-based position of the wheel to spin\n
+comment15.target=void spin()
+comment15.text=\n Spins all wheels simultaneously and check if is jackpot.\n Triggers the lever animation before spinning.\n Sets ok \= false if there are no wheels.\n
+comment16.params=wheelPos symbol
+comment16.target=void placeSymbol(int, java.lang.String)
+comment16.text=\n Shows the given symbol on a wheel and then checks for a jackpot. If\n there are no wheels, the wheel is locked or the symbol doesn't exist,\n shows an error and sets ok \= false.\n @param wheelPos 1-based position of the wheel\n @param symbol   color to display\n
+comment17.target=java.lang.String[] configuration()
+comment17.text=\n Returns the current visible symbol of each wheel, in order.\n Returns an empty array, shows an error and sets ok \= false if no\n symbols have been registered.\n\n @return array of visible color names, one per wheel\n
+comment18.target=int distinctSymbols()
+comment18.text=\n Returns the number of unique symbols currently visible across all wheels.\n Returns 0 and shows an error if no symbols have been registered.\n\n @return count of distinct visible symbols\n
+comment19.target=boolean isJackpot()
+comment19.text=\n Returns true if all wheels are showing the same symbol.\n Returns false if the wheels list is empty or no symbols have been registered.\n\n @return true on jackpot, false otherwise\n
+comment2.params=n
+comment2.target=SlotMachine(int)
+comment2.text=\n Constructs a SlotMachine with n wheels and n distinct symbols, both\n random. Symbols are random hex colors (e.g. "\#3fae1c") so there are\n always n distinct ones. Used to test SlotMachineContest.solve(int).\n\n @param n number of wheels and symbols to create\n
+comment20.params=wheel steps
+comment20.target=void spin(int, int)
+comment20.text=\n Spins a wheel a given number of steps, animated if the machine is\n visible. Each step counts as a spin for its symbols (an ephemeral\n shrinks once per step) and selects that step's symbol.\n @param wheel 1-based position of the wheel\n @param steps number of times to advance the symbol\n
+comment21.params=setSymbols
+comment21.target=void spin(java.lang.String[])
+comment21.text=\n Set a specific symbol configuration for all wheels.\n @param setSymbols array of symbols, one per wheel in order\n
+comment22.target=void makeVisible()
+comment22.text=\n Makes the board and all wheels visible.\n
+comment23.target=void makeInvisible()
+comment23.text=\n Hides all wheels first, then the board, to avoid the board\n covering shapes still on the canvas.\n
+comment24.target=void exit()
+comment24.text=Finish - abort the application execution.
+comment25.target=boolean ok()
+comment25.text=Returns true if the last operation was successful.
+comment26.params=pos
+comment26.target=int adjustPosition(int)
+comment27.target=void animateLever()
+comment28.target=void updateBoardSize()
+comment29.target=void pause()
+comment3.params=pos
+comment3.target=void addWheel(int)
+comment3.text=\n Adds a new normal wheel at the given position.\n\n @param pos 1-based position where the new wheel is inserted\n
+comment30.target=void winnerAppearance()
+comment31.params=pos
+comment31.target=Wheel getWheel(int)
+comment31.text=\n Returns the wheel at the given 1-based position.\n @param pos 1-based position of the wheel\n @return the wheel, or null if the position does not exist\n
+comment4.params=type pos
+comment4.target=void addWheel(java.lang.String, int)
+comment4.text=\n Adds a new wheel at pos, corrected to 1..size+1 to avoid gaps; the\n wheels after it are shifted one cell to the right.\n @param type "normal", "lefty", "rebel" or "lazy" (null or "" is a\n        normal wheel); any other value shows an error, sets ok \= false\n        and adds no wheel\n @param pos  1-based position where the new wheel is inserted\n
+comment5.params=pos
+comment5.target=void delWheel(int)
+comment5.text=\n Removes the wheel at the given position and shifts all subsequent wheels\n one position to the left with accommodate(-1).\n\n @param pos 1-based position of the wheel to remove\n
+comment6.params=wheel
+comment6.target=void lock(int)
+comment6.text=\n Lock a specific wheel so it cannot be spun. If the wheel doesn't\n exist, is already locked or refuses to be locked (a rebel wheel),\n shows an error and sets ok \= false.\n @param wheel 1-based position of the wheel to lock\n
+comment7.params=wheel
+comment7.target=void unlock(int)
+comment7.text=\n Unlock a specific wheel so it can be spun again.\n If the position doesn't exist, shows an error and sets ok \= false.\n @param wheel 1-based position of the wheel to unlock\n
+comment8.params=pos color
+comment8.target=void addSymbol(int, java.lang.String)
+comment8.text=\n Adds a new normal symbol (color) at the given position.\n\n @param pos   1-based position in the global symbol list\n @param color color name to add\n
+comment9.params=type pos color
+comment9.target=void addSymbol(java.lang.String, int, java.lang.String)
+comment9.text=\n Registers a new symbol of the given type at pos (its color lowercased)\n and adds it to every wheel. If the color exists or the type is\n unknown, shows an error and sets ok \= false.\n @param type  "normal", "ephemeral" or "shy" (null or "" is normal)\n @param pos   1-based position in the global symbol list\n @param color color name to add\n
+numComments=32

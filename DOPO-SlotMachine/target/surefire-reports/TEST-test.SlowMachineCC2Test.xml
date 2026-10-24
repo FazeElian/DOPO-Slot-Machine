@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="test.SlowMachineCC2Test" time="7.323" tests="26" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="test.SlowMachineCC2Test" time="7.324" tests="26" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="CO"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk@21/21.0.13.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/target/surefire/surefirebooter-20261024145157943_3.jar /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/target/surefire 2026-10-24T14-51-57_910-jvmRun1 surefire-20261024145157943_1tmp surefire_0-20261024145157943_2tmp"/>
+    <property name="sun.java.command" value="/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/target/surefire/surefirebooter-20261024150645975_3.jar /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/target/surefire 2026-10-24T15-06-45_948-jvmRun1 surefire-20261024150645975_1tmp surefire_0-20261024150645975_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/bin:/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/bin:/Users/oscardev/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/oscardev/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/oscardev/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/oscardev/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/oscardev/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/oscardev/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/oscardev/.m2/repository/org/junit/vintage/junit-vintage-engine/5.10.2/junit-vintage-engine-5.10.2.jar:/Users/oscardev/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/oscardev/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/oscardev/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/Users/oscardev/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/oscardev/.m2/repository/org/junit/platform/junit-platform-launcher/1.10.2/junit-platform-launcher-1.10.2.jar:"/>
@@ -29,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/target/surefire/surefirebooter-20261024145157943_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/target/surefire/surefirebooter-20261024150645975_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.security.manager" value="allow"/>
@@ -61,28 +61,28 @@
   </properties>
   <testcase name="accordingMsRhShouldNotChangeLockedWheelWhenSpinning" classname="test.SlowMachineCC2Test" time="0.0"/>
   <testcase name="accordingDrRmShouldKeepCorrectWheelCountAfterAddAndDelete" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingBaGqShouldNotSpinLockedWheel" classname="test.SlowMachineCC2Test" time="0.001"/>
-  <testcase name="accordingMsRhShouldSwapSymbolsBetweenTwoValidWheels" classname="test.SlowMachineCC2Test" time="1.83"/>
+  <testcase name="accordingBaGqShouldNotSpinLockedWheel" classname="test.SlowMachineCC2Test" time="0.0"/>
+  <testcase name="accordingMsRhShouldSwapSymbolsBetweenTwoValidWheels" classname="test.SlowMachineCC2Test" time="1.824"/>
   <testcase name="accordingCgCpShouldNotChangeConfigurationWhenWheelIsLocked" classname="test.SlowMachineCC2Test" time="0.002"/>
-  <testcase name="accordingCxLxShouldAdvanceToNextSymbol" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingFsGcShouldKeepDistinctSymbolCountAfterSwap" classname="test.SlowMachineCC2Test" time="1.822"/>
+  <testcase name="accordingCxLxShouldAdvanceToNextSymbol" classname="test.SlowMachineCC2Test" time="0.001"/>
+  <testcase name="accordingFsGcShouldKeepDistinctSymbolCountAfterSwap" classname="test.SlowMachineCC2Test" time="1.823"/>
   <testcase name="accordingGrMsShouldNotSetSymbolsThatDoesNotExists" classname="test.SlowMachineCC2Test" time="0.001"/>
-  <testcase name="accordingIcPgshouldSpinAWheel" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingMsRhShouldDeleteLastWheelWhenPositionGreaterThanSize" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingClPcShouldKeepDistinctSymbolCountAfterSwap" classname="test.SlowMachineCC2Test" time="1.82"/>
-  <testcase name="accordingMrSeShouldRejectSpinSetSymbolsWhenColorMissing" classname="test.SlowMachineCC2Test" time="0.002"/>
+  <testcase name="accordingIcPgshouldSpinAWheel" classname="test.SlowMachineCC2Test" time="0.001"/>
+  <testcase name="accordingMsRhShouldDeleteLastWheelWhenPositionGreaterThanSize" classname="test.SlowMachineCC2Test" time="0.001"/>
+  <testcase name="accordingClPcShouldKeepDistinctSymbolCountAfterSwap" classname="test.SlowMachineCC2Test" time="1.824"/>
+  <testcase name="accordingMrSeShouldRejectSpinSetSymbolsWhenColorMissing" classname="test.SlowMachineCC2Test" time="0.001"/>
   <testcase name="accordingMrSeShouldKeepLockedWheelFixedAndAllowSpinAfterUnlock" classname="test.SlowMachineCC2Test" time="0.001"/>
-  <testcase name="accordingJcSrShouldExchangeWheels" classname="test.SlowMachineCC2Test" time="1.822"/>
+  <testcase name="accordingJcSrShouldExchangeWheels" classname="test.SlowMachineCC2Test" time="1.824"/>
   <testcase name="accordingClPcShouldNotReportJackpotWhenSetConfigurationDiffers" classname="test.SlowMachineCC2Test" time="0.002"/>
   <testcase name="accordingBaGqShouldLockWheel" classname="test.SlowMachineCC2Test" time="0.001"/>
   <testcase name="accordingJcSrShouldNotSpinLockedWheel" classname="test.SlowMachineCC2Test" time="0.001"/>
   <testcase name="accordingCgHnIsJackpotShouldBeFalseWithOnlyOneWheelEvenIfSymbolIsSet" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingFmSnShouldShowCorrectConfiguration" classname="test.SlowMachineCC2Test" time="0.0"/>
+  <testcase name="accordingFmSnShouldShowCorrectConfiguration" classname="test.SlowMachineCC2Test" time="0.001"/>
   <testcase name="accordingGmLaShouldNotAllowSpinningALockedWheel" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingRlBbShouldNotSpinWhenLocked" classname="test.SlowMachineCC2Test" time="0.001"/>
+  <testcase name="accordingRlBbShouldNotSpinWhenLocked" classname="test.SlowMachineCC2Test" time="0.0"/>
   <testcase name="accordingMsRhShouldDetectJackpotAfterForcedSpin" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingDrRmShouldBeJackpotWhenAllWheelsMatch" classname="test.SlowMachineCC2Test" time="0.0"/>
-  <testcase name="accordingCgHnAddSymbolShouldFailWhenColorAlreadyExists" classname="test.SlowMachineCC2Test" time="0.001"/>
+  <testcase name="accordingDrRmShouldBeJackpotWhenAllWheelsMatch" classname="test.SlowMachineCC2Test" time="0.001"/>
+  <testcase name="accordingCgHnAddSymbolShouldFailWhenColorAlreadyExists" classname="test.SlowMachineCC2Test" time="0.0"/>
   <testcase name="accordingCgCpShouldChangeConfigurationWhenWheelIsUnlockedAfterLock" classname="test.SlowMachineCC2Test" time="0.0"/>
   <testcase name="accordingGmLaShouldReflectExactConfigurationAfterSpinWithGivenSymbols" classname="test.SlowMachineCC2Test" time="0.001"/>
 </testsuite>

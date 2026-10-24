@@ -1,0 +1,33 @@
+#BlueJ class context
+#Sat Oct 24 15:15:00 COT 2026
+comment0.target=SlotMachineCC4Test
+comment0.text=\n Shared tests of cycle 4 written by other groups. Only the ones that work\n with this project were kept, adapted to JUnit 5. The machine is never\n made visible, so no window is opened.\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.0\n
+comment1.target=SlotMachineCC4Test()
+comment1.text=\n Default constructor for test class SlotMachineCC4Test\n
+comment10.target=void accordingToDoOLleftyWheelCopiesItsLeftNeighbour()
+comment10.text=\n Verifica que la lefty copie a su vecina de la izquierda.\n
+comment11.target=void shouldMakeLeftyWheelCopyImmediateLeftWheel()
+comment11.text=\n The normal wheel is changed first. Then the LeftyWheel\n is spun so that it copies the current state of its\n immediate left wheel.\n
+comment12.target=void shouldKeepRebelWheelUnaffectedByRestrictedOperations()
+comment12.text=\n The RebelWheel must remain in the machine after\n all the restricted operations are attempted.\n
+comment13.target=void shouldSelectShySymbol()
+comment13.text=\n Test that a shy symbol behaves correctly when selected.\n
+comment14.target=void shouldNotLockRebelWheel()
+comment14.text=\n Test that a Rebel wheel cannot lock.\n
+comment2.target=void setUp()
+comment2.text=\n Sets up the test fixture\: a normal, a lefty and a rebel wheel,\n each with the symbols red, green and blue.\n\n Called before every test case method.\n
+comment3.target=void shouldAddSymbolsOfEveryType()
+comment3.text=\n Verifica que se puedan agregar simbolos de los tres tipos.\n
+comment4.target=void shouldRebelWheelRefuseLockSwapAndDelete()
+comment4.text=\n Verifica que la rueda rebel no se deje bloquear, intercambiar\n ni eliminar, y que la maquina quede igual despues de intentarlo.\n
+comment5.target=void shouldSpinMachineWithEveryWheelAndSymbolType()
+comment5.text=\n Verifica que la maquina funcione con los tres tipos de rueda y los\n tres tipos de simbolo a la vez\: todos los giros son exitosos y la\n lefty copia siempre a la rueda de su izquierda.\n
+comment6.target=void acordingCaPpShouldNotSwapRebelWheel()
+comment6.text=\n Verifica que una rueda rebel no se pueda intercambiar.\n
+comment7.target=void gomRojLeftyDeberiaCopiarALaRuedaNormalDeSuIzquierda()
+comment7.text=\n Verifica que la lefty copie a la rueda normal de su izquierda.\n
+comment8.target=void gomRojRebelNoDeberiaBloquearseIntercambiarseNiEliminarse()
+comment8.text=\n Verifica que la rebel no se deje bloquear, intercambiar ni eliminar.\n
+comment9.target=void accordingToDoOLrebelWheelRejectsLockDeleteAndSwap()
+comment9.text=\n Verifica que la rebel rechace bloquearse, eliminarse e intercambiarse.\n
+numComments=15

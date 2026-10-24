@@ -1,0 +1,14 @@
+#BlueJ class context
+#Sat Oct 24 15:13:23 COT 2026
+comment0.target=LeftyWheel
+comment0.text=\n A wheel that copies the state of the wheel to its left.\n When spun, if it has a left neighbor it shows that neighbor's visible\n symbol; otherwise it behaves like a normal {@link Wheel}.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
+comment1.params=posX posY
+comment1.target=LeftyWheel(int, int)
+comment1.text=\n Constructs a lefty wheel at the given grid position.\n\n @param posX the column of the wheel in the grid\n @param posY the row of the wheel in the grid\n
+comment2.params=left
+comment2.target=void setLeftNeighbor(Wheel)
+comment2.text=\n Sets the wheel this one will copy when spun.\n\n @param left the wheel to the left, or null if there is none\n
+comment3.params=direction
+comment3.target=void spin(int)
+comment3.text=\n Spins this wheel\: with a left neighbor it takes that neighbor's\n visible symbol (ignoring direction); otherwise it spins like a normal\n wheel. Either way it counts as a spin for its symbols.\n @param direction 1 to advance one step, -1 to go back one step\n @throws SlotMachineException if the wheel is locked or the neighbor's\n         symbol doesn't exist on this wheel\n
+numComments=4
