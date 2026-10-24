@@ -46,10 +46,12 @@ public class LeftyWheel extends Wheel {
 <span class="fc" id="L46">            super.spin(direction);</span>
         } else {
             // Checked first so a locked wheel doesn't notify its symbols
-<span class="fc" id="L49">            checkUnlocked();</span>
-<span class="fc" id="L50">            notifySpin();</span>
-<span class="fc" id="L51">            placeSymbol(left.visibleSymbol());</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">            if (isLocked()) {</span>
+<span class="fc" id="L50">                throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);</span>
+            }
+<span class="fc" id="L52">            notifySpin();</span>
+<span class="fc" id="L53">            placeSymbol(left.visibleSymbol());</span>
         }
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L55">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

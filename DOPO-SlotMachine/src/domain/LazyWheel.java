@@ -31,7 +31,9 @@ public class LazyWheel extends Wheel {
      */
     @Override
     public void spin(final int direction) throws SlotMachineException {
-        checkUnlocked();
+        if (isLocked()) {
+            throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);
+        }
         if (awake) {
             super.spin(direction);
         }

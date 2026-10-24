@@ -46,7 +46,9 @@ public class LeftyWheel extends Wheel {
             super.spin(direction);
         } else {
             // Checked first so a locked wheel doesn't notify its symbols
-            checkUnlocked();
+            if (isLocked()) {
+                throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);
+            }
             notifySpin();
             placeSymbol(left.visibleSymbol());
         }

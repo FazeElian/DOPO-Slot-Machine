@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: test.SlotMachineCC4Test
--------------------------------------------------------------------------------
-Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.010 s -- in test.SlotMachineCC4Test
