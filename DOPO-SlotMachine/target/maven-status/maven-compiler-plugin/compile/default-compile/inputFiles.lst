@@ -1,15 +1,15 @@
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\DizzySymbol.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\EphemeralSymbol.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\LazyWheel.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\LeftyWheel.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\RebelWheel.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\ShySymbol.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\SlotMachine.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\SlotMachineContest.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\SlotMachineException.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\Symbol.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\domain\Wheel.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\presentation\Canvas.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\presentation\MessageUtil.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\presentation\Rectangle.java
-C:\Users\oscar\Desktop\ESCUELA COLOMBIANA DE INGENIERIA\4.CUARTO SEMESTRE\DOPO\PROYECTO1\DOPO-Slot-Machine\SlotMachine-Maven-Paquetes\src\main\java\presentation\Triangle.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/DizzySymbol.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/EphemeralSymbol.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/LazyWheel.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/LeftyWheel.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/RebelWheel.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/ShySymbol.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/SlotMachine.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/SlotMachineContest.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/SlotMachineException.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/Symbol.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/domain/Wheel.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/presentation/Canvas.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/presentation/MessageUtil.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/presentation/Rectangle.java
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine/src/presentation/Triangle.java

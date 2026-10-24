@@ -1,32 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wheel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">Wheel.java</span></div><h1>Wheel.java</h1><pre class="source lang-java linenums">package domain;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wheel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">Wheel.java</span></div><h1>Wheel.java</h1><pre class="source lang-java linenums">package domain;
 
 import presentation.Rectangle;
 
 import java.util.ArrayList;
 
 /**
- * Represents a single wheel of the slot machine.
- * Each wheel owns its own list of Symbol objects and a background
- * Rectangle (slot). Every Symbol carries its own figure; only the
- * figure of the symbol at the current index is shown, so spinning
- * the wheel hides the previous figure and shows the new one.
- * 
+ * A wheel of the slot machine: a background slot (Rectangle) and its own
+ * Symbols. Only the figure of the symbol at the current index is shown, so
+ * spinning hides the previous figure and shows the new one.
  * @author Oscar Poveda, Elian Ibarra
  * @version 1.0
 */
 public class Wheel {
+    /** Side in pixels of the square slot of a wheel. */
     public final static int CELL_SIZE = 70; 
+    /** Horizontal offset of the symbol's figure inside the slot. */
     public final static int SYMBOL_OFFSET_X = 7 * 10 / 2; 
+    /** Vertical offset of the symbol's figure inside the slot. */
     public final static int SYMBOL_OFFSET_Y = 10;
+    /** Space in pixels between two slots. */
     public final static int GAP = 10;
-    private ArrayList&lt;Symbol&gt; symbols;
+    /** Symbols of this wheel, in the order they are cycled. */
+    private final ArrayList&lt;Symbol&gt; symbols;
+    /** Index of the symbol currently shown, or -1 if there are none. */
     private int currentIndex;
+    /** Whether the wheel is drawn on the canvas. */
     private boolean visible;
+    /** Column of the wheel in the grid. */
     private int posX;
+    /** Row of the wheel in the grid. */
     private int posY;
-    private Rectangle slot;
-    // Symbol whose figure is currently drawn (null if none)
+    /** Black square drawn behind the symbol. */
+    private final Rectangle slot;
+    /** Symbol whose figure is currently drawn (null if none). */
     private Symbol shownSymbol;
+    /** Whether the wheel is locked and can't be spun or modified. */
     private boolean locked;
 
     /**
@@ -34,25 +42,25 @@ public class Wheel {
      * @param posX the position in X axis of the board
      * @param posY the position in Y axis of the board
      */
-<span class="fc" id="L37">    public Wheel(int posX, int posY) {</span>
-<span class="fc" id="L38">        currentIndex = -1;</span>
-<span class="fc" id="L39">        visible = false;</span>
-<span class="fc" id="L40">        symbols = new ArrayList&lt;Symbol&gt;();</span>
+<span class="fc" id="L45">    public Wheel(final int posX, final int posY) {</span>
+<span class="fc" id="L46">        currentIndex = -1;</span>
+<span class="fc" id="L47">        visible = false;</span>
+<span class="fc" id="L48">        symbols = new ArrayList&lt;Symbol&gt;();</span>
 
-<span class="fc" id="L42">        slot = new Rectangle();</span>
-<span class="fc" id="L43">        slot.changeColor(&quot;black&quot;);</span>
-<span class="fc" id="L44">        slot.changeSize(CELL_SIZE, CELL_SIZE);</span>
-<span class="fc" id="L45">        locked = false;</span>
+<span class="fc" id="L50">        slot = new Rectangle();</span>
+<span class="fc" id="L51">        slot.changeColor(&quot;black&quot;);</span>
+<span class="fc" id="L52">        slot.changeSize(CELL_SIZE, CELL_SIZE);</span>
+<span class="fc" id="L53">        locked = false;</span>
 
-<span class="fc" id="L47">        accommodate(posX,posY);</span>
-<span class="fc" id="L48">        this.posX = posX;</span>
-<span class="fc" id="L49">        this.posY = posY;</span>
+<span class="fc" id="L55">        accommodate(posX,posY);</span>
+<span class="fc" id="L56">        this.posX = posX;</span>
+<span class="fc" id="L57">        this.posY = posY;</span>
 
         // The wheel starts with its own copy of every registered symbol
-<span class="fc bfc" id="L52" title="All 2 branches covered.">        for (int i = 0; i &lt; Symbol.symbols.size(); i++) {</span>
-<span class="fc" id="L53">            addSymbol(i, Symbol.symbols.get(i));</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        for (int i = 0; i &lt; Symbol.symbols.size(); i++) {</span>
+<span class="fc" id="L61">            addSymbol(i, Symbol.symbols.get(i));</span>
         }
-<span class="fc" id="L55">    }</span>
+<span class="fc" id="L63">    }</span>
 
     /**
      * Inserts into the wheel's cycle its own copy of the given registered
@@ -62,16 +70,16 @@ public class Wheel {
      * @param index 0-based position of the symbol in Symbol.symbols
      * @param registered the symbol of Symbol.symbols to copy
      */
-    public final void addSymbol(int index, Symbol registered){
-<span class="fc" id="L66">        Symbol symbol = registered.copyAt(symbolX(), symbolY());</span>
-<span class="fc" id="L67">        symbols.add(index, symbol);</span>
-<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (currentIndex == -1){</span>
-<span class="fc" id="L69">            currentIndex = 0;</span>
-<span class="fc bfc" id="L70" title="All 2 branches covered.">        }else if (currentIndex &gt;= index){</span>
-<span class="fc" id="L71">            currentIndex+=1;</span>
+    public final void addSymbol(final int index, final Symbol registered){
+<span class="fc" id="L74">        final Symbol symbol = registered.copyAt(symbolX(), symbolY());</span>
+<span class="fc" id="L75">        symbols.add(index, symbol);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (currentIndex == -1){</span>
+<span class="fc" id="L77">            currentIndex = 0;</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        }else if (currentIndex &gt;= index){</span>
+<span class="fc" id="L79">            currentIndex+=1;</span>
         }
-<span class="fc" id="L73">        refreshShape();</span>
-<span class="fc" id="L74">    }</span>
+<span class="fc" id="L81">        refreshShape();</span>
+<span class="fc" id="L82">    }</span>
 
     /**
      * Removes a symbol from the wheel's cycle. If the removed symbol was
@@ -79,59 +87,69 @@ public class Wheel {
      * one when it was the first). The last symbol can't be removed.
      * @param color string value of the symbol's color
      */
-    public void delSymbol(String color){
-<span class="fc" id="L83">        int index = getIndexOfSymbol(color);</span>
-<span class="fc bfc" id="L84" title="All 4 branches covered.">        if (index == -1 || symbols.size() &lt;= 1) return;</span>
-<span class="fc" id="L85">        Symbol removed = symbols.remove(index);</span>
-<span class="fc" id="L86">        removed.makeInvisible();</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (shownSymbol == removed) shownSymbol = null;</span>
-<span class="fc bfc" id="L88" title="All 6 branches covered.">        if (currentIndex &gt; index || (currentIndex == index &amp;&amp; index &gt; 0)){</span>
-<span class="fc" id="L89">            currentIndex -= 1;</span>
+    public void delSymbol(final String color){
+<span class="fc" id="L91">        final int index = getIndexOfSymbol(color);</span>
+<span class="fc bfc" id="L92" title="All 4 branches covered.">        if (index == -1 || symbols.size() &lt;= 1) {</span>
+<span class="fc" id="L93">            return;</span>
         }
-<span class="fc" id="L91">        refreshShape();</span>
-<span class="fc" id="L92">    }</span>
+<span class="fc" id="L95">        final Symbol removed = symbols.remove(index);</span>
+<span class="fc" id="L96">        removed.makeInvisible();</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (shownSymbol == removed) {</span>
+<span class="fc" id="L98">            shownSymbol = null;</span>
+        }
+<span class="fc bfc" id="L100" title="All 6 branches covered.">        if (currentIndex &gt; index || (currentIndex == index &amp;&amp; index &gt; 0)){</span>
+<span class="fc" id="L101">            currentIndex -= 1;</span>
+        }
+<span class="fc" id="L103">        refreshShape();</span>
+<span class="fc" id="L104">    }</span>
 
     /**
      * Updates the value of the index of the current wheel
      * @param color string value of the symbol's color
-     * @throws SlotMachineException if the wheel doesn't have that symbol
+     * @throws SlotMachineException if the wheel is locked or doesn't have
+     *         that symbol
      */
-    public void placeSymbol(String color) throws SlotMachineException {
-<span class="fc" id="L100">        int index = getIndexOfSymbol(color);</span>
-<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (index == -1) throw new SlotMachineException(SlotMachineException.SYMBOL_NOT_FOUND);</span>
-<span class="fc" id="L102">        currentIndex = index;</span>
-<span class="fc" id="L103">        symbols.get(index).selected();</span>
-<span class="fc" id="L104">        refreshShape();</span>
-<span class="fc" id="L105">    }</span>
+    public void placeSymbol(final String color) throws SlotMachineException {
+<span class="fc" id="L113">        checkUnlocked();</span>
+<span class="fc" id="L114">        final int index = getIndexOfSymbol(color);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (index == -1) {</span>
+<span class="fc" id="L116">            throw new SlotMachineException(String.format(SlotMachineException.SYMBOL_NOT_FOUND, color));</span>
+        }
+<span class="fc" id="L118">        currentIndex = index;</span>
+<span class="fc" id="L119">        symbols.get(index).selected();</span>
+<span class="fc" id="L120">        refreshShape();</span>
+<span class="fc" id="L121">    }</span>
     
     /**
-     * Changes the wheel's visible symbol by one position in the given
-     * direction: forward (direction == 1) advances to the next symbol,
-     * wrapping to the first when at the end; backward (direction == -1)
-     * moves to the previous symbol, wrapping to the last when at the start.
+     * Moves the visible symbol one position forward (direction == 1) or
+     * backward (direction == -1), wrapping around at the ends.
      *
      * @param direction 1 to advance one step, -1 to go back one step
-     * @throws SlotMachineException if a subclass can't complete the spin
+     * @throws SlotMachineException if the wheel is locked or a subclass
+     *         can't complete the spin
      */
-    public void spin(int direction) throws SlotMachineException {
-<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (symbols.isEmpty()) return;</span>
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        if (direction &gt;= 0) {</span>
-<span class="fc bfc" id="L119" title="All 2 branches covered.">            if (currentIndex == symbols.size() - 1) {</span>
-<span class="fc" id="L120">                currentIndex = 0;</span>
+    public void spin(final int direction) throws SlotMachineException {
+<span class="fc" id="L132">        checkUnlocked();</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        if (symbols.isEmpty()) {</span>
+<span class="fc" id="L134">            return;</span>
+        }
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        if (direction &gt;= 0) {</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            if (currentIndex == symbols.size() - 1) {</span>
+<span class="fc" id="L138">                currentIndex = 0;</span>
             } else {
-<span class="fc" id="L122">                currentIndex += 1;</span>
+<span class="fc" id="L140">                currentIndex += 1;</span>
             }
         } else {
-<span class="fc bfc" id="L125" title="All 2 branches covered.">            if (currentIndex == 0) {</span>
-<span class="fc" id="L126">                currentIndex = symbols.size() - 1;</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">            if (currentIndex == 0) {</span>
+<span class="fc" id="L144">                currentIndex = symbols.size() - 1;</span>
             } else {
-<span class="fc" id="L128">                currentIndex -= 1;</span>
+<span class="fc" id="L146">                currentIndex -= 1;</span>
             }
         }
-<span class="fc" id="L131">        notifySpin();</span>
-<span class="fc" id="L132">        symbols.get(currentIndex).selected();</span>
-<span class="fc" id="L133">        refreshShape();</span>
-<span class="fc" id="L134">    }</span>
+<span class="fc" id="L149">        notifySpin();</span>
+<span class="fc" id="L150">        symbols.get(currentIndex).selected();</span>
+<span class="fc" id="L151">        refreshShape();</span>
+<span class="fc" id="L152">    }</span>
 
     /**
      * Tells every symbol of this wheel that the wheel has just spun, so the
@@ -140,8 +158,10 @@ public class Wheel {
      * call it too.
      */
     protected void notifySpin() {
-<span class="fc bfc" id="L143" title="All 2 branches covered.">        for (Symbol s : symbols) s.spun();</span>
-<span class="fc" id="L144">    }</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        for (final Symbol s : symbols) {</span>
+<span class="fc" id="L162">            s.spun();</span>
+<span class="fc" id="L163">        }</span>
+<span class="fc" id="L164">    }</span>
 
     /**
      * Change the wheel (&quot;spin&quot; the board) going to the next one on the slot.
@@ -149,15 +169,15 @@ public class Wheel {
      * @throws SlotMachineException if a subclass can't complete the spin
      */
     public void spin() throws SlotMachineException {
-<span class="fc" id="L152">        spin(1);</span>
-<span class="fc" id="L153">    }</span>
+<span class="fc" id="L172">        spin(1);</span>
+<span class="fc" id="L173">    }</span>
 
 
     /**
      * Return the symbol located on the current index
      */
     public String visibleSymbol(){
-<span class="fc" id="L160">        return symbols.get(currentIndex).getName();</span>
+<span class="fc" id="L180">        return symbols.get(currentIndex).getName();</span>
     }
 
     /**
@@ -166,8 +186,10 @@ public class Wheel {
      * @return the symbol on the current index, or null if the wheel has no symbols
      */
     public Symbol getShownSymbol(){
-<span class="fc bfc" id="L169" title="All 2 branches covered.">        if (symbols.isEmpty()) return null;</span>
-<span class="fc" id="L170">        return symbols.get(currentIndex);</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        if (symbols.isEmpty()) {</span>
+<span class="fc" id="L190">            return null;</span>
+        }
+<span class="fc" id="L192">        return symbols.get(currentIndex);</span>
     }
 
     /**
@@ -175,79 +197,88 @@ public class Wheel {
      * is located
      */
     public void makeVisible(){
-<span class="nc" id="L178">        visible = true;</span>
-<span class="nc" id="L179">        slot.makeVisible();</span>
-<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (shownSymbol != null) shownSymbol.makeVisible();</span>
-<span class="nc" id="L181">    }</span>
+<span class="nc" id="L200">        visible = true;</span>
+<span class="nc" id="L201">        slot.makeVisible();</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        if (shownSymbol != null) {</span>
+<span class="nc" id="L203">            shownSymbol.makeVisible();</span>
+        }
+<span class="nc" id="L205">    }</span>
 
     /**
      * Hide the wheel: the symbol and the slot which it
      * is located
      */
     public void makeInvisible(){
-<span class="fc" id="L188">        visible = false;</span>
-<span class="fc bfc" id="L189" title="All 2 branches covered.">        if (shownSymbol != null) shownSymbol.makeInvisible();</span>
-<span class="fc" id="L190">        slot.makeInvisible();</span>
-<span class="fc" id="L191">    }</span>
+<span class="fc" id="L212">        visible = false;</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (shownSymbol != null) {</span>
+<span class="fc" id="L214">            shownSymbol.makeInvisible();</span>
+        }
+<span class="fc" id="L216">        slot.makeInvisible();</span>
+<span class="fc" id="L217">    }</span>
     /**
      * Hides the figure that was shown and shows the figure of the
      * symbol located on the current index
      */
     private void refreshShape(){
-<span class="pc bpc" id="L197" title="1 of 2 branches missed.">        Symbol current = symbols.isEmpty() ? null : symbols.get(currentIndex);</span>
-<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (current == shownSymbol) return;</span>
-<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (shownSymbol != null) shownSymbol.makeInvisible();</span>
-<span class="fc" id="L200">        shownSymbol = current;</span>
-<span class="pc bpc" id="L201" title="3 of 4 branches missed.">        if (visible &amp;&amp; shownSymbol != null) shownSymbol.makeVisible();</span>
-<span class="fc" id="L202">    }</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        final Symbol current = symbols.isEmpty() ? null : symbols.get(currentIndex);</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">        if (current == shownSymbol) {</span>
+<span class="fc" id="L225">            return;</span>
+        }
+<span class="fc bfc" id="L227" title="All 2 branches covered.">        if (shownSymbol != null) {</span>
+<span class="fc" id="L228">            shownSymbol.makeInvisible();</span>
+        }
+<span class="fc" id="L230">        shownSymbol = current;</span>
+<span class="pc bpc" id="L231" title="3 of 4 branches missed.">        if (visible &amp;&amp; shownSymbol != null) {</span>
+<span class="nc" id="L232">            shownSymbol.makeVisible();</span>
+        }
+<span class="fc" id="L234">    }</span>
 
     // Pixel coordinates where the figure of a symbol of this wheel is drawn
     private int symbolX(){
-<span class="fc" id="L206">        return posX * (CELL_SIZE + GAP) + GAP + SYMBOL_OFFSET_X;</span>
+<span class="fc" id="L238">        return posX * (CELL_SIZE + GAP) + GAP + SYMBOL_OFFSET_X;</span>
     }
 
     private int symbolY(){
-<span class="fc" id="L210">        return posY * (CELL_SIZE + GAP) + GAP + SYMBOL_OFFSET_Y;</span>
+<span class="fc" id="L242">        return posY * (CELL_SIZE + GAP) + GAP + SYMBOL_OFFSET_Y;</span>
     }
 
     /**
-     * Repositions the slot and its associated visual shape on the canvas based on grid coordinates.
-     * Translates the grid matrix positions into screen pixel coordinates using the cell size, 
-     * gap spacing, and offset adjustments, then updates the internal position state.
+     * Moves the slot and its symbols to the given grid cell, translating
+     * grid positions into pixels with CELL_SIZE and GAP.
      * @param newPosX the target column (X index) in the grid matrix
      * @param newPosY the target row (Y index) in the grid matrix
      */
-    private void accommodate(int newPosX, int newPosY) {
-<span class="fc" id="L221">        int oldTargetX = 0;</span>
-<span class="fc" id="L222">        int oldTargetY = 0;</span>
-<span class="pc bpc" id="L223" title="1 of 4 branches missed.">        if (posX!=0 &amp;&amp; posY!=0){</span>
+    private void accommodate(final int newPosX, final int newPosY) {
+<span class="fc" id="L252">        int oldTargetX = 0;</span>
+<span class="fc" id="L253">        int oldTargetY = 0;</span>
+<span class="pc bpc" id="L254" title="1 of 4 branches missed.">        if (posX!=0 &amp;&amp; posY!=0){</span>
             // Convert the positions of the grid to coordinates on the
             // screen using the constant CELL_SIZE and the space between them
             // which is GAP
-<span class="fc" id="L227">            oldTargetX = posX * (CELL_SIZE + GAP) + GAP;</span>
-<span class="fc" id="L228">            oldTargetY = posY * (CELL_SIZE + GAP) + GAP;</span>
+<span class="fc" id="L258">            oldTargetX = posX * (CELL_SIZE + GAP) + GAP;</span>
+<span class="fc" id="L259">            oldTargetY = posY * (CELL_SIZE + GAP) + GAP;</span>
         }
  
         // Convert the positions of the grid to coordinates on the
         // screen using the constant CELL_SIZE and the space between them
         // which is GAP
-<span class="fc" id="L234">        int newTargetX = newPosX * (CELL_SIZE + GAP) + GAP;</span>
-<span class="fc" id="L235">        int newTargetY = newPosY * (CELL_SIZE + GAP) + GAP;</span>
+<span class="fc" id="L265">        final int newTargetX = newPosX * (CELL_SIZE + GAP) + GAP;</span>
+<span class="fc" id="L266">        final int newTargetY = newPosY * (CELL_SIZE + GAP) + GAP;</span>
  
         // Substract the previous position to know how many
         // pixels should move the shape
-<span class="fc" id="L239">        int deltaX = newTargetX - oldTargetX;</span>
-<span class="fc" id="L240">        int deltaY = newTargetY - oldTargetY;</span>
+<span class="fc" id="L270">        final int deltaX = newTargetX - oldTargetX;</span>
+<span class="fc" id="L271">        final int deltaY = newTargetY - oldTargetY;</span>
  
-<span class="fc" id="L242">        slot.moveHorizontal(deltaX);</span>
-<span class="fc" id="L243">        slot.moveVertical(deltaY);</span>
-<span class="fc bfc" id="L244" title="All 2 branches covered.">        for (Symbol symbol : symbols) {</span>
-<span class="fc" id="L245">            symbol.moveHorizontal(deltaX);</span>
-<span class="fc" id="L246">            symbol.moveVertical(deltaY);</span>
-<span class="fc" id="L247">        }</span>
-<span class="fc" id="L248">        posX = newPosX;</span>
-<span class="fc" id="L249">        posY = newPosY;</span>
-<span class="fc" id="L250">    }</span>
+<span class="fc" id="L273">        slot.moveHorizontal(deltaX);</span>
+<span class="fc" id="L274">        slot.moveVertical(deltaY);</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">        for (final Symbol symbol : symbols) {</span>
+<span class="fc" id="L276">            symbol.moveHorizontal(deltaX);</span>
+<span class="fc" id="L277">            symbol.moveVertical(deltaY);</span>
+<span class="fc" id="L278">        }</span>
+<span class="fc" id="L279">        posX = newPosX;</span>
+<span class="fc" id="L280">        posY = newPosY;</span>
+<span class="fc" id="L281">    }</span>
  
     /**
      * Moves this wheel one grid position forward (move == 1) or
@@ -255,36 +286,36 @@ public class Wheel {
      * when it falls off the edge of the grid. Delegates to
      * accommodate(int, int) with the newly computed position.
      */
-    public void accommodate(int move) {
-<span class="fc" id="L259">        int newPosX = posX;</span>
-<span class="fc" id="L260">        int newPosY = posY;</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">        if (move==-1){</span>
-<span class="pc bpc" id="L262" title="1 of 4 branches missed.">            if (posX == 1 &amp;&amp; posY != 1) {</span>
-<span class="fc" id="L263">                newPosX = 14;</span>
-<span class="fc" id="L264">                newPosY = posY - 1;</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">            } else if (posX != 1) {</span>
-<span class="fc" id="L266">                newPosX = posX - 1;</span>
+    public void accommodate(final int move) {
+<span class="fc" id="L290">        int newPosX = posX;</span>
+<span class="fc" id="L291">        int newPosY = posY;</span>
+<span class="fc bfc" id="L292" title="All 2 branches covered.">        if (move==-1){</span>
+<span class="pc bpc" id="L293" title="1 of 4 branches missed.">            if (posX == 1 &amp;&amp; posY != 1) {</span>
+<span class="fc" id="L294">                newPosX = 14;</span>
+<span class="fc" id="L295">                newPosY = posY - 1;</span>
+<span class="pc bpc" id="L296" title="1 of 2 branches missed.">            } else if (posX != 1) {</span>
+<span class="fc" id="L297">                newPosX = posX - 1;</span>
             }
         }else{
-<span class="pc bpc" id="L269" title="1 of 4 branches missed.">            if (posX ==14 &amp;&amp; posY!=9){</span>
-<span class="fc" id="L270">                newPosX = 1;</span>
-<span class="fc" id="L271">                newPosY = posY + 1;</span>
+<span class="pc bpc" id="L300" title="1 of 4 branches missed.">            if (posX ==14 &amp;&amp; posY!=9){</span>
+<span class="fc" id="L301">                newPosX = 1;</span>
+<span class="fc" id="L302">                newPosY = posY + 1;</span>
             }
-<span class="pc bpc" id="L273" title="1 of 2 branches missed.">            else if(posX!=14){</span>
-<span class="fc" id="L274">                newPosX = posX + 1;</span>
+<span class="pc bpc" id="L304" title="1 of 2 branches missed.">            else if(posX!=14){</span>
+<span class="fc" id="L305">                newPosX = posX + 1;</span>
             }
         }
-<span class="fc" id="L277">        accommodate(newPosX, newPosY);</span>
-<span class="fc" id="L278">    }</span>
+<span class="fc" id="L308">        accommodate(newPosX, newPosY);</span>
+<span class="fc" id="L309">    }</span>
 
     // Pauses execution briefly so the step-by-step movement can be visibly evidenced
     private void pause(){
         try {
-<span class="fc" id="L283">            Thread.sleep(300);</span>
-<span class="nc" id="L284">        } catch (InterruptedException e) {</span>
-<span class="nc" id="L285">            Thread.currentThread().interrupt();</span>
-<span class="fc" id="L286">        }</span>
-<span class="fc" id="L287">    }</span>
+<span class="fc" id="L314">            Thread.sleep(300);</span>
+<span class="nc" id="L315">        } catch (InterruptedException e) {</span>
+<span class="nc" id="L316">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L317">        }</span>
+<span class="fc" id="L318">    }</span>
 
     /**
      * Moves the slot and every symbol of this wheel horizontally and then
@@ -292,11 +323,13 @@ public class Wheel {
      *
      * @param distance number of pixels to move; negative values move left
      */
-    public void slowMoveHorizontal(int distance) {
-<span class="fc" id="L296">        slot.moveHorizontal(distance);</span>
-<span class="fc bfc" id="L297" title="All 2 branches covered.">        for (Symbol symbol : symbols) symbol.moveHorizontal(distance);</span>
-<span class="fc" id="L298">        pause();</span>
-<span class="fc" id="L299">    }</span>
+    public void slowMoveHorizontal(final int distance) {
+<span class="fc" id="L327">        slot.moveHorizontal(distance);</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">        for (final Symbol symbol : symbols) {</span>
+<span class="fc" id="L329">            symbol.moveHorizontal(distance);</span>
+<span class="fc" id="L330">        }</span>
+<span class="fc" id="L331">        pause();</span>
+<span class="fc" id="L332">    }</span>
 
     /**
      * Moves the slot and every symbol of this wheel vertically and then
@@ -304,22 +337,26 @@ public class Wheel {
      *
      * @param distance number of pixels to move; negative values move up
      */
-    public void slowMoveVertical(int distance) {
-<span class="fc" id="L308">        slot.moveVertical(distance);</span>
-<span class="fc bfc" id="L309" title="All 2 branches covered.">        for (Symbol symbol : symbols) symbol.moveVertical(distance);</span>
-<span class="fc" id="L310">        pause();</span>
-<span class="fc" id="L311">    }</span>
+    public void slowMoveVertical(final int distance) {
+<span class="fc" id="L341">        slot.moveVertical(distance);</span>
+<span class="fc bfc" id="L342" title="All 2 branches covered.">        for (final Symbol symbol : symbols) {</span>
+<span class="fc" id="L343">            symbol.moveVertical(distance);</span>
+<span class="fc" id="L344">        }</span>
+<span class="fc" id="L345">        pause();</span>
+<span class="fc" id="L346">    }</span>
 
     /**
      * Returns the index of the symbol on the wheel according to its value,
      * or -1 if the wheel doesn't have it
      * @param symbol string value of the symbol
      */
-    private int getIndexOfSymbol(String symbol) {
-<span class="fc bfc" id="L319" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++) {</span>
-<span class="fc bfc" id="L320" title="All 2 branches covered.">            if (symbols.get(i).getName().equals(symbol)) return i;</span>
+    private int getIndexOfSymbol(final String symbol) {
+<span class="fc bfc" id="L354" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++) {</span>
+<span class="fc bfc" id="L355" title="All 2 branches covered.">            if (symbols.get(i).getName().equals(symbol)) {</span>
+<span class="fc" id="L356">                return i;</span>
+            }
         }
-<span class="fc" id="L322">        return -1;</span>
+<span class="fc" id="L359">        return -1;</span>
     }
 
     /**
@@ -327,24 +364,44 @@ public class Wheel {
      * @param posX the new position in X axis of the board
      * @param posY the new position in Y axis of the board
      */
-    public void setLocation(int posX, int posY) {
-<span class="fc" id="L331">        this.posX = posX;</span>
-<span class="fc" id="L332">        this.posY = posY;</span>
-<span class="fc" id="L333">    }</span>
+    public void setLocation(final int posX, final int posY) {
+<span class="fc" id="L368">        this.posX = posX;</span>
+<span class="fc" id="L369">        this.posY = posY;</span>
+<span class="fc" id="L370">    }</span>
 
     /**
-     * Locks this wheel, preventing it from being spun or modified
-     * until it is explicitly unlocked.
+     * Locks this wheel, preventing it from being spun or modified until it
+     * is explicitly unlocked. Wheels that can't be locked, like
+     * {@link RebelWheel}, override it to refuse.
+     * @throws SlotMachineException if the wheel is already locked or this
+     *         kind of wheel can't be locked
      */
-    public void lock(){
-<span class="fc" id="L340">        locked = true;</span>
-<span class="fc" id="L341">    }</span>
+    public void lock() throws SlotMachineException {
+<span class="fc" id="L380">        checkUnlocked();</span>
+<span class="fc" id="L381">        locked = true;</span>
+<span class="fc" id="L382">    }</span>
+
+    /**
+     * Checks that this wheel isn't locked before it changes. Every kind of
+     * wheel calls it before changing, so a locked wheel never changes.
+     * @throws SlotMachineException if the wheel is locked
+     */
+    protected final void checkUnlocked() throws SlotMachineException {
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        if (locked) {</span>
+<span class="fc" id="L391">            throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);</span>
+        }
+<span class="fc" id="L393">    }</span>
+
     /**
      * Unlocks this wheel, allowing it to be spun or modified again.
+     * @throws SlotMachineException if the wheel is not locked  
      */
-    public void unlock(){
-<span class="fc" id="L346">        locked=false;</span>
-<span class="fc" id="L347">    }</span>
+    public void unlock() throws SlotMachineException {
+<span class="fc bfc" id="L400" title="All 2 branches covered.">        if (!locked) {</span>
+<span class="fc" id="L401">            throw new SlotMachineException(SlotMachineException.NOT_LOCKED);</span>
+        }
+<span class="fc" id="L403">        locked=false;</span>
+<span class="fc" id="L404">    }</span>
 
     /**
      * Returns whether this element is currently locked.
@@ -352,7 +409,7 @@ public class Wheel {
      * @return true if locked, false otherwise
      */
     public boolean isLocked(){
-<span class="fc" id="L355">        return locked;</span>
+<span class="fc" id="L412">        return locked;</span>
     }
     
     /**
@@ -362,18 +419,9 @@ public class Wheel {
      *
      * @param left the wheel to the left, or null if there is none
      */
-<span class="fc" id="L365">    public void setLeftNeighbor(Wheel left) {}</span>
-    
-    /**
-     * Indicates whether this wheel allows being locked. A normal wheel does;
-     * subclasses such as {@link RebelWheel} override it.
-     *
-     * @return true if the wheel can be locked, false otherwise
-     */
-    public boolean canBeLocked() {
-<span class="fc" id="L374">        return true;</span>
-    }
-
+    public void setLeftNeighbor(Wheel left) {
+        // A normal wheel doesn't depend on its neighbors
+<span class="fc" id="L424">    }</span>
     /**
      * Indicates whether this wheel allows being swapped with another one.
      * A normal wheel does; subclasses such as {@link RebelWheel} override it.
@@ -381,7 +429,7 @@ public class Wheel {
      * @return true if the wheel can be swapped, false otherwise
      */
     public boolean canBeSwapped() {
-<span class="fc" id="L384">        return true;</span>
+<span class="fc" id="L432">        return true;</span>
     }
 
     /**
@@ -391,7 +439,7 @@ public class Wheel {
      * @return true if the wheel can be removed, false otherwise
      */
     public boolean canBeRemoved() {
-<span class="fc" id="L394">        return true;</span>
+<span class="fc" id="L442">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

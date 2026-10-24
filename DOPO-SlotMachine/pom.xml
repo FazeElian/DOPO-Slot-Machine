@@ -30,10 +30,55 @@
       <version>5.10.2</version>
       <scope>test</scope>
     </dependency>
+    <!-- API para lanzar AcceptanceTest desde AcceptanceRunner (lib/AcceptanceTest.jar) -->
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <version>1.10.2</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
+    <!-- Estructura del proyecto: src (fuentes), bin (.class), lib (librerías).
+         src contiene los paquetes domain, presentation y test. -->
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>src</testSourceDirectory>
+    <outputDirectory>bin</outputDirectory>
+    <testOutputDirectory>bin</testOutputDirectory>
     <plugins>
+      <!-- El paquete test se compila solo como pruebas (necesita JUnit) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <excludes>
+            <exclude>test/**</exclude>
+          </excludes>
+          <testIncludes>
+            <testInclude>test/**</testInclude>
+          </testIncludes>
+        </configuration>
+      </plugin>
+
+      <!-- Copia a lib/ el JAR de JUnit para compilar y probar sin Maven -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.7.1</version>
+        <configuration>
+          <artifactItems>
+            <artifactItem>
+              <groupId>org.junit.platform</groupId>
+              <artifactId>junit-platform-console-standalone</artifactId>
+              <version>1.10.2</version>
+            </artifactItem>
+          </artifactItems>
+          <outputDirectory>lib</outputDirectory>
+        </configuration>
+      </plugin>
+
       <!-- Ejecuta las pruebas; las ventanas de shapes necesitan modo NO headless -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -43,6 +88,11 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
+          <!-- Las pruebas de aceptación son visuales y esperan la respuesta
+               del usuario: se ejecutan desde VS Code, no en el build -->
+          <excludes>
+            <exclude>**/AcceptanceTest.java</exclude>
+          </excludes>
           <!-- @{argLine} conserva el agente de JaCoCo; el SecurityManager permite
                probar SlotMachine.exit() sin cerrar la JVM de las pruebas -->
           <argLine>@{argLine} -Djava.security.manager=allow</argLine>
@@ -59,6 +109,7 @@
         <configuration>
           <excludes>
             <exclude>presentation/**</exclude>
+            <exclude>test/**</exclude>
           </excludes>
         </configuration>
         <executions>
@@ -83,6 +134,9 @@
           <targetJdk>17</targetJdk>
           <linkXRef>false</linkXRef>
           <includeTests>false</includeTests>
+          <excludes>
+            <exclude>test/**</exclude>
+          </excludes>
           <failOnViolation>false</failOnViolation>
           <printFailingErrors>true</printFailingErrors>
           <rulesets>

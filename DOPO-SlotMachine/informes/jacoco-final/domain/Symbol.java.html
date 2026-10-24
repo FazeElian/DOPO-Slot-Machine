@@ -1,16 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Symbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">Symbol.java</span></div><h1>Symbol.java</h1><pre class="source lang-java linenums">package domain;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Symbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">Symbol.java</span></div><h1>Symbol.java</h1><pre class="source lang-java linenums">package domain;
 
 import presentation.Triangle;
 
 import java.util.ArrayList;
 
 /**
- * Represents a single symbol of a wheel: its name (the color string,
- * e.g. &quot;red&quot; or &quot;#3fae1c&quot;) and the figure (a Triangle) that draws it
- * on the canvas. The static list {@link #symbols} is the catalog of
- * registered symbols shared by the whole board; every wheel builds its own
- * Symbol objects from it, so each figure moves with the wheel it belongs to.
- *
+ * A symbol of a wheel: its name (a color such as &quot;red&quot; or &quot;#3fae1c&quot;) and
+ * the Triangle that draws it. {@link #symbols} is the catalog shared by the
+ * board; every wheel builds its own copies so each figure moves with it.
  * @author Oscar Poveda, Elian Ibarra
  * @version 1.0
  */
@@ -18,11 +15,14 @@ public class Symbol {
     /** Side in pixels of the figure of a normal symbol. */
     public final static int SYMBOL_SIZE = 50;
     /** Catalog of the symbols registered on the machine, in order. */
-<span class="fc" id="L21">    public static ArrayList&lt;Symbol&gt; symbols = new ArrayList&lt;Symbol&gt;();</span>
+<span class="fc" id="L18">    public static ArrayList&lt;Symbol&gt; symbols = new ArrayList&lt;Symbol&gt;();</span>
+    /** Color string that identifies the symbol. */
     private String name;
+    /** Triangle that draws the symbol on the canvas. */
     private Triangle figure;
-    // Current size of the figure, kept so it can be queried
+    /** Current height of the figure, kept so it can be queried. */
     private int height;
+    /** Current width of the figure, kept so it can be queried. */
     private int width;
 
     /**
@@ -30,7 +30,7 @@ public class Symbol {
      * Used for the entries of the catalog, whose figures are never drawn.
      * @param name color string that identifies the symbol
      */
-    public Symbol(String name) {
+    public Symbol(final String name) {
 <span class="fc" id="L34">        this(name, 0, 0);</span>
 <span class="fc" id="L35">    }</span>
 
@@ -41,7 +41,7 @@ public class Symbol {
      * @param x pixel position in X axis of the figure
      * @param y pixel position in Y axis of the figure
      */
-<span class="fc" id="L44">    public Symbol(String name, int x, int y) {</span>
+<span class="fc" id="L44">    public Symbol(final String name, final int x, final int y) {</span>
 <span class="fc" id="L45">        this.name = name;</span>
 <span class="fc" id="L46">        figure = new Triangle();</span>
 <span class="fc" id="L47">        changeFigureSize(SYMBOL_SIZE, SYMBOL_SIZE);</span>
@@ -51,16 +51,15 @@ public class Symbol {
 <span class="fc" id="L51">    }</span>
 
     /**
-     * Returns a new symbol of the same type as this one, with the same
-     * name and its figure placed at the given pixel coordinates. Every
-     * subclass must override it to return an instance of its own type,
-     * so wheels can copy any registered symbol without knowing its class.
+     * Returns a new symbol of this same type and name, with its figure at
+     * the given coordinates. Subclasses override it to return their own
+     * type, so wheels can copy any symbol without knowing its class.
      * @param x pixel position in X axis of the new figure
      * @param y pixel position in Y axis of the new figure
      * @return the new symbol
      */
-    public Symbol copyAt(int x, int y) {
-<span class="fc" id="L63">        return new Symbol(name, x, y);</span>
+    public Symbol copyAt(final int x, final int y) {
+<span class="fc" id="L62">        return new Symbol(name, x, y);</span>
     }
 
     /**
@@ -69,11 +68,13 @@ public class Symbol {
      * @param name color string of the symbol
      * @return the 0-based index, or -1 if it isn't registered
      */
-    public static int indexOf(String name) {
-<span class="fc bfc" id="L73" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++) {</span>
-<span class="fc bfc" id="L74" title="All 2 branches covered.">            if (symbols.get(i).getName().equals(name)) return i;</span>
+    public static int indexOf(final String name) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++) {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">            if (symbols.get(i).getName().equals(name)) {</span>
+<span class="fc" id="L74">                return i;</span>
+            }
         }
-<span class="fc" id="L76">        return -1;</span>
+<span class="fc" id="L77">        return -1;</span>
     }
 
     /**
@@ -81,51 +82,55 @@ public class Symbol {
      * @return the name of the symbol
      */
     public String getName() {
-<span class="fc" id="L84">        return name;</span>
+<span class="fc" id="L85">        return name;</span>
     }
 
     /**
      * Shows the figure of the symbol on the canvas
      */
     public void makeVisible() {
-<span class="nc" id="L91">        figure.makeVisible();</span>
-<span class="nc" id="L92">    }</span>
+<span class="nc" id="L92">        figure.makeVisible();</span>
+<span class="nc" id="L93">    }</span>
 
     /**
      * Hides the figure of the symbol from the canvas
      */
     public void makeInvisible() {
-<span class="fc" id="L98">        figure.makeInvisible();</span>
-<span class="fc" id="L99">    }</span>
+<span class="fc" id="L99">        figure.makeInvisible();</span>
+<span class="fc" id="L100">    }</span>
 
     /**
      * Moves the figure horizontally by the given distance in pixels
      * @param distance pixels to move (negative moves left)
      */
-    public void moveHorizontal(int distance) {
-<span class="fc" id="L106">        figure.moveHorizontal(distance);</span>
-<span class="fc" id="L107">    }</span>
+    public void moveHorizontal(final int distance) {
+<span class="fc" id="L107">        figure.moveHorizontal(distance);</span>
+<span class="fc" id="L108">    }</span>
 
     /**
      * Moves the figure vertically by the given distance in pixels
      * @param distance pixels to move (negative moves up)
      */
-    public void moveVertical(int distance) {
-<span class="fc" id="L114">        figure.moveVertical(distance);</span>
-<span class="fc" id="L115">    }</span>
+    public final void moveVertical(final int distance) {
+<span class="fc" id="L115">        figure.moveVertical(distance);</span>
+<span class="fc" id="L116">    }</span>
     
     /**
      * Called by the wheel on every one of its symbols each time it spins.
      * A normal symbol ignores it; subclasses override it to react to spins.
      */
-<span class="fc" id="L121">    public void spun() {}</span>
+    public void spun() {
+        // A normal symbol doesn't react to spins
+<span class="fc" id="L124">    }</span>
 
     /**
      * Called by the wheel when this symbol becomes the selected one (the
      * one the wheel stops at), after a spin or a placeSymbol. A normal
      * symbol ignores it; subclasses override it to react.
      */
-<span class="fc" id="L128">    public void selected() {}</span>
+    public void selected() {
+        // A normal symbol doesn't react to being selected
+<span class="fc" id="L133">    }</span>
 
     /**
      * Returns the current height of the figure in pixels. It is negative
@@ -133,7 +138,7 @@ public class Symbol {
      * @return the height of the figure
      */
     public int getHeight() {
-<span class="fc" id="L136">        return height;</span>
+<span class="fc" id="L141">        return height;</span>
     }
 
     /**
@@ -141,7 +146,7 @@ public class Symbol {
      * @return the width of the figure
      */
     public int getWidth() {
-<span class="fc" id="L144">        return width;</span>
+<span class="fc" id="L149">        return width;</span>
     }
 
     /**
@@ -150,7 +155,7 @@ public class Symbol {
      * @return true if the symbol is hiding, false otherwise
      */
     public boolean isHidden() {
-<span class="fc" id="L153">        return false;</span>
+<span class="fc" id="L158">        return false;</span>
     }
 
     /**
@@ -160,10 +165,10 @@ public class Symbol {
      *               figure upside down. It can't be 0
      * @param width new width in pixels
      */
-    protected void changeFigureSize(int height, int width) {
-<span class="fc" id="L164">        figure.changeSize(height, width);</span>
-<span class="fc" id="L165">        this.height = height;</span>
-<span class="fc" id="L166">        this.width = width;</span>
-<span class="fc" id="L167">    }</span>
+    protected final void changeFigureSize(final int height, final int width) {
+<span class="fc" id="L169">        figure.changeSize(height, width);</span>
+<span class="fc" id="L170">        this.height = height;</span>
+<span class="fc" id="L171">        this.width = width;</span>
+<span class="fc" id="L172">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
