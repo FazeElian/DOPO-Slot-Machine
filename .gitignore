@@ -1,2 +1,3 @@
 # JAVA COMPILED FILES 
 *.class
+.DS_Store
