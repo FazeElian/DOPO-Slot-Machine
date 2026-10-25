@@ -1,0 +1,18 @@
+#BlueJ class context
+#Sat Oct 24 19:43:15 COT 2026
+comment0.target=EphemeralSymbol
+comment0.text=\n An ephemeral symbol\: every time its wheel spins, its triangle shrinks\n one step (staying equilateral) until it is just a point, whether or\n not it is the symbol being shown.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
+comment1.params=name
+comment1.target=EphemeralSymbol(java.lang.String)
+comment1.text=\n Constructs an ephemeral symbol whose figure stays at the origin of the canvas.\n @param name color string that identifies the symbol\n
+comment2.params=name x y
+comment2.target=EphemeralSymbol(java.lang.String, int, int)
+comment2.text=\n Constructs an ephemeral symbol whose figure is placed at the given\n pixel coordinates of the canvas. It starts at full size.\n @param name color string that identifies the symbol\n @param x pixel position in X axis of the figure\n @param y pixel position in Y axis of the figure\n
+comment3.params=x y
+comment3.target=Symbol copyAt(int, int)
+comment3.text=\n Returns a new ephemeral symbol (at full size) with the same name at\n the given coordinates\n @param x pixel position in X axis of the new figure\n @param y pixel position in Y axis of the new figure\n
+comment4.target=void spun()
+comment4.text=\n Shrinks the whole triangle (width and height together) one step,\n keeping it equilateral and centered, until it is just a point.\n
+comment5.params=side
+comment5.target=int heightOf(int)
+numComments=6

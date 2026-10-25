@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShySymbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">ShySymbol.java</span></div><h1>ShySymbol.java</h1><pre class="source lang-java linenums">package domain;
+
+/**
+ * A shy symbol: it alternates between showing and hiding itself every
+ * time it is selected on its wheel (the wheel stops at it after a spin
+ * or a placeSymbol). The first time it is selected it hides, the second
+ * time it shows itself, and so on. Hiding is only visual: the wheel is
+ * still on this symbol, so it keeps counting for the configuration and
+ * the jackpot.
+ *
+ * @author Elián Ibarra, Oscar Poveda
+ * @version 1.0
+ */
+public class ShySymbol extends Symbol {
+    // Whether the symbol is refusing to be drawn right now
+<span class="fc" id="L16">    private boolean hidden = false;</span>
+    // Whether the wheel currently wants this symbol on screen
+<span class="fc" id="L18">    private boolean shown = false;</span>
+
+    /**
+     * Constructs a shy symbol whose figure stays at the origin of the canvas.
+     * @param name color string that identifies the symbol
+     */
+    public ShySymbol(String name) {
+<span class="fc" id="L25">        this(name, 0, 0);</span>
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * Constructs a shy symbol whose figure is placed at the given pixel
+     * coordinates of the canvas. It starts willing to be seen.
+     * @param name color string that identifies the symbol
+     * @param x pixel position in X axis of the figure
+     * @param y pixel position in Y axis of the figure
+     */
+    public ShySymbol(String name, int x, int y) {
+<span class="fc" id="L36">        super(name, x, y);</span>
+<span class="fc" id="L37">    }</span>
+
+    /**
+     * Returns a new shy symbol with the same name at the given coordinates
+     * @param x pixel position in X axis of the new figure
+     * @param y pixel position in Y axis of the new figure
+     */
+    @Override
+    public Symbol copyAt(int x, int y) {
+<span class="fc" id="L46">        return new ShySymbol(getName(), x, y);</span>
+    }
+
+    /**
+     * Toggles between hiding and showing, and updates the canvas if the
+     * wheel has this symbol on screen. When the wheel is spun by steps,
+     * every step the wheel stops at this symbol counts as a selection,
+     * since the symbol is shown on that step.
+     */
+    @Override
+    public void selected() {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        hidden = !hidden;</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (shown) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            if (hidden) super.makeInvisible();</span>
+<span class="nc" id="L60">            else super.makeVisible();</span>
+        }
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * Returns whether the symbol is hiding right now
+     * @return true if it is hiding, false if it lets itself be seen
+     */
+    @Override
+    public boolean isHidden() {
+<span class="fc" id="L70">        return hidden;</span>
+    }
+
+    /**
+     * Shows the figure only if the symbol is not hiding; either way it
+     * remembers that the wheel wants it on screen.
+     */
+    @Override
+    public void makeVisible() {
+<span class="nc" id="L79">        shown = true;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (!hidden) super.makeVisible();</span>
+<span class="nc" id="L81">    }</span>
+
+    /**
+     * Hides the figure and remembers that the wheel took it off screen.
+     */
+    @Override
+    public void makeInvisible() {
+<span class="fc" id="L88">        shown = false;</span>
+<span class="fc" id="L89">        super.makeInvisible();</span>
+<span class="fc" id="L90">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

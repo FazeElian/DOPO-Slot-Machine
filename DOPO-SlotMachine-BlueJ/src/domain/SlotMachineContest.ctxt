@@ -1,0 +1,13 @@
+#BlueJ class context
+#Sat Oct 24 19:43:15 COT 2026
+comment0.target=SlotMachineContest
+comment0.text=\n Solves the ICPC 2025 World Finals problem I "Slot Machine"\: rotate n\n wheels of n symbols until all show the same one (a jackpot), seeing only\n {@link SlotMachine\#distinctSymbols()}, never the symbols themselves.\n @author Oscar Poveda, Elian Ibarra\n @version 1.1\n
+comment1.target=SlotMachineContest()
+comment1.text=\n Default constructor for the SlotMachineContest solver class.\n
+comment2.params=n
+comment2.target=int[][] solve(int)
+comment2.text=\n Solves the problem in three phases, explained in the body\: separate\n the wheels, discover their relative permutation and align them all.\n The machine stays invisible. Worst case ~2n(n-1)+n actions, under the\n 10000-action limit for n &lt;\= 50.\n @param n number of wheels and symbols\n @return the list of actions {wheel, steps} applied, in order\n
+comment3.params=n
+comment3.target=void simulate(int)
+comment3.text=\n Shows the solution step by step\: replays on a visible machine the\n actions returned by {@link \#solve(int)}.\n\n @param n number of wheels and symbols\n
+numComments=4

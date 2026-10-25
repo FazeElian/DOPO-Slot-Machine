@@ -1,0 +1,14 @@
+#BlueJ class context
+#Sat Oct 24 19:43:15 COT 2026
+comment0.target=RebelWheel
+comment0.text=\n A wheel that resists being locked, swapped or removed, but can still be\n spun and have its symbols changed. It overrides {@link \#lock()} to refuse\n being locked, and {@link SlotMachine} asks it {@link \#canBeSwapped()} and\n {@link \#canBeRemoved()} before swapping or removing it.\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
+comment1.params=posX posY
+comment1.target=RebelWheel(int, int)
+comment1.text=\n Constructs a rebel wheel at the given grid position.\n\n @param posX the column of the wheel in the grid\n @param posY the row of the wheel in the grid\n
+comment2.target=void lock()
+comment2.text=\n A rebel wheel never lets itself be locked\: it always refuses.\n @throws SlotMachineException always, with the CANT_LOCK message\n
+comment3.target=boolean canBeSwapped()
+comment3.text=\n A rebel wheel never lets itself be swapped.\n\n @return always false\n
+comment4.target=boolean canBeRemoved()
+comment4.text=\n A rebel wheel never lets itself be removed.\n\n @return always false\n
+numComments=5
