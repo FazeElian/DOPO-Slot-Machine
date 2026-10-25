@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:15:00 COT 2026
+#Sat Oct 24 19:43:33 COT 2026
 comment0.target=AcceptanceRunner
 comment0.text=\n Entry point of lib/AcceptanceTest.jar\: runs {@link AcceptanceTest} with\n JUnit and shows the result in a dialog, so the acceptance test can be\n started with a double click, without an IDE.\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.target=AcceptanceRunner()

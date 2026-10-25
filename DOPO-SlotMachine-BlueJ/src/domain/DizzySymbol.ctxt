@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=DizzySymbol
 comment0.text=\n A symbol that gets dizzy\: every time its wheel spins, its triangle\n flips upside down (and back again on the next spin). It is drawn\n narrower than a normal symbol so it can be told apart at any moment.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=name

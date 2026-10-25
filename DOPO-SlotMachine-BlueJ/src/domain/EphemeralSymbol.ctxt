@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=EphemeralSymbol
 comment0.text=\n An ephemeral symbol\: every time its wheel spins, its triangle shrinks\n one step (staying equilateral) until it is just a point, whether or\n not it is the symbol being shown.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=name

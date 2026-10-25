@@ -110,7 +110,9 @@ public class Wheel {
      *         that symbol
      */
     public void placeSymbol(final String color) throws SlotMachineException {
-        checkUnlocked();
+        if (isLocked()) {
+            throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);
+        }
         final int index = getIndexOfSymbol(color);
         if (index == -1) {
             throw new SlotMachineException(String.format(SlotMachineException.SYMBOL_NOT_FOUND, color));
@@ -129,7 +131,9 @@ public class Wheel {
      *         can't complete the spin
      */
     public void spin(final int direction) throws SlotMachineException {
-        checkUnlocked();
+        if (isLocked()) {
+            throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);
+        }
         if (symbols.isEmpty()) {
             return;
         }
@@ -377,19 +381,10 @@ public class Wheel {
      *         kind of wheel can't be locked
      */
     public void lock() throws SlotMachineException {
-        checkUnlocked();
-        locked = true;
-    }
-
-    /**
-     * Checks that this wheel isn't locked before it changes. Every kind of
-     * wheel calls it before changing, so a locked wheel never changes.
-     * @throws SlotMachineException if the wheel is locked
-     */
-    protected final void checkUnlocked() throws SlotMachineException {
-        if (locked) {
+        if (isLocked()) {
             throw new SlotMachineException(SlotMachineException.LOCKED_WHEEL);
         }
+        locked = true;
     }
 
     /**

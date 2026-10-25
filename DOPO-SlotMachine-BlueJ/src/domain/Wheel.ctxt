@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:49:00 COT 2026
 comment0.target=Wheel
 comment0.text=\n A wheel of the slot machine\: a background slot (Rectangle) and its own\n Symbols. Only the figure of the symbol at the current index is shown, so\n spinning hides the previous figure and shows the new one.\n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.params=posX posY
@@ -37,19 +37,17 @@ comment21.target=void setLocation(int, int)
 comment21.text=\n Modify the coordiinates of the wheel to the new values\n @param posX the new position in X axis of the board\n @param posY the new position in Y axis of the board\n
 comment22.target=void lock()
 comment22.text=\n Locks this wheel, preventing it from being spun or modified until it\n is explicitly unlocked. Wheels that can't be locked, like\n {@link RebelWheel}, override it to refuse.\n @throws SlotMachineException if the wheel is already locked or this\n         kind of wheel can't be locked\n
-comment23.target=void checkUnlocked()
-comment23.text=\n Checks that this wheel isn't locked before it changes. Every kind of\n wheel calls it before changing, so a locked wheel never changes.\n @throws SlotMachineException if the wheel is locked\n
-comment24.target=void unlock()
-comment24.text=\n Unlocks this wheel, allowing it to be spun or modified again.\n @throws SlotMachineException if the wheel is not locked  \n
-comment25.target=boolean isLocked()
-comment25.text=\n Returns whether this element is currently locked.\n\n @return true if locked, false otherwise\n
-comment26.params=left
-comment26.target=void setLeftNeighbor(Wheel)
-comment26.text=\n Sets the wheel located immediately to the left of this one.\n The base implementation ignores it, since a normal wheel does not depend\n on its neighbors. Subclasses such as {@link LeftyWheel} override it.\n\n @param left the wheel to the left, or null if there is none\n
-comment27.target=boolean canBeSwapped()
-comment27.text=\n Indicates whether this wheel allows being swapped with another one.\n A normal wheel does; subclasses such as {@link RebelWheel} override it.\n\n @return true if the wheel can be swapped, false otherwise\n
-comment28.target=boolean canBeRemoved()
-comment28.text=\n Indicates whether this wheel allows being removed from the machine.\n A normal wheel does; subclasses such as {@link RebelWheel} override it.\n\n @return true if the wheel can be removed, false otherwise\n
+comment23.target=void unlock()
+comment23.text=\n Unlocks this wheel, allowing it to be spun or modified again.\n @throws SlotMachineException if the wheel is not locked  \n
+comment24.target=boolean isLocked()
+comment24.text=\n Returns whether this element is currently locked.\n\n @return true if locked, false otherwise\n
+comment25.params=left
+comment25.target=void setLeftNeighbor(Wheel)
+comment25.text=\n Sets the wheel located immediately to the left of this one.\n The base implementation ignores it, since a normal wheel does not depend\n on its neighbors. Subclasses such as {@link LeftyWheel} override it.\n\n @param left the wheel to the left, or null if there is none\n
+comment26.target=boolean canBeSwapped()
+comment26.text=\n Indicates whether this wheel allows being swapped with another one.\n A normal wheel does; subclasses such as {@link RebelWheel} override it.\n\n @return true if the wheel can be swapped, false otherwise\n
+comment27.target=boolean canBeRemoved()
+comment27.text=\n Indicates whether this wheel allows being removed from the machine.\n A normal wheel does; subclasses such as {@link RebelWheel} override it.\n\n @return true if the wheel can be removed, false otherwise\n
 comment3.params=color
 comment3.target=void delSymbol(java.lang.String)
 comment3.text=\n Removes a symbol from the wheel's cycle. If the removed symbol was\n the visible one, the wheel shows the previous symbol (or the next\n one when it was the first). The last symbol can't be removed.\n @param color string value of the symbol's color\n
@@ -67,4 +65,4 @@ comment8.target=java.lang.String visibleSymbol()
 comment8.text=\n Return the symbol located on the current index\n
 comment9.target=Symbol getShownSymbol()
 comment9.text=\n Returns the Symbol object this wheel is showing, so its state (size,\n whether it is hiding) can be queried.\n @return the symbol on the current index, or null if the wheel has no symbols\n
-numComments=29
+numComments=28

@@ -64,28 +64,47 @@ The test was also packaged as a **JAR**, which is in the **`lib/`** folder: `DOP
 
 The Astah file is in the **`design/`** folder, at the root of the repository: `design/ClassDiagramSlotMachine1.asta`. It contains the class diagram and the sequence diagrams.
 
-### Class diagram
+### Class diagrams
+
+There are three class diagrams:
+
+- A **general class diagram**, with every class of the project. It is outside the folders, directly inside **ClassDiagramSlotMachine**.
+- A **`domain` class diagram**, inside the `domain` package.
+- A **`presentation` class diagram**, inside the `presentation` package.
+
+To open them:
 
 1. Open `design/ClassDiagramSlotMachine1.asta` with **Astah**.
-2. In the **Structure** tree (left panel), expand **ClassDiagramSlotMachine**. Inside it there are two folders, `classes` and `types`, and the **class diagram**.
-3. Click the class diagram to open it.
+2. In the **Structure** tree (left panel), expand **ClassDiagramSlotMachine**. Inside it there are the `classes` and `types` folders and the **general class diagram**.
+3. Click the general class diagram to open it.
+4. To open the diagram of a package, expand `classes`, then `domain` or `presentation`, and click its class diagram.
 
 ### Sequence diagrams
 
-Every method's sequence diagram is stored under its class, inside the `classes` folder:
+Inside the `classes` folder, the classes are organized by package: the `domain` package has the classes of `domain` and the `presentation` package has the classes of `presentation`. Every method's sequence diagram is stored under its class:
 
 1. Expand the `classes` folder.
-2. Click a class (for example, `SlotMachine`) to expand it and list its methods.
-3. Click a method: its sequence diagram is there.
+2. Expand the package (`domain` or `presentation`).
+3. Click a class (for example, `SlotMachine`) to expand it and list its methods.
+4. Click a method: its sequence diagram is there.
 
 ```
 ClassDiagramSlotMachine
 ├── classes
-│   ├── SlotMachine
-│   │   ├── addWheel(...)      → sequence diagram
-│   │   ├── spin(...)          → sequence diagram
-│   │   └── ...
-│   └── ...
+│   ├── domain
+│   │   ├── domain class diagram
+│   │   ├── SlotMachine
+│   │   │   ├── addWheel(...)      → sequence diagram
+│   │   │   ├── spin(...)          → sequence diagram
+│   │   │   └── ...
+│   │   ├── Wheel
+│   │   └── ...                    (the other domain classes)
+│   └── presentation
+│       ├── presentation class diagram
+│       ├── Canvas
+│       ├── Rectangle
+│       ├── Triangle
+│       └── MessageUtil
 ├── types
-└── Class diagram
+└── General class diagram
 ```

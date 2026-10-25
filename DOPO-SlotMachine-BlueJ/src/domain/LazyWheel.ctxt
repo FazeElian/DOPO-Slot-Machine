@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=LazyWheel
 comment0.text=\n A wheel that only responds to every other spin request.\n It starts awake\: the first spin advances it, the second one is ignored\n (it "falls asleep"), the third one advances it again, and so on.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=posX posY

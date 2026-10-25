@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=LeftyWheel
 comment0.text=\n A wheel that copies the state of the wheel to its left.\n When spun, if it has a left neighbor it shows that neighbor's visible\n symbol; otherwise it behaves like a normal {@link Wheel}.\n\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=posX posY

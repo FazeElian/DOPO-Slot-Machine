@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:15:00 COT 2026
+#Sat Oct 24 19:43:33 COT 2026
 comment0.target=SlotMachineCoverageTest
 comment0.text=\n Coverage tests for the domain package\: error cases and branches of\n SlotMachine, Wheel and SlotMachineContest that the cycle\n tests don't reach. The machine is never made visible, so no message\n dialog is opened.\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.target=SlotMachineCoverageTest()

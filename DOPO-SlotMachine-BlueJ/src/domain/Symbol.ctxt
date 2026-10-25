@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=Symbol
 comment0.text=\n A symbol of a wheel\: its name (a color such as "red" or "\#3fae1c") and\n the Triangle that draws it. {@link \#symbols} is the catalog shared by the\n board; every wheel builds its own copies so each figure moves with it.\n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.params=name

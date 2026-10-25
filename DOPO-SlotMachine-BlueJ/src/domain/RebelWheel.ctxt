@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=RebelWheel
 comment0.text=\n A wheel that resists being locked, swapped or removed, but can still be\n spun and have its symbols changed. It overrides {@link \#lock()} to refuse\n being locked, and {@link SlotMachine} asks it {@link \#canBeSwapped()} and\n {@link \#canBeRemoved()} before swapping or removing it.\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
 comment1.params=posX posY

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:13:23 COT 2026
+#Sat Oct 24 19:43:15 COT 2026
 comment0.target=SlotMachine
 comment0.text=\n A slot machine\: a gray board with a grid of up to 14 x 9 {@link Wheel}s.\n Symbols are registered globally in {@link Symbol\#symbols} and every wheel\n owns its own copies. All public positions are <b>1-based</b>.\n @author Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.target=SlotMachine()

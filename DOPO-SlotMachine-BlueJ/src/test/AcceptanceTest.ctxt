@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:15:00 COT 2026
+#Sat Oct 24 19:43:33 COT 2026
 comment0.target=AcceptanceTest
 comment0.text=\n Acceptance test for the slot machine. The machine is made visible and a\n full game is played step by step with every type of wheel (normal, lefty,\n rebel, lazy) and of symbol (normal, ephemeral, shy, dizzy), checking the\n state of the machine after every step. The messages the machine shows\n (the rebel refusing to be locked and the jackpot) must be closed to go\n on. It is meant to be run from VS Code, so it is excluded from the Maven\n build.\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.target=AcceptanceTest()

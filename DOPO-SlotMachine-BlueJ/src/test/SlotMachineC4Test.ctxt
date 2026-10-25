@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:15:00 COT 2026
+#Sat Oct 24 19:43:33 COT 2026
 comment0.target=SlotMachineC4Test
 comment0.text=\n The SlotMachine test class for cycle 4\: the different types of wheels\n (normal, lefty, rebel, lazy) and of symbols (normal, ephemeral, shy,\n dizzy). The machine is never made visible, so no window is opened.\n Besides their type and that they keep working as symbols, the behaviour\n of the special symbols (shrinking, hiding, flipping) is verified through\n the Symbol object each wheel shows, obtained with Wheel.getShownSymbol().\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.target=SlotMachineC4Test()

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 15:15:00 COT 2026
+#Sat Oct 24 19:43:33 COT 2026
 comment0.target=SlotMachineCC4Test
 comment0.text=\n Shared tests of cycle 4 written by other groups. Only the ones that work\n with this project were kept, adapted to JUnit 5. The machine is never\n made visible, so no window is opened.\n\n @author  Oscar Poveda, Elian Ibarra\n @version 1.0\n
 comment1.target=SlotMachineCC4Test()
