@@ -62,26 +62,27 @@ The test was also packaged as a **JAR**, which is in the **`lib/`** folder: `DOP
 
 ## 📐 Design diagrams (Astah)
 
-The Astah file is in the **`design/`** folder, at the root of the repository: `design/ClassDiagramSlotMachine1.asta`. It contains the class diagram and the sequence diagrams.
+The Astah file is in the **`design/`** folder, at the root of the repository: `design/ClassDiagramSlotMachine.asta`. It contains the class diagrams and the sequence diagrams.
+
+In the **Structure** tree (left panel), **ClassDiagramSlotMachine** has the `classes` and `types` folders and the general class diagram. The `domain` and `presentation` packages are both inside the same `classes` folder.
 
 ### Class diagrams
 
 There are three class diagrams:
 
-- A **general class diagram**, with every class of the project. It is outside the folders, directly inside **ClassDiagramSlotMachine**.
-- A **`domain` class diagram**, inside the `domain` package.
-- A **`presentation` class diagram**, inside the `presentation` package.
+- **`Class Diagram`**: the general class diagram, with every class of the project. It is outside the folders, directly inside **ClassDiagramSlotMachine**.
+- **`Class Diagram0`**: the class diagram of the `domain` package, inside `classes` → `domain`.
+- **`Class Diagram1`**: the class diagram of the `presentation` package, inside `classes` → `presentation`.
 
 To open them:
 
-1. Open `design/ClassDiagramSlotMachine1.asta` with **Astah**.
-2. In the **Structure** tree (left panel), expand **ClassDiagramSlotMachine**. Inside it there are the `classes` and `types` folders and the **general class diagram**.
-3. Click the general class diagram to open it.
-4. To open the diagram of a package, expand `classes`, then `domain` or `presentation`, and click its class diagram.
+1. Open `design/ClassDiagramSlotMachine.asta` with **Astah**.
+2. In the **Structure** tree, expand **ClassDiagramSlotMachine** and click **`Class Diagram`** to open the general diagram.
+3. To open the diagram of a package, expand `classes`, then `domain` and click **`Class Diagram0`**, or `presentation` and click **`Class Diagram1`**.
 
 ### Sequence diagrams
 
-Inside the `classes` folder, the classes are organized by package: the `domain` package has the classes of `domain` and the `presentation` package has the classes of `presentation`. Every method's sequence diagram is stored under its class:
+Inside the `classes` folder, the `domain` package has the classes of `domain` and the `presentation` package has the classes of `presentation`. Every method's sequence diagram is stored under its class:
 
 1. Expand the `classes` folder.
 2. Expand the package (`domain` or `presentation`).
@@ -92,19 +93,26 @@ Inside the `classes` folder, the classes are organized by package: the `domain` 
 ClassDiagramSlotMachine
 ├── classes
 │   ├── domain
-│   │   ├── domain class diagram
+│   │   ├── Class Diagram0             (domain class diagram)
+│   │   ├── DizzySymbol
+│   │   ├── EphemeralSymbol
+│   │   ├── LazyWheel
+│   │   ├── LeftyWheel
+│   │   ├── RebelWheel
+│   │   ├── ShySymbol
 │   │   ├── SlotMachine
-│   │   │   ├── addWheel(...)      → sequence diagram
-│   │   │   ├── spin(...)          → sequence diagram
+│   │   │   ├── addWheel(...)          → sequence diagram
+│   │   │   ├── spin(...)              → sequence diagram
 │   │   │   └── ...
-│   │   ├── Wheel
-│   │   └── ...                    (the other domain classes)
+│   │   ├── SlotMachineContest
+│   │   ├── Symbol
+│   │   └── Wheel
 │   └── presentation
-│       ├── presentation class diagram
+│       ├── Class Diagram1             (presentation class diagram)
 │       ├── Canvas
+│       ├── MessageUtil
 │       ├── Rectangle
-│       ├── Triangle
-│       └── MessageUtil
+│       └── Triangle
 ├── types
-└── General class diagram
+└── Class Diagram                      (general class diagram)
 ```
