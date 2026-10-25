@@ -1,0 +1,181 @@
+Project documentation
+<---- javadoc command: ---->
+javadoc
+-sourcepath
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src
+-source
+21
+-classpath
+/Applications/BlueJ.app/Contents/Java/bluejcore.jar:/Applications/BlueJ.app/Contents/Java/javafx-media-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/javafx-base-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/javafx-controls-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/javafx-fxml-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/javafx-web-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/javafx-swing-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/javafx-graphics-23.0.2-mac.jar:/Applications/BlueJ.app/Contents/Java/junit-4.12.jar:/Applications/BlueJ.app/Contents/Java/junit-jupiter-params-5.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-jupiter-api-5.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-jupiter-engine-5.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-platform-suite-api-1.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-vintage-engine-5.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-jupiter-5.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-platform-engine-1.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-platform-launcher-1.5.2.jar:/Applications/BlueJ.app/Contents/Java/junit-platform-commons-1.5.2.jar:/Applications/BlueJ.app/Contents/Java/hamcrest-core-1.3.jar:/Applications/BlueJ.app/Contents/Java/opentest4j-1.2.0.jar:/Applications/BlueJ.app/Contents/Java/lang-stride.jar:/Applications/BlueJ.app/Contents/Java/kotlin-stdlib-2.1.20.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.base.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.controls.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.fxml.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.graphics.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.media.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.properties.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.swing.jar:/Applications/BlueJ.app/Contents/Java/javafx/javafx.web.jar:/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src
+-d
+/Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-doctitle
+src
+-windowtitle
+src
+-author
+-version
+-nodeprecated
+-package
+-Xdoclint:none
+-link
+https://docs.oracle.com/en/java/javase/21/docs/api/
+presentation
+test
+domain
+<---- end of javadoc command ---->
+Loading source files for package presentation...
+Loading source files for package test...
+Loading source files for package domain...
+Constructing Javadoc information...
+warning: unknown enum constant Status.STABLE
+  reason: class file for org.apiguardian.api.API$Status not found
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+warning: unknown enum constant Status.STABLE
+Building index for all the packages and classes...
+Standard Doclet version 21.0.6+7-LTS
+Building tree for all the packages and classes...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/AcceptanceRunner.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/AcceptanceTest.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/presentation/Canvas.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/DizzySymbol.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/EphemeralSymbol.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/LazyWheel.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/LeftyWheel.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/presentation/MessageUtil.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/RebelWheel.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/presentation/Rectangle.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/ShySymbol.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/SlotMachine.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineC1Test.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineC2Test.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineC4Test.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineCC4Test.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/SlotMachineContest.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineContestCTest.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineContestTest.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlotMachineCoverageTest.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/SlotMachineException.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/SlowMachineCC2Test.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/Symbol.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/presentation/Triangle.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/Wheel.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/package-summary.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/domain/package-tree.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/presentation/package-summary.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/presentation/package-tree.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/package-summary.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/test/package-tree.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/constant-values.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/serialized-form.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/overview-tree.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/index.html...
+Building index for all classes...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/allclasses-index.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/allpackages-index.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/index-all.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/search.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/overview-summary.html...
+Generating /Users/oscardev/DOPO-Slot-Machine/DOPO-SlotMachine-BlueJ/src/doc/help-doc.html...
+100 warnings

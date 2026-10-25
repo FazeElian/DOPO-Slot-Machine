@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DizzySymbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">slotMachine</a> &gt; <a href="index.source.html" class="el_package">domain</a> &gt; <span class="el_source">DizzySymbol.java</span></div><h1>DizzySymbol.java</h1><pre class="source lang-java linenums">package domain;
+
+/**
+ * A symbol that gets dizzy: every time its wheel spins, its triangle
+ * flips upside down (and back again on the next spin). It is drawn
+ * narrower than a normal symbol so it can be told apart at any moment.
+ *
+ * @author Elián Ibarra, Oscar Poveda
+ * @version 1.0
+ */
+public class DizzySymbol extends Symbol {
+    /** Width of the triangle, narrower than a normal symbol. */
+    public static final int WIDTH = SYMBOL_SIZE * 3 / 5;
+    // Whether the triangle is upside down right now
+<span class="fc" id="L15">    private boolean flipped = false;</span>
+
+    /**
+     * Constructs a dizzy symbol whose figure stays at the origin of the canvas.
+     * @param name color string that identifies the symbol
+     */
+    public DizzySymbol(String name) {
+<span class="fc" id="L22">        this(name, 0, 0);</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Constructs a dizzy symbol whose figure is placed at the given pixel
+     * coordinates of the canvas. It starts pointing up.
+     * @param name color string that identifies the symbol
+     * @param x pixel position in X axis of the figure
+     * @param y pixel position in Y axis of the figure
+     */
+    public DizzySymbol(String name, int x, int y) {
+<span class="fc" id="L33">        super(name, x, y);</span>
+<span class="fc" id="L34">        changeFigureSize(SYMBOL_SIZE, WIDTH);</span>
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * Returns a new dizzy symbol (pointing up) with the same name at the
+     * given coordinates
+     * @param x pixel position in X axis of the new figure
+     * @param y pixel position in Y axis of the new figure
+     */
+    @Override
+    public Symbol copyAt(int x, int y) {
+<span class="fc" id="L45">        return new DizzySymbol(getName(), x, y);</span>
+    }
+
+    /**
+     * Flips the triangle. A negative height draws it upwards from its
+     * anchor point, so the figure is also moved to stay inside its cell.
+     */
+    @Override
+    public void spun() {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        flipped = !flipped;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (flipped) {</span>
+<span class="fc" id="L56">            changeFigureSize(-SYMBOL_SIZE, WIDTH);</span>
+<span class="fc" id="L57">            moveVertical(SYMBOL_SIZE);</span>
+        } else {
+<span class="fc" id="L59">            changeFigureSize(SYMBOL_SIZE, WIDTH);</span>
+<span class="fc" id="L60">            moveVertical(-SYMBOL_SIZE);</span>
+        }
+<span class="fc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

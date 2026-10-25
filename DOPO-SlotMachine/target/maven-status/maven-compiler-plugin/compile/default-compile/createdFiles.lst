@@ -1,0 +1,17 @@
+presentation/Triangle.class
+presentation/Rectangle.class
+domain/SlotMachine.class
+domain/ShySymbol.class
+domain/LazyWheel.class
+presentation/MessageUtil.class
+presentation/Canvas$CanvasPane.class
+domain/EphemeralSymbol.class
+domain/LeftyWheel.class
+presentation/Canvas$ShapeDescription.class
+domain/RebelWheel.class
+domain/Wheel.class
+presentation/Canvas.class
+domain/SlotMachineException.class
+domain/DizzySymbol.class
+domain/SlotMachineContest.class
+domain/Symbol.class

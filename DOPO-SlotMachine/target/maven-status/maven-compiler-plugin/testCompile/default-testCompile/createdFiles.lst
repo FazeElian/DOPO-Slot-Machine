@@ -1,0 +1,10 @@
+test/AcceptanceTest.class
+test/SlotMachineC1Test.class
+test/SlotMachineContestTest.class
+test/SlotMachineContestCTest.class
+test/SlotMachineC4Test.class
+test/SlotMachineCC4Test.class
+test/SlowMachineCC2Test.class
+test/SlotMachineC2Test.class
+test/AcceptanceRunner.class
+test/SlotMachineCoverageTest.class

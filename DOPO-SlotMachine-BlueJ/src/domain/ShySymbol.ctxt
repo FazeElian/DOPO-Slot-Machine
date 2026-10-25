@@ -1,0 +1,22 @@
+#BlueJ class context
+#Sat Oct 24 19:43:15 COT 2026
+comment0.target=ShySymbol
+comment0.text=\n A shy symbol\: each time its wheel stops at it (after a spin or a\n placeSymbol) it toggles between hiding and showing, starting by hiding.\n Hiding is only visual\: it still counts for the configuration and jackpot.\n @author Eli\u00E1n Ibarra, Oscar Poveda\n @version 1.0\n
+comment1.params=name
+comment1.target=ShySymbol(java.lang.String)
+comment1.text=\n Constructs a shy symbol whose figure stays at the origin of the canvas.\n @param name color string that identifies the symbol\n
+comment2.params=name x y
+comment2.target=ShySymbol(java.lang.String, int, int)
+comment2.text=\n Constructs a shy symbol whose figure is placed at the given pixel\n coordinates of the canvas. It starts willing to be seen.\n @param name color string that identifies the symbol\n @param x pixel position in X axis of the figure\n @param y pixel position in Y axis of the figure\n
+comment3.params=x y
+comment3.target=Symbol copyAt(int, int)
+comment3.text=\n Returns a new shy symbol with the same name at the given coordinates\n @param x pixel position in X axis of the new figure\n @param y pixel position in Y axis of the new figure\n
+comment4.target=void selected()
+comment4.text=\n Toggles between hiding and showing, and updates the canvas if the\n wheel has this symbol on screen. When the wheel is spun by steps,\n every step the wheel stops at this symbol counts as a selection,\n since the symbol is shown on that step.\n
+comment5.target=boolean isHidden()
+comment5.text=\n Returns whether the symbol is hiding right now\n @return true if it is hiding, false if it lets itself be seen\n
+comment6.target=void makeVisible()
+comment6.text=\n Shows the figure only if the symbol is not hiding; either way it\n remembers that the wheel wants it on screen.\n
+comment7.target=void makeInvisible()
+comment7.text=\n Hides the figure and remembers that the wheel took it off screen.\n
+numComments=8
